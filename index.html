@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>八星等尊榮權益 - 皇家高雅閃耀版</title>
+<title>八星等尊榮權益 - 皇家極致終極版</title>
 <style>
   /* =========================================
      高雅鵝黃華麗 UI ＋ 閃亮動態光澤設計
@@ -107,7 +107,7 @@
   
   ul, ol { padding-left: 20px; margin-top: 8px; margin-bottom: 8px;}
   li { margin-bottom: 8px; }
-  .source-cite { font-size: 10px; color: #B0A392; vertical-align: super; margin-left: 2px;}
+  .source-cite { font-size: 11px; color: #B0A392; vertical-align: super; margin-left: 2px; font-weight: bold;}
 
   /* 優雅表格 */
   table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 12px; border-radius: 6px; overflow: hidden; border: 1px solid #F0E6D2;}
@@ -147,15 +147,24 @@
         <div class="shiny-btn" onclick="quickSearch('財管2.0')">👑 財管2.0門檻</div>
       </div>
       
-      <!-- Category 2: 家族專屬智庫 -->
+      <!-- Category 2: 開發策略 (新增目標客戶與套組) -->
+      <div class="section-badge">🎯 目標客群與開發策略</div>
+      <div class="quick-grid">
+        <div class="shiny-btn" onclick="quickSearch('目標客戶')">🎯 四大目標客群</div>
+        <div class="shiny-btn" onclick="quickSearch('典藏套組')">🧳 典藏套組開發</div>
+      </div>
+
+      <!-- Category 3: 家族專屬智庫 (擴增家醫科與地政) -->
       <div class="section-badge">🏛️ 家族專屬智庫</div>
       <div class="quick-grid">
         <div class="shiny-btn" onclick="quickSearch('四大面向')">🧭 家辦四大面向</div>
+        <div class="shiny-btn" onclick="quickSearch('個人稅')">⚖️ 傳承家醫科(個人稅)</div>
+        <div class="shiny-btn" onclick="quickSearch('都更')">🏢 都更與地政全流程</div>
         <div class="shiny-btn" onclick="quickSearch('退場')">🛡️ 企業退場與防護</div>
         <div class="shiny-btn" onclick="quickSearch('創世代')">💻 創世代知識網頁</div>
       </div>
 
-      <!-- Category 3: 議價與客製化 -->
+      <!-- Category 4: 議價與客製化 -->
       <div class="section-badge">💰 大額議價與客製化</div>
       <div class="quick-grid">
         <div class="shiny-btn" onclick="quickSearch('存款議價')">🏦 台外幣存款議價</div>
@@ -163,7 +172,7 @@
         <div class="shiny-btn" onclick="quickSearch('客製投資')">📈 嚴選債券與私募</div>
       </div>
 
-      <!-- Category 4: 信用卡與禮遇 -->
+      <!-- Category 5: 信用卡與禮遇 -->
       <div class="section-badge">💳 頂級信用卡與禮遇</div>
       <div class="quick-grid">
         <div class="shiny-btn" onclick="quickSearch('信用卡PK')">⚔️ 信用卡優勢 PK</div>
@@ -171,10 +180,10 @@
         <div class="shiny-btn" onclick="quickSearch('快捷')">🚀 快捷服務通道</div>
       </div>
 
-      <!-- Category 5: 體驗與信託 -->
+      <!-- Category 6: 體驗與信託 -->
       <div class="section-badge">🎁 體驗與慈善信託</div>
       <div class="quick-grid">
-        <div class="shiny-btn" onclick="quickSearch('生日禮')">🎂 尊榮生日禮二選一</div>
+        <div class="shiny-btn" onclick="quickSearch('生日禮')">🎂 尊榮生日禮遇</div>
         <div class="shiny-btn" onclick="quickSearch('慈善信託')">🕊️ 慈善信託介紹</div>
       </div>
     </div>
@@ -184,8 +193,8 @@
 
   <div class="nav">
     <button class="tab-btn active" onclick="resetHome()">分類首頁</button>
+    <button class="tab-btn" onclick="quickSearch('目標客戶')">客群畫像</button>
     <button class="tab-btn" onclick="quickSearch('議價')">議價總覽</button>
-    <button class="tab-btn" onclick="quickSearch('信用卡PK')">信用卡比較</button>
   </div>
 </div>
 
@@ -210,11 +219,11 @@
       question: "八星等權益的三大核心精神 (3W) 是什麼？",
       answer: `
       <span class="tag">核心價值</span><br>
-      我們希望以家族辦公室的宏觀思維，提供家族財富治理及傳承，實踐人生的幸福十樂，同時用慈善信託締造社會福祉[1]。三大核心為：<br>
+      我們希望以家族辦公室的宏觀思維，提供家族財富治理及傳承，實踐人生的幸福十樂，同時用慈善信託締造社會福祉。三大核心為：<br>
       <ul>
-        <li><span class="highlight">Wealth (財富)：</span>整合資源，進行家族資產與股權的全面盤點規劃[2]。</li>
-        <li><span class="highlight">Well-being (幸福)：</span>攜手AI科技物理治療龍頭，提供專屬身心舒緩健康服務[2][3]。</li>
-        <li><span class="highlight">Welfare (社會福祉)：</span>備有模組化慈善信託，幫客戶實現造福社會的公益善舉[2][3]。</li>
+        <li><span class="highlight">Wealth (財富)：</span>整合資源，進行家族資產與股權的全面盤點規劃。</li>
+        <li><span class="highlight">Well-being (幸福)：</span>攜手AI科技物理治療龍頭，提供專屬身心舒緩健康服務。</li>
+        <li><span class="highlight">Welfare (社會福祉)：</span>備有模組化慈善信託，幫客戶實現造福社會的公益善舉。</li>
       </ul>`
     },
     {
@@ -223,44 +232,94 @@
       answer: `
       <span class="tag">迎新禮遇</span><span class="tag">資格限制</span><br>
       要領取價值 3,000 元的「王品集團食尚私聚」以及「一年期 1.8% 台幣優惠定存」，主要條件如下：<br>
-      1. <span class="highlight">八星等資產門檻：</span>AUM 需達新台幣 1 億元以上；或提供 AUM ≧ 1 億元之財力聲明書並檢附相關佐證。<br>
-      2. <span class="highlight">期限與名額限制：</span>必須在 <b style="color:#D4A300">2026 年 3 月 31 日前</b> 申請，並且 <b style="color:#D4A300">僅限量前 50 位</b> 客戶。`
+      1. <span class="highlight">八星等資產門檻：</span>AUM 需達新台幣 1 億元以上；或提供 AUM ≧ 1 億元之財力聲明書並檢附相關佐證<span class="source-cite">[1]</span>。<br>
+      2. <span class="highlight">期限與名額限制：</span>必須在 <b style="color:#D4A300">2026 年 3 月 31 日前</b> 申請，並且 <b style="color:#D4A300">僅限量前 50 位</b> 客戶<span class="source-cite">[1]</span>。`
     },
     {
       keywords: ["財管2.0", "資格", "准入", "門檻"],
       question: "財管2.0 (高資產客戶) 的准入門檻與評估標準？",
       answer: `
       <span class="tag">資格認定</span><br>
-      需具備 AUM ≧ 1億元之財力聲明與佐證。在專業評估上，需完成10題專業知識問卷(達8分以上)，並具備交易經驗(三擇一)：<br>
-      1. 近2年申購達10次含2種商品。<br>
-      2. 持有2筆相關商品達6個月以上。<br>
-      3. 有2筆持有至到期之經驗。<br>
-      本行會每年定期評估，每兩年辦理一次覆審。`
+      需具備 AUM ≧ 1億元之財力聲明與佐證<span class="source-cite">[2]</span>。在專業評估上，需完成10題專業知識問卷(達8分以上)，並具備交易經驗(三擇一)：<br>
+      1. 近2年申購達10次含2種商品<span class="source-cite">[2]</span>。<br>
+      2. 持有2筆相關商品達6個月以上<span class="source-cite">[2]</span>。<br>
+      3. 有2筆持有至到期之經驗<span class="source-cite">[2]</span>。<br>
+      本行會每年定期評估，每兩年辦理一次覆審<span class="source-cite">[2]</span>。`
     },
 
-    // === Category 2: 家族專屬智庫 ===
+    // === Category 2: 🎯 目標客群與開發策略 (NEW) ===
+    {
+      keywords: ["目標客戶", "客群畫像", "股權集中", "多屋族", "潛在客戶", "開發", "來源"],
+      question: "高資產業務的四大核心目標客戶 (客群畫像) 有哪些？",
+      answer: `
+      <span class="tag">目標客群</span><span class="tag">客戶痛點</span><br>
+      我們的核心目標客戶聚焦於 <b>「AUM達新台幣1億元以上」</b> 的金字塔頂端客群。主要包含四大類具備特定痛點的對象<span class="source-cite">[3]</span>：<br>
+      <ul>
+        <li><span class="highlight">股權高度集中的企業主：</span>面臨企業傳承接班考驗。特徵如年滿60歲且持股逾50%、未上市櫃股權集中、二代未持實質股權或缺乏接班共識<span class="source-cite">[3]</span>。</li>
+        <li><span class="highlight">稅務與風險偏高的企業家：</span>存在潛在資金查核風險。特徵為公司累積盈餘高、有股東往來(資金混用)、曾被查帳補稅，或預計進行增減資與發派高額股利<span class="source-cite">[3]</span>。</li>
+        <li><span class="highlight">境內外資產眾多的家族：</span>亟需跨國資產整合與風控。特徵為擁有境外公司與海外帳戶，擔心CFC、CRS及跨境繼承風險<span class="source-cite">[3]</span>。</li>
+        <li><span class="highlight">不動產稅務規劃需活化者：</span>即持有多屋但現金不足的客戶，面臨生前移轉規劃、繼承共識不足，或需要重購退稅、遺贈稅、售屋所得等專業諮詢<span class="source-cite">[3]</span>。</li>
+      </ul>`
+    },
+    {
+      keywords: ["典藏套組", "行李掛牌", "英文名字", "開發", "輔助"],
+      question: "理專如何使用「典藏套組」輔助開發八星等客戶？",
+      answer: `
+      <span class="tag">開發工具</span><span class="tag">客製化互動</span><br>
+      理專在使用「典藏套組」時，可依循以下策略發揮業務拓展效益：<br>
+      1. <span class="highlight">建立尊榮關係的起點：</span>理專應先熟悉 DEMO 套組，並將其作為說明與預告八星等權益的最佳實體輔助工具。<br>
+      2. <span class="highlight">預告客製化禮遇：</span>向客戶展示並預告後續將會為其專屬打造「客製化的正式金屬行李掛牌」。<br>
+      3. <span class="highlight">藉機取得客製資訊：</span>藉由準備禮遇的契機，請客戶提供專屬的「英文名字」，藉此自然拉近距離並展現專屬客製化的用心。<br>
+      4. <span class="highlight">後續統籌與覆核：</span>由區主管 (ASM) 協助統籌與覆核理專回覆的印製姓名，確保製作流程完美無瑕。`
+    },
+
+    // === Category 3: 家族專屬智庫 ===
     {
       keywords: ["四大面向", "家辦", "家族辦公室", "智庫"],
       question: "家族辦公室專屬智庫的四大核心服務面向為何？",
       answer: `
       <span class="tag">家族智庫</span><span class="tag">外部專家</span><br>
-      整合內部資源與外部會計師及律師（凱博聯合會計師/萬國律師事務所）為後盾[4]，提供四大服務：<br>
-      1. <span class="highlight">財富策略與全球投資：</span>協助整體資產配置，掌握全球市場機會[5]。<br>
-      2. <span class="highlight">家族治理與永續傳承：</span>設計家族憲法與家族會議機制，整理資產與家族價值共識[5]。<br>
-      3. <span class="highlight">全球稅務與法律架構：</span>提供國內外稅務與信託規劃，因應CRS制度整合海內外資產[5]。<br>
-      4. <span class="highlight">企業經營與成長顧問：</span>盤點企業資產與淨值，進行傳承與二代接班規劃[5]。`
+      整合內部資源與外部會計師及律師（凱博聯合會計師/萬國律師事務所）為後盾，提供四大服務<span class="source-cite">[4, 5]</span>：<br>
+      1. <span class="highlight">財富策略與全球投資：</span>協助整體資產配置，掌握全球市場機會。<br>
+      2. <span class="highlight">家族治理與永續傳承：</span>設計家族憲法與家族會議機制，整理資產與家族價值共識。<br>
+      3. <span class="highlight">全球稅務與法律架構：</span>提供國內外稅務與信託規劃，因應CRS制度整合海內外資產。<br>
+      4. <span class="highlight">企業經營與成長顧問：</span>盤點企業資產與淨值，進行傳承與二代接班規劃。`
     },
     {
-      keywords: ["退場", "閉鎖性公司", "拋棄繼承", "防護"],
+      keywords: ["個人稅", "家醫科", "身分法", "財產法", "風險評估"],
+      question: "傳承家醫科：個人稅業務的核心價值與服務內容？",
+      answer: `
+      <span class="tag">傳承家醫科</span><span class="tag">個人稅務</span><br>
+      個人稅的核心價值在於：所有資產規劃最終皆 **「回歸以個人為主體」**，且高度關乎身分法（親屬與繼承法）。我們結合各領域專家，扮演家族 **「傳承的家醫科」** 角色為客戶嚴格把關<span class="source-cite">[6]</span>。<br><br>
+      具體核心服務涵蓋：<br>
+      1. <span class="highlight">資產市值及傳承價值評估：</span>完成不動產與公司股權價值重估及後續活化<span class="source-cite">[6, 7]</span>。<br>
+      2. <span class="highlight">客製化不動產移轉：</span>針對贈與、二親等買賣或繼承提供通盤稅務建議<span class="source-cite">[7]</span>。<br>
+      3. <span class="highlight">傳承與民法結合：</span>確保傳承完全符合民法規範，達成資產保全目標<span class="source-cite">[6]</span>。<br>
+      4. <span class="highlight">工具優缺點分析：</span>協助分析傳承工具，在圓滿客戶心願的同時降低傳承成本<span class="source-cite">[7]</span>。<br>
+      5. <span class="highlight">稅務與風險諮詢：</span>提供個人稅務風險與不動產稅負成本計算<span class="source-cite">[8]</span>。`
+    },
+    {
+      keywords: ["地政", "都更", "都市更新", "選屋", "產權登記", "活化"],
+      question: "地政全流程服務包含哪些價值與都更諮詢？",
+      answer: `
+      <span class="tag">地政業務</span><span class="tag">不動產活化</span><br>
+      地政業務的核心在於強化高資產客戶對 **「不動產活化與傳承」** 的動機<span class="source-cite">[9]</span>。四大價值包含：資產市值重估活化、客製化移轉與稅務規劃（結合外部律師意見）、資產保全防護網（防不肖爭產及詐騙），以及綜合產權登記諮詢<span class="source-cite">[5, 9]</span>。<br><br>
+      針對 **都更（都市更新）** 的全流程專屬諮詢包含：<br>
+      1. <span class="highlight">都更選屋諮詢：</span>提供參與都更過程中的選屋疑問專業解答與建議<span class="source-cite">[10]</span>。<br>
+      2. <span class="highlight">流程及稅務諮詢：</span>涵蓋都更的整體作業流程與涉及的相關不動產稅務問題<span class="source-cite">[10]</span>。<br>
+      3. 同時提供各類產權登記應備文件及案件進度等綜合諮詢<span class="source-cite">[10]</span>。`
+    },
+    {
+      keywords: ["退場", "閉鎖性公司", "拋棄繼承", "防護", "控制權"],
       question: "企業退場策略與「閉鎖性公司」如何防護家族資產？",
       answer: `
       <span class="tag">企業退場</span><span class="tag">股權控制</span><br>
       <ul>
-        <li><span class="highlight">企業退場策略：</span>企業經營有風險，提醒企業主「保險+信託」是最佳防火牆。依民法規定，即便拋棄繼承，向保險公司請求給付保險金的權利不受影響，無須償還負債[5][6][7]。</li>
-        <li><span class="highlight">閉鎖性公司三大好處：</span><br>
-          (1) <b>防外人：</b>股東限50人且股權不可隨意買賣[6][7]。<br>
-          (2) <b>掌控權：</b>透過「黃金特別股」1股換多票，持有少數股票仍有絕對話語權[6][7, 8]。<br>
-          (3) <b>防任意出售：</b>利用一票否決權防止公司被惡意賣掉[6][8]。</li>
+        <li><span class="highlight">企業退場策略：</span>企業經營有風險，提醒企業主「保險+信託」是最佳防火牆。即便拋棄繼承，向保險公司請求給付保險金的權利不受影響<span class="source-cite">[8]</span>。</li>
+        <li><span class="highlight">閉鎖性公司防護機制：</span><br>
+          (1) <b>防外人：</b>股東限50人且股權不可隨意買賣<span class="source-cite">[8]</span>。<br>
+          (2) <b>掌控權：</b>透過「黃金特別股」1股換多票，持有少數股票仍有絕對話語權<span class="source-cite">[8]</span>。<br>
+          (3) <b>防任意出售：</b>利用一票否決權防止公司被惡意賣掉<span class="source-cite">[8]</span>。</li>
       </ul>`
     },
     {
@@ -268,22 +327,22 @@
       question: "「創世代知識網頁」提供哪些專屬內容？",
       answer: `
       <span class="tag">專屬資訊</span><span class="tag">私密邀請制</span><br>
-      遠銀獨創「創世代知識網頁」（密碼：<b style="color:#D4A300">feibwm</b>），採私密邀請制，每年3/6/9/12月定期更新，並由佘日新教授擔任駐站講師[6][9][8]。三大面向包含：<br>
-      1. <span class="highlight">Family (代際傳承)：</span>家族溝通與二代接班觀點[6]。<br>
-      2. <span class="highlight">Firm (趨勢洞察)：</span>家族企業結構問題、轉型趨勢與經營戰略[9]。<br>
-      3. <span class="highlight">Fortune (品味生活)：</span>結合時尚潮流，提供趨勢與品味內容[9]。`
+      遠銀獨創「創世代知識網頁」（密碼：<b style="color:#D4A300">feibwm</b>），採私密邀請制，定期更新駐站講師內容。三大面向包含：<br>
+      1. <span class="highlight">Family (代際傳承)：</span>家族溝通與二代接班觀點。<br>
+      2. <span class="highlight">Firm (趨勢洞察)：</span>家族企業結構問題、轉型趨勢與經營戰略。<br>
+      3. <span class="highlight">Fortune (品味生活)：</span>結合時尚潮流，提供趨勢與品味內容。`
     },
 
-    // === Category 3: 大額議價與客製化 ===
+    // === Category 4: 大額議價與客製化 ===
     {
       keywords: ["存款議價", "大額定存", "台幣議價", "美元加碼", "非美外幣"],
       question: "八星等台/外幣大額定存議價的優勢與流程為何？",
       answer: `
       <span class="tag">存款議價</span><span class="tag">專屬加碼</span><br>
       <ul>
-        <li><span class="highlight">美元大額定存：</span>單筆達 USD 10萬元(含)以上，透過事業群主管(副總)權限上簽，各天期利率可獲 <b style="color:#D4A300">+5bps</b> 加碼[9][8]。</li>
-        <li><span class="highlight">非美外幣定存：</span>若期望利率超過每日參考利率，可向產品開發部「資金管理組」詢問資金成本，並於資金成本範圍內上簽辦理，無法人/自然人限制[8]。</li>
-        <li><span class="highlight">台幣大額定存：</span>依客戶資金需求，可專案上簽至 <b style="color:#D4A300">總經理權限</b>（需加會產品開發部、後會營管部）取得專屬優惠利率。</li>
+        <li><span class="highlight">美元大額定存：</span>單筆達 USD 10萬元(含)以上，透過副總權限上簽，各天期利率可獲 <b style="color:#D4A300">+5bps</b> 加碼<span class="source-cite">[11]</span>。</li>
+        <li><span class="highlight">非美外幣定存：</span>若期望利率超過每日參考利率，可向「資金管理組」詢問資金成本，並於該範圍內上簽辦理，無法人/自然人限制<span class="source-cite">[11]</span>。</li>
+        <li><span class="highlight">台幣大額定存：</span>可專案上簽至 <b style="color:#D4A300">總經理權限</b>（需加會產品開發部、後會營管部）取得專屬優惠利率<span class="source-cite">[11]</span>。</li>
       </ul>`
     },
     {
@@ -292,9 +351,9 @@
       answer: `
       <span class="tag">資金調度</span><span class="tag">利率減碼</span><br>
       <ul>
-        <li><span class="highlight">特定金錢信託自行質借：</span>免收 3,000元開辦費，利率較一般 PI 客戶 <b style="color:#D4A300">再減碼 25bps</b>[10]。</li>
-        <li><span class="highlight">外幣定存擔保台幣授信：</span>以外幣定存單為擔保，取得比照法金最低利率，8000萬內由副總權限優先審核[10]。</li>
-        <li><span class="highlight">尊榮房貸優惠：</span>房貸利率較七星等客戶再低 5~10bps，<b style="color:#D4A300">全額減免 10,000元開辦費</b>，且享有優先審核與撥款禮遇[10]。</li>
+        <li><span class="highlight">特定金錢信託自行質借：</span>免收 3,000元開辦費，利率較一般 PI 客戶 <b style="color:#D4A300">再減碼 25bps</b><span class="source-cite">[11]</span>。</li>
+        <li><span class="highlight">外幣定存擔保台幣授信：</span>以外幣定存單為擔保，取得比照法金最低利率，8000萬內由副總優先審核<span class="source-cite">[11]</span>。</li>
+        <li><span class="highlight">尊榮房貸優惠：</span>房貸利率較七星等客戶再低 5~10bps，<b style="color:#D4A300">全額減免 10,000元開辦費</b>，且享有優先審核與撥款禮遇<span class="source-cite">[11]</span>。</li>
       </ul>`
     },
     {
@@ -303,23 +362,23 @@
       answer: `
       <span class="tag">投資商品</span><span class="tag">理財手續費</span><br>
       取得財管2.0資格後，遠銀將提供「限量」或「獨特性」的投資機會：<br>
-      1. <span class="highlight">嚴選/限量標的：</span>提供限額私募基金，及不受信評限制的外國債券（如：新加坡航空債券、杜拜政府國際公債）[11][12, 13]。<br>
-      2. <span class="highlight">客製化結構型商品：</span>可依客戶需求客製化股權或匯率結構型商品[11]。<br>
-      3. <span class="highlight">申購手續費折扣：</span>單筆申購基金手續費享最低 <b style="color:#D4A300">3折起</b> 優惠[11][14]。`
+      1. <span class="highlight">嚴選/限量標的：</span>提供限額私募基金，及不受信評限制的外國債券。<br>
+      2. <span class="highlight">客製化結構型商品：</span>可依客戶需求客製化股權或匯率結構型商品。<br>
+      3. <span class="highlight">申購手續費折扣：</span>單筆申購基金手續費享最低 <b style="color:#D4A300">3折起</b> 優惠<span class="source-cite">[12]</span>。`
     },
 
-    // === Category 4: 信用卡與禮遇 ===
+    // === Category 5: 信用卡與禮遇 ===
     {
       keywords: ["信用卡PK", "信用卡優勢", "頂級快樂卡", "星展", "台新", "永豐", "機場接送", "貴賓室"],
       question: "遠東頂級快樂卡與他行頂級卡(星展/台新/永豐)的優勢PK？",
       answer: `
       <span class="tag">跨行比較</span><span class="tag">旅遊神卡</span><br>
-      遠東頂級快樂卡聚焦於「出國常用禮遇」，在市場比較中具備絕對優勢：
+      遠東頂級快樂卡聚焦於「出國常用禮遇」，在市場比較中具備絕對優勢<span class="source-cite">[12]</span>：
       <table>
         <tr><th>優惠項目</th><th>遠東 頂級快樂卡</th><th>他行 (星展/台新/永豐)</th></tr>
-        <tr><td>機場接送</td><td>單筆刷機票/團費滿2萬，<b style="color:#D4A300">全年不限次(豪華車款/指定區廂型車免費)</b>[15]</td><td>星展/永豐為一般車或限次數；台新需扣抵次數</td></tr>
-        <tr><td>機場貴賓室</td><td>刷機票/團費<b style="color:#D4A300">不限金額，全年不限次</b>。市場少見雙品牌(PP/U.FIRST)[15]</td><td>台新/永豐有全年16次或12次上限限制</td></tr>
-        <tr><td>海外回饋</td><td>最高 <b style="color:#D4A300">4.5% 回饋</b>[15]</td><td>一般基本1.5%~3%</td></tr>
+        <tr><td>機場接送</td><td>單筆刷機票/團費滿2萬，<b style="color:#D4A300">全年不限次</b>(雙B豪華車款/指定區廂型車免費)</td><td>星展/永豐為一般車或限次數；台新需扣抵次數</td></tr>
+        <tr><td>機場貴賓室</td><td>刷機票/團費<b style="color:#D4A300">不限金額，全年不限次</b>。具雙品牌(PP/U.FIRST)</td><td>台新/永豐有全年16次或12次上限限制</td></tr>
+        <tr><td>海外回饋</td><td>最高 <b style="color:#D4A300">4.5% 回饋</b></td><td>一般基本1.5%~3%</td></tr>
       </table>`
     },
     {
@@ -327,10 +386,10 @@
       question: "八星等貴賓享有哪些專屬的金融交易手續費減免？",
       answer: `
       <span class="tag">日常禮遇</span><br>
-      交易次數與減免已拉至全行最高級別[16][14, 17]：<br>
+      交易次數與減免已拉至全行最高級別<span class="source-cite">[12]</span>：<br>
       1. <b style="color:#D4A300">101次</b> ATM 跨行提款免手續費。<br>
       2. <b style="color:#D4A300">101次</b> 自動化通路跨行轉帳免手續費。<br>
-      3. 每月 <b style="color:#D4A300">9 次</b> 外幣匯出免手續費（含手續費與郵電費，網銀與臨櫃合併計算，不含全額到付）。<br>
+      3. 每月 <b style="color:#D4A300">9 次</b> 外幣匯出免手續費（含手續費與郵電費，不含全額到付）。<br>
       4. 一般匯兌享最高 <b style="color:#D4A300">100%</b> 匯率匯差減免。`
     },
     {
@@ -338,30 +397,30 @@
       question: "專屬快捷服務通道 (綠色通道) 包含哪些項目？",
       answer: `
       <span class="tag">尊榮服務</span><span class="tag">效率提升</span><br>
-      八星等客戶的案件將走優先處理流程，大幅節省時間[15][18][19][20]：<br>
-      1. <span class="highlight">信用卡急件：</span>國內補卡以急件處理（1-2天限掛/快捷寄達），辦卡優先審查。<br>
+      八星等客戶的案件將走優先處理流程，大幅節省時間：<br>
+      1. <span class="highlight">信用卡急件：</span>國內補卡以急件處理，辦卡優先審查。<br>
       2. <span class="highlight">額度臨調：</span>大筆需求優先處理。<br>
       3. <span class="highlight">客服優先接聽：</span>撥打卡片背面專線輸入 ID，即由「尊榮貴賓服務專員」優先接聽。<br>
-      4. <span class="highlight">保險核保通道：</span>高資產客戶投保享專屬綠色通道，加速核保流程[18]。`
+      4. <span class="highlight">保險核保通道：</span>高資產客戶投保享專屬綠色通道，加速核保流程。`
     },
 
-    // === Category 5: 體驗與信託 ===
+    // === Category 6: 體驗與信託 ===
     {
       keywords: ["生日禮", "二選一", "AVEDA", "生生優動", "體驗"],
       question: "2026年度的八星等專屬生日禮遇為何？",
       answer: `
       <span class="tag">差異化體驗</span><span class="tag">專屬時刻</span><br>
-      捨棄制式禮物，提供兩項「為自己預留時間」的頂級體驗（效期90天，亦可轉贈親友使用）[21][22][23]：<br>
-      1. <span class="highlight">AVEDA 蘊活欣生訂製療程：</span>約 90-120 分鐘的沙龍級頭皮養護，包含頭皮微循環啟動與獨家節奏式按摩手法[21]。<br>
-      2. <span class="highlight">生生優動 VIP 優伴服務：</span>結合物理治療與 AI 科技，提供專屬個人化運動計畫、4週VIP優伴服務（實體/視訊+文字陪伴），並贈送 Youdon APP 12個月使用權，讓運動復健更安全有效[21][23]。`
+      捨棄制式禮物，提供兩項「為自己預留時間」的頂級體驗（效期90天，亦可轉贈親友使用）：<br>
+      1. <span class="highlight">AVEDA 蘊活欣生訂製療程：</span>約 90-120 分鐘的沙龍級頭皮養護，包含頭皮微循環啟動與獨家節奏式按摩手法。<br>
+      2. <span class="highlight">生生優動 VIP 優伴服務：</span>結合物理治療與 AI 科技，提供專屬個人化運動計畫、4週VIP優伴服務，並贈送 Youdon APP 12個月使用權。`
     },
     {
       keywords: ["慈善信託", "公益", "平台價值", "嚴長壽"],
       question: "遠銀慈善信託的平台價值與嚴選機構有哪些？",
       answer: `
       <span class="tag">社會福祉</span><span class="tag">永續金流</span><br>
-      首創將安養信託結合慈善信託（完全自益），本金200萬不動用，以投資孳息定期捐贈，讓善意轉化為長期運作的金流[10][24]。<br>
-      <span class="highlight">可事前指定嚴選公益機構[10, 16]：</span><br>
+      首創將安養信託結合慈善信託（完全自益），本金200萬不動用，以投資孳息定期捐贈，讓善意轉化為長期運作的金流<span class="source-cite">[4]</span>。<br>
+      <span class="highlight">可事前指定嚴選公益機構：</span><br>
       包含嚴長壽先生創辦的「公益平台文化基金會」連結的資源，如學思達教育基金會、均一國際實驗高中（教育）、江賢二藝術文化基金會（藝術）、TC (Taiwan Connection)（音樂），以及照護孤寂長者的賽親關懷基金會與世界展望會。`
     }
   ];
@@ -400,7 +459,7 @@
       resultDiv.innerHTML = `
         <div class="card">
           <h3 class="card-title">🔍 查無相關資料</h3>
-          <p class="card-text">您的查詢：「${query}」沒有對應的內容。請嘗試輸入「3W」、「議價」、「信用卡PK」或「生日禮」。</p>
+          <p class="card-text">您的查詢：「${query}」沒有對應的內容。請嘗試輸入「目標客戶」、「個人稅」或「地政」。</p>
         </div>`;
     } else {
       resultDiv.innerHTML = foundHTML;
