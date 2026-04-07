@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>八星等尊榮權益 - 清新高雅版</title>
+<title>八星等尊榮權益 - 清新閃耀版</title>
 <style>
   /* =========================================
-     清新高雅華麗 UI 設計 (香檳金 x 珍珠白 x 莫蘭迪青)
+     清新高雅華麗 UI ＋ 閃亮動態光澤設計
      ========================================= */
   :root {
-    --primary-bg: #F8F9FA;      /* 珍珠白底色 */
-    --card-bg: #FFFFFF;         /* 純白卡片 */
+    --primary-bg: #F0F8F8;      /* 冰絲薄荷淺底 */
+    --card-bg: #FFFFFF;         /* 珍珠白 */
     --gold-main: #C5A059;       /* 香檳金 */
     --gold-light: #E8D5A5;      /* 淺香檳金 */
-    --text-main: #2C3E50;       /* 深青灰文字 (高辨識度) */
-    --text-sub: #7F8C8D;        /* 淺灰文字 */
-    --accent-blue: #EDF2F4;     /* 莫蘭迪淺藍底 */
-    --shadow: 0 10px 30px rgba(197, 160, 89, 0.15); /* 香檳金柔和陰影 */
+    --text-main: #2C3E50;       /* 藏青灰 */
+    --text-sub: #7F8C8D;        /* 淺灰 */
+    --accent-color: #E0F2F1;    /* 清新點綴色 */
+    --shadow: 0 10px 30px rgba(197, 160, 89, 0.15); 
   }
   
   body {
@@ -31,120 +31,133 @@
     box-shadow: 0 0 40px rgba(0,0,0,0.05); overflow-x: hidden;
   }
 
-  /* 頂部 Header 簡約高雅 */
+  /* 頂部 Header 閃耀字體 */
   .header {
-    background: linear-gradient(135deg, #FFFFFF 0%, var(--accent-blue) 100%);
+    background: linear-gradient(135deg, #FFFFFF 0%, var(--accent-color) 100%);
     border-bottom: 3px solid var(--gold-main);
     padding: 35px 20px 20px; text-align: center; position: relative;
+    overflow: hidden;
   }
-  .title-text {
-    margin: 0; font-size: 24px; font-weight: 800; letter-spacing: 2px;
-    color: var(--gold-main);
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+  .shiny-text {
+    margin: 0; font-size: 26px; font-weight: 900; letter-spacing: 2px;
+    background: linear-gradient(120deg, #C5A059 0%, #FFF8DC 40%, #C5A059 80%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shineText 3s linear infinite;
+    text-shadow: 0px 4px 10px rgba(197, 160, 89, 0.2);
   }
-  .header p { margin: 8px 0 0 0; color: var(--text-sub); font-size: 13px; letter-spacing: 1px;}
+  @keyframes shineText { to { background-position: 200% center; } }
+  .header p { margin: 8px 0 0 0; color: var(--text-sub); font-size: 13px; font-weight: bold; letter-spacing: 1px;}
 
-  /* 內容區 */
   .page { display: none; padding: 20px; padding-bottom: 90px; }
   .page.active { display: block; animation: fadeUp 0.5s ease-out; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* 搜尋列設計 - 乾淨俐落 */
+  /* 搜尋列 */
   .search-box { 
     display: flex; margin-bottom: 25px; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-radius: 12px; background: #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-radius: 12px; background: #fff;
+    position: relative; z-index: 2;
   }
   .search-box input {
     flex: 1; padding: 16px; border-radius: 12px 0 0 12px;
-    border: 1px solid #E0E0E0; border-right: none;
-    background: transparent; color: var(--text-main); font-size: 15px;
+    border: 1px solid #EAEAEA; border-right: none; background: transparent; color: var(--text-main); font-size: 15px;
   }
-  .search-box input:focus { outline: none; border-color: var(--gold-light); }
+  .search-box input:focus { outline: none; border-color: var(--gold-main); }
   .search-box button {
-    padding: 16px 25px; background: var(--gold-main); 
-    color: #fff; font-weight: bold; font-size: 15px; border: none; 
-    border-radius: 0 12px 12px 0; cursor: pointer; transition: 0.3s;
+    padding: 16px 22px; background: var(--gold-main); color: #fff; font-weight: bold; font-size: 15px; 
+    border: none; border-radius: 0 12px 12px 0; cursor: pointer; transition: 0.3s;
   }
-  .search-box button:hover { background: #B38F4F; }
 
-  /* 快捷分類按鈕 */
-  .quick-title { color: var(--text-main); font-size: 15px; font-weight: bold; margin-bottom: 12px; border-left: 4px solid var(--gold-main); padding-left: 8px;}
+  .section-badge {
+    display: inline-block; background: linear-gradient(90deg, #C5A059, #E8D5A5); color: #fff;
+    padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(197,160,89,0.3);
+  }
+  .quick-title { color: var(--text-main); font-size: 16px; font-weight: 900; margin-bottom: 12px; display: flex; align-items: center;}
+  .quick-title::before { content: ''; display: inline-block; width: 4px; height: 16px; background: var(--gold-main); margin-right: 8px; border-radius: 2px;}
+  
   .quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
-  .quick-btn {
-    background: var(--card-bg); border: 1px solid #EAEAEA; padding: 16px 8px; border-radius: 10px;
+  
+  /* 閃耀按鈕設計 */
+  .shiny-btn {
+    background: var(--card-bg); border: 1px solid #F0F0F0; padding: 16px 8px; border-radius: 12px;
     text-align: center; color: var(--text-main); font-size: 14px; font-weight: bold; cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: all 0.3s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03); transition: all 0.3s;
+    position: relative; overflow: hidden;
   }
-  .quick-btn:hover, .quick-btn:active { border-color: var(--gold-main); background: var(--accent-blue); color: var(--gold-main); }
+  .shiny-btn::after {
+    content: ''; position: absolute; top: -50%; left: -100%; width: 50%; height: 200%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg); animation: shimmerBtn 4s infinite;
+  }
+  @keyframes shimmerBtn { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+  .shiny-btn:active, .shiny-btn:hover { border-color: var(--gold-main); background: var(--accent-color); color: var(--gold-main); transform: translateY(-2px);}
 
-  /* 資訊卡片 (清新易讀) */
+  /* 卡片設計 */
   .card {
-    background: var(--card-bg); border-radius: 16px; padding: 25px; margin-bottom: 20px;
-    border: 1px solid #F0F0F0; box-shadow: var(--shadow); position: relative;
+    background: var(--card-bg); border-radius: 16px; padding: 25px; margin-bottom: 22px;
+    border: 1px solid #F0F0F0; box-shadow: var(--shadow); border-top: 4px solid var(--gold-main);
   }
-  .card-title { color: var(--text-main); font-size: 18px; margin-top: 0; margin-bottom: 15px; border-bottom: 1px solid #F0F0F0; padding-bottom: 12px; line-height: 1.5; font-weight: 800;}
+  .card-title { color: var(--gold-main); font-size: 19px; margin-top: 0; margin-bottom: 15px; border-bottom: 1px solid #F4F4F4; padding-bottom: 12px; font-weight: 900;}
   .card-text { font-size: 15px; line-height: 1.8; color: #4A4A4A; margin: 0; }
-  .highlight { color: #B38F4F; font-weight: bold; background: rgba(197, 160, 89, 0.1); padding: 2px 6px; border-radius: 4px;} 
-  .tag { display: inline-block; background: var(--accent-blue); color: var(--gold-main); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 12px; margin-right: 6px;}
-  ul { padding-left: 20px; margin-top: 10px; margin-bottom: 10px;}
+  .highlight { color: #fff; font-weight: bold; background: var(--gold-main); padding: 2px 6px; border-radius: 4px; font-size: 14px;} 
+  .tag { display: inline-block; background: var(--accent-color); color: var(--gold-main); padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 12px; margin-right: 8px;}
+  
+  ul, ol { padding-left: 22px; margin-top: 8px; margin-bottom: 8px;}
   li { margin-bottom: 10px; }
-  .source-cite { font-size: 12px; color: #AAB7B8; vertical-align: super; margin-left: 2px;}
+  .source-cite { font-size: 11px; color: #AAB7B8; vertical-align: super; margin-left: 2px;}
 
-  /* 底部導覽 */
   .nav { 
-    display: flex; background: #FFFFFF; position: fixed; bottom: 0; 
+    display: flex; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); position: fixed; bottom: 0; 
     width: 100%; max-width: 480px; border-top: 1px solid #EAEAEA; z-index: 100;
   }
-  .nav button {
-    flex: 1; padding: 18px 5px; background: transparent; color: var(--text-sub);
-    border: none; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.3s;
-  }
-  .nav button.active { 
-    color: var(--gold-main); border-top: 3px solid var(--gold-main); background: #FAFAFA;
-  }
+  .nav button { flex: 1; padding: 20px 5px; background: transparent; color: var(--text-sub); border: none; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.3s;}
+  .nav button.active { color: var(--gold-main); border-top: 3px solid var(--gold-main); background: #FAFAFA;}
 </style>
 </head>
 <body>
 
 <div class="app-container">
   <div class="header">
-    <h1 class="title-text">八星等專屬智庫</h1>
-    <p>清新．高雅．您的全方位隨身顧問</p>
+    <h1 class="shiny-text">八星等極致智庫</h1>
+    <p>財管2.0 ｜ 慈善信託 ｜ 家族傳承</p>
   </div>
 
   <div id="page-home" class="page active">
     
     <div class="search-box">
-      <input type="text" id="searchInput" placeholder="輸入關鍵字：防詐騙、傳承、接班...">
+      <input type="text" id="searchInput" placeholder="輸入關鍵字：財管2.0、流程、痛點...">
       <button onclick="performSearch()">搜尋</button>
     </div>
     
-    <!-- 乾淨俐落的快捷按鈕區 -->
     <div id="quickNav">
-      <div class="quick-title">家族辦公室精選 (最新)</div>
+      <div class="section-badge">✨ 核心業務全覽</div>
+      <div class="quick-title">高資產客戶准入 (財管2.0)</div>
       <div class="quick-grid">
-        <div class="quick-btn" onclick="quickSearch('傳承三張紙')">📄 傳承三張紙規劃</div>
-        <div class="quick-btn" onclick="quickSearch('防詐騙')">🛡️ 不動產防詐防護</div>
-        <div class="quick-btn" onclick="quickSearch('接班')">🤝 獨子與多子女接班</div>
-        <div class="quick-btn" onclick="quickSearch('法律工具')">⚖️ 資產保全法律工具</div>
+        <div class="shiny-btn" onclick="quickSearch('財管2.0')">👑 財管2.0完整資格</div>
+        <div class="shiny-btn" onclick="quickSearch('專業評估')">📝 專業評估與經驗</div>
       </div>
-      <div class="quick-title">核心業務全覽</div>
+      <div class="quick-title">慈善信託實務</div>
       <div class="quick-grid">
-        <div class="quick-btn" onclick="quickSearch('財管2.0')">👑 財管2.0與資格</div>
-        <div class="quick-btn" onclick="quickSearch('信託')">🕊️ 慈善與安養信託</div>
-        <div class="quick-btn" onclick="quickSearch('融資')">💰 資金活化與融資</div>
-        <div class="quick-btn" onclick="quickSearch('優惠')">🎁 日常禮遇與優惠</div>
+        <div class="shiny-btn" onclick="quickSearch('流程')">🔄 慈善信託五大流程</div>
+        <div class="shiny-btn" onclick="quickSearch('痛點')">⛰️ 高資產公益痛點</div>
+        <div class="shiny-btn" onclick="quickSearch('說故事')">🗣️ 話術與平台價值</div>
+      </div>
+      <div class="quick-title">家族辦公室整合</div>
+      <div class="quick-grid">
+        <div class="shiny-btn" onclick="quickSearch('傳承三張紙')">📄 傳承三張紙與接班</div>
+        <div class="shiny-btn" onclick="quickSearch('防詐騙')">🛡️ 不動產與信託防護</div>
       </div>
     </div>
 
-    <!-- 搜尋結果顯示區 -->
     <div id="searchResult" style="display:none;"></div>
   </div>
 
   <div class="nav">
-    <button class="tab-btn active" onclick="resetHome()">回首頁分類</button>
-    <button class="tab-btn" onclick="quickSearch('目標客戶')">目標客群</button>
-    <button class="tab-btn" onclick="quickSearch('策略地圖')">策略地圖</button>
+    <button class="tab-btn active" onclick="resetHome()">回首頁</button>
+    <button class="tab-btn" onclick="quickSearch('財管2.0')">財管2.0</button>
+    <button class="tab-btn" onclick="quickSearch('流程')">信託SOP</button>
   </div>
 </div>
 
@@ -161,82 +174,93 @@
     performSearch();
   }
 
-  // --- 家族辦公室專區 JSON 知識庫 ---
+  // --- 全面擴充版 JSON 知識庫 ---
   const qaDatabase = [
+    // --- 財管2.0 完整准入規範 (絕不偷工減料) ---
     {
-      keywords: ["不動產", "保全", "防詐騙", "詐騙", "不肖兒女"],
-      question: "如何透過不動產保全規劃防止不肖兒女或詐騙？",
+      keywords: ["財管2.0", "資格", "准入", "門檻", "AUM", "高資產", "條件", "八星等", "專業評估", "交易經驗"],
+      question: "高資產客戶 (財管2.0) 及八星等的資格與嚴格審查條件為何？",
+      answer: `
+      <span class="tag">資格認定</span><span class="tag">財管2.0</span><br>
+      理專需確認自然人及法人客戶符合金管會規定之「高資產客戶」標準（如同具投資經驗的億級PI，不含不動產）。相關徵提與審查機制包含以下三大核心<span class="source-cite">[5-7]</span>：<br><br>
+      <span class="highlight">一、財力證明 (二擇一)</span><br>
+      1. 提供 <b style="color:#C5A059">1億元以上</b> 之可投資資產淨值（含保險商品價值）<span class="source-cite">[5, 7]</span>。<br>
+      2. 於遠銀已有 3,000萬元以上，並提供「財力聲明書」聲明總資產達 1億元且檢附相關佐證（如前3個月內或最近一期）<span class="source-cite">[6-8]</span>。<br><br>
+      <span class="highlight">二、專業評估 (知識+經驗)</span><br>
+      1. <b>專業知識問卷：</b>共10題，每題1分，需達 <b style="color:#C5A059">8分(含)以上</b> 始符合資格<span class="source-cite">[7, 8]</span>。<br>
+      2. <b>交易經驗 (三擇一)：</b><br>
+         • 近2年內申購或轉換達 <b style="color:#C5A059">10次(含)以上</b>，且含2種以上不同商品<span class="source-cite">[7, 8]</span>。<br>
+         • 近2年內持有2筆境內外結構/衍生性商品達 <b style="color:#C5A059">6個月以上</b><span class="source-cite">[7, 8]</span>。<br>
+         • 近2年內有2筆境內外結構/衍生性商品 <b style="color:#C5A059">持有至到期</b> 之經驗<span class="source-cite">[7, 8]</span>。<br><br>
+      <span class="highlight">三、審查與覆審機制</span><br>
+      客戶須以「書面申請」。本行會 <b style="color:#C5A059">每年定期評估</b> 可投資資產價值，並 <b style="color:#C5A059">每兩年辦理一次覆審</b>。若客戶未配合審查（未提供文件或無法聯繫），將「暫停相關業務」並紀錄備查<span class="source-cite">[7, 9]</span>。`
+    },
+    // --- 慈善信託：流程與細節 ---
+    {
+      keywords: ["訂約流程", "辦理流程", "慈善信託的五步驟訂約流程", "SOP", "細節", "步驟"],
+      question: "慈善信託的五步驟訂約流程與辦理細節為何？",
+      answer: `
+      <span class="tag">作業SOP</span><span class="tag">實務流程</span><br>
+      慈善信託具備標準化作業，涵蓋以下五大核心步驟<span class="source-cite">[1-3]</span>：<br>
+      <ol>
+        <li><span class="highlight">簽訂契約與約定：</span>確認客戶需求（採「完全自益＋約定代為捐贈事務」架構），由客戶填寫申請書並簽訂制式化契約，約定定期捐款<span class="source-cite">[1]</span>。</li>
+        <li><span class="highlight">交付信託財產：</span>分行辦理簽約後送信託部開立專戶。信託門檻為 <b style="color:#C5A059">新臺幣200萬</b>，期間至少5年。客戶匯入資金後，未來可隨時免收手續費追加財產<span class="source-cite">[1, 2]</span>。</li>
+        <li><span class="highlight">管理與投資運用：</span>信託本金可依指示投資（如配置配息基金或海外債券，產生約5%孳息），以投資獲利作為永續捐款來源<span class="source-cite">[2, 3]</span>。</li>
+        <li><span class="highlight">寄送信託報告：</span>為使客戶掌握資產，信託部會於每月15號前寄送紙本或電子的「信託財產月報告書」<span class="source-cite">[2, 3]</span>。</li>
+        <li><span class="highlight">固定日捐款與交付收據：</span>依約定於每年固定日（指定 <b style="color:#C5A059">5/15 或 11/15</b>）匯款給嚴選公益機構（跨行手續費自信託扣取）。完成後由遠銀向機構索取收據正本，於 <b style="color:#C5A059">次年1月底前</b> 透過理專轉交客戶<span class="source-cite">[2, 3]</span>。</li>
+      </ol>`
+    },
+    // --- 慈善信託：公益痛點 ---
+    {
+      keywords: ["公益挑戰", "高資產客戶面臨哪些具體的公益痛點", "痛點", "挑戰", "慈善"],
+      question: "高資產客戶面臨哪些具體的公益痛點與挑戰？",
+      answer: `
+      <span class="tag">客戶痛點</span><span class="tag">永續傳承</span><br>
+      高資產客戶在進行公益慈善時，常面臨以下五項真實挑戰<span class="source-cite">[4]</span>：<br>
+      <ul>
+        <li><span class="highlight">缺乏長期影響力：</span>多數慈善屬「一次性捐助」，無法支持長期的社會改變<span class="source-cite">[4]</span>。</li>
+        <li><span class="highlight">資源不穩定：</span>教育與慈善公益機構缺乏穩定且可預期的資金來源<span class="source-cite">[4]</span>。</li>
+        <li><span class="highlight">傳承困難：</span>個人的公益志業難以有系統地傳承給下一代<span class="source-cite">[4]</span>。</li>
+        <li><span class="highlight">成效難以評估：</span>ESG (環境、社會與治理) 的成效難以量化與持續<span class="source-cite">[4]</span>。</li>
+        <li><span class="highlight">管理耗時複雜：</span>若選擇自行成立基金會，管理十分複雜，將耗用大量時間與資源<span class="source-cite">[4]</span>。</li>
+      </ul>`
+    },
+    // --- 慈善信託：推廣話術 ---
+    {
+      keywords: ["推廣策略", "說故事", "平台價值", "張先生"],
+      question: "慈善信託的平台價值與「張先生」推廣說故事案例？",
+      answer: `
+      <span class="tag">實戰話術</span><br>
+      平台價值在於<b>「把瞬間的善意，透過有制度的管理，化為永續的金流」</b>。我們不是捐錢，而是投資機構自立成長的能力<span class="source-cite">[4]</span>。<br><br>
+      <b>【化推銷為分享的話術】</b><span class="source-cite">[10]</span><br>
+      <i>「王董，最近我幫老客戶張先生完成了一件有意義的事。他多年來都把配息型基金的孳息直接捐出去做公益，完全不影響生活。但最近他越來越忙，擔心將來年紀大了誰來幫忙匯款？後來他把這筆資產放進『慈善信託』，銀行自動幫他投資、自動把孳息捐出去。<br>
+      王董，我們不是在賣慈善信託，而是在幫您把最重視的愛心與志業，安穩地留下來。」</i>`
+    },
+    // --- 家族傳承：三張紙與接班 ---
+    {
+      keywords: ["傳承三張紙", "公司股權", "家族辦公室", "接班", "獨子", "多子女"],
+      question: "家族辦公室如何規劃「傳承三張紙」及「獨子/多子女」接班差異？",
+      answer: `
+      <span class="tag">企業接班</span><span class="tag">閉鎖性公司</span><br>
+      針對股權與動產分配，會依據「是否接班」分為兩大路徑<span class="source-cite">[11, 12]</span>：<br>
+      • <span class="highlight">不接班 (只接家產)：</span>協助評估結束清算（含稅務評估）或進行股權出售退場。<br>
+      • <span class="highlight">選擇接班：</span><br>
+        1. <b>獨子接班：</b>因無爭產問題，重點在「移轉效率與風險控管」。規劃包含分年贈與、繼承買賣策略，並模擬關鍵股東過世的突發風險<span class="source-cite">[11, 13]</span>。<br>
+        2. <b>多子女接班：</b>重點在「防範股權分散與內部衝突」。會進行「所有權與經營權」分離設計，強烈建議設立 <b style="color:#C5A059">閉鎖性公司</b> 並發行黃金特別股，利用「1股換多票」及一票否決權，防止公司被惡意出售<span class="source-cite">[11, 13]</span>。`
+    },
+    // --- 家族傳承：防詐與不動產 ---
+    {
+      keywords: ["防詐騙", "不動產保全", "詐騙", "不肖兒女", "保全"],
+      question: "如何透過不動產保全規劃與信託防止不肖兒女或詐騙？",
       answer: `
       <span class="tag">地政防護</span><span class="tag">信託隔離</span><br>
-      透過家族辦公室的專業整合，我們主要運用**「地政業務」**與**「信託業務」**建立雙重防護網：<br>
-      <ul>
-        <li><span class="highlight">全方位產權防護：</span>在地政業務中，我們提供「不動產保全規劃」，並結合外部律師事務所的專業資源，提供合規的法律防護方案，從產權登記的最前端就拉起防線<span class="source-cite">[1, 2]</span>。</li>
-        <li><span class="highlight">信託資產隔離：</span>透過設立「不動產信託」或「安養信託」，將資產有效隔離於個人名下風險之外，確保未來資金能「專款專用」，直接剝奪不肖人士或詐騙集團隨意處分或挪用不動產的機會<span class="source-cite">[3]</span>。</li>
-      </ul>`
-    },
-    {
-      keywords: ["傳承三張紙", "規劃", "公司股權", "家族辦公室"],
-      question: "家族辦公室針對「傳承三張紙」具體如何規劃？",
-      answer: `
-      <span class="tag">全資產規劃</span><span class="tag">策略地圖</span><br>
-      在家族辦公室的「全資產規劃策略地圖」中，針對分配問題裡的「公司股權」與「動產」即會面臨到<span class="highlight">「傳承三張紙」</span>的考驗。具體的規劃會依據子女「是否接班」分為兩大路徑<span class="source-cite">[1]</span>：<br>
-      <ul>
-        <li><span class="highlight">若選擇「不接班」：</span>即只接家產不接家業。家辦會協助評估「結束清算」（包含財產交易所得與所得基本稅額評估），或是進行「股權出售」的退場規劃<span class="source-cite">[1]</span>。</li>
-        <li><span class="highlight">若選擇「接班」：</span>這是一門接家業的藝術。會再進一步依據家庭結構，細分為「獨子接班」或是「多子女接班」，量身打造對應的股權與控制權安排<span class="source-cite">[1]</span>。</li>
-      </ul>`
-    },
-    {
-      keywords: ["接班", "接班人", "獨子", "多子女", "差異", "股權接班"],
-      question: "接班人的「獨子」與「多子女」規劃差異為何？",
-      answer: `
-      <span class="tag">控制權安排</span><span class="tag">股權接班</span><br>
-      <ul>
-        <li><span class="highlight">獨子接班規劃重點：</span>由於無爭產問題，重心在於「移轉效率與風險控管」。規劃包含：創辦人對二代的股權移轉策略（贈與、繼承、買賣）、分年贈與預先接班，以及模擬關鍵股東過世前後的突發繼承風險與淨值差異<span class="source-cite">[1, 4]</span>。</li>
-        <li><span class="highlight">多子女接班規劃重點：</span>面臨接班共識不足的挑戰，重心在於「防範股權分散與內部衝突」。家辦會進行<span class="highlight">「所有權與經營權的分離設計」</span>，並強烈建議設立<span class="highlight">「閉鎖性公司」</span>發行黃金特別股。利用「1股換多票」及一票否決權機制，讓接班人握有絕對話語權，防堵公司被惡意出售或分裂<span class="source-cite">[4, 5]</span>。</li>
-      </ul>`
-    },
-    {
-      keywords: ["法律工具", "不動產保全", "具體", "保全", "工具"],
-      question: "不動產保全規劃有哪些具體的法律工具？",
-      answer: `
-      <span class="tag">資產保全</span><span class="tag">法律工具</span><br>
-      為了建構堅固的防護網，具體可運用的法律與信託工具包含：<br>
-      1. <span class="highlight">不動產信託與安養信託：</span>最直接的資產隔離工具，確保資產不會被輕易過戶，資金絕對專款專用<span class="source-cite">[3]</span>。<br>
-      2. <span class="highlight">預立遺囑與遺囑信託：</span>提前釐清財產歸屬，並透過信託延續對身後資產的保護力<span class="source-cite">[3]</span>。<br>
-      3. <span class="highlight">客製化移轉方案（結合民法）：</span>深入結合親屬法與繼承法，並協同外部律師事務所提供專業法律意見，擬定合法合規的不動產生前移轉與遺產分配防護機制<span class="source-cite">[2, 6]</span>。`
-    },
-    {
-      keywords: ["信託", "解釋", "防範詐騙", "詐騙", "角色"],
-      question: "如何向客戶解釋信託在防範詐騙中的角色？",
-      answer: `
-      <span class="tag">信託核心價值</span><span class="tag">客戶溝通</span><br>
-      在與客戶溝通時，可以從以下兩大核心安全機制切入：<br>
-      <ul>
-        <li><span class="highlight">建立資產防火牆（資產隔離）：</span>向客戶說明，將財富交付信託平台，就如同為資產穿上防彈衣。產權受到信託架構保護，能有效防止不動產或資金被詐騙集團輕易誘騙移轉<span class="source-cite">[3, 7]</span>。</li>
-        <li><span class="highlight">嚴格落實「專款專用」：</span>強調信託會優先保障客戶的安養需求。因為資金的動用必須嚴格依照信託契約執行，即使客戶日後遭遇詐騙洗腦，也無法輕易將大筆信託資產解約或匯出，徹底阻斷不當挪用的可能<span class="source-cite">[3, 7]</span>。</li>
-      </ul>`
-    },
-    {
-      keywords: ["目標客戶", "客群", "誰是", "痛點"],
-      question: "誰是我們的目標客戶？他們面臨哪些痛點？",
-      answer: `
-      <span class="tag">目標客群</span><br>
-      核心目標聚焦於「金字塔頂端客群」及「家族企業」<span class="source-cite">[8]</span>：<br>
-      1. <span class="highlight">股權高度集中的企業主：</span>大於60歲、股權集中、二代無實質股權，缺乏接班共識。<br>
-      2. <span class="highlight">稅務與風險偏高的企業家：</span>高累積盈餘、股東資金混用、曾被查稅、預計增減資。<br>
-      3. <span class="highlight">境內外資產眾多的家族：</span>擁有境外公司/帳戶、擔心CFC/CRS及跨境繼承風險。`
-    },
-    {
-      keywords: ["策略地圖", "功能介紹", "資產規劃", "四大"],
-      question: "家族辦公室功能介紹及資產規劃策略地圖為何？",
-      answer: `
-      <span class="tag">四大功能</span><br>
-      提供個人稅務(身分法與財產把關)、地政服務(資產活化與保全)、企業服務(股權接班)、信託服務(專款專用與傳承)四大維度整合<span class="source-cite">[1-4, 6]</span>。<br>
-      <span class="highlight">全資產規劃策略地圖：</span>依據有無子女、不動產/股權分配(傳承三張紙)、傳承意願，為客戶量身打造結清、股權出售、獨子或多子女接班的專屬藍圖<span class="source-cite">[1]</span>。`
+      主要運用「地政業務」與「信託業務」建立雙重防護網：<br>
+      1. <span class="highlight">全方位產權防護：</span>結合外部律師事務所，從產權登記最前端拉起防線，防範移轉風險<span class="source-cite">[12, 13]</span>。<br>
+      2. <span class="highlight">信託資產隔離與專款專用：</span>設立「不動產信託」或「安養信託」，將資產隔離於個人名下風險之外。資金給付受契約嚴格規範，優先滿足安養需求，確保「專款專用」，直接剝奪不肖人士或詐騙集團隨意解約、挪用資產的機會<span class="source-cite">[12, 13]</span>。`
     }
   ];
 
-  // --- 搜尋邏輯 ---
+  // --- 搜尋引擎邏輯 ---
   function performSearch() {
     const query = document.getElementById('searchInput').value.trim().toLowerCase();
     const resultDiv = document.getElementById('searchResult');
@@ -270,7 +294,7 @@
       resultDiv.innerHTML = `
         <div class="card">
           <h3 class="card-title">🔍 查無相關資料</h3>
-          <p class="card-text">您的查詢：「${query}」目前沒有對應的內容。請嘗試使用快捷鍵或更簡短的關鍵字（如：傳承、防詐騙、接班）。</p>
+          <p class="card-text">您的查詢：「${query}」沒有對應的內容。請嘗試輸入「財管2.0」、「流程」或「痛點」。</p>
         </div>`;
     } else {
       resultDiv.innerHTML = foundHTML;
