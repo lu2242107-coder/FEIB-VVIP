@@ -75,8 +75,6 @@
     display: inline-block; background: linear-gradient(90deg, #D4A300, #FFDF66); color: #5A4D31;
     padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: 900; margin-bottom: 15px; box-shadow: 0 3px 10px rgba(212, 163, 0, 0.2);
   }
-  .quick-title { color: var(--text-main); font-size: 16px; font-weight: 900; margin-bottom: 12px; display: flex; align-items: center;}
-  .quick-title::before { content: ''; display: inline-block; width: 4px; height: 16px; background: var(--gold-main); margin-right: 8px; border-radius: 2px;}
   
   .quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; }
   
@@ -95,7 +93,7 @@
   @keyframes shimmerBtn { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
   .shiny-btn:active, .shiny-btn:hover { border-color: var(--gold-main); background: var(--accent-color); color: var(--gold-main); transform: translateY(-2px);}
 
-  /* 卡片設計 - 鵝黃高雅 */
+  /* 卡片設計 */
   .card {
     background: var(--card-bg); border-radius: 16px; padding: 22px; margin-bottom: 20px;
     border: 1px solid #F0E6D2; box-shadow: var(--shadow); border-top: 4px solid var(--gold-main);
@@ -107,7 +105,6 @@
   
   ul, ol { padding-left: 20px; margin-top: 8px; margin-bottom: 8px;}
   li { margin-bottom: 8px; }
-  .source-cite { font-size: 11px; color: #B0A392; vertical-align: super; margin-left: 2px; font-weight: bold;}
 
   /* 優雅表格 */
   table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 12px; border-radius: 6px; overflow: hidden; border: 1px solid #F0E6D2;}
@@ -115,11 +112,12 @@
   th { background-color: var(--gold-main); color: #FFF; font-weight: bold; }
   tr:nth-child(even) { background-color: #FFFAF0; }
 
+  /* 底部導覽列 */
   .nav { 
     display: flex; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); position: fixed; bottom: 0; 
     width: 100%; max-width: 480px; border-top: 1px solid #F0E6D2; z-index: 100;
   }
-  .nav button { flex: 1; padding: 18px 5px; background: transparent; color: var(--text-sub); border: none; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.3s;}
+  .nav button { flex: 1; padding: 18px 5px; background: transparent; color: var(--text-sub); border: none; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.3s;}
   .nav button.active { color: var(--gold-main); border-top: 3px solid var(--gold-main); background: #FFFCF2;}
 </style>
 </head>
@@ -128,7 +126,7 @@
 <div class="app-container">
   <div class="header">
     <h1 class="shiny-text">八星等尊榮權益總覽</h1>
-    <p>3W 核心 ｜ 家族智庫 ｜ 融資與生日禮</p>
+    <p>專屬家辦 ｜ 尊榮禮遇 ｜ 財管 2.0</p>
   </div>
 
   <div id="page-home" class="page active">
@@ -140,56 +138,51 @@
     
     <div id="quickNav">
 
-      <!-- Category 8: 生日禮專區 (NEW) -->
-      <div class="section-badge">🎁 八星等生日禮的禮遇</div>
+      <!-- 第一格: 核心精神 -->
+      <div class="section-badge">🌟 核心精神</div>
+      <div class="quick-grid">
+        <div class="shiny-btn" onclick="quickSearch('創世代')">💻 創世代知識網頁</div>
+        <div class="shiny-btn" onclick="quickSearch('3W')">🌟 3W核心精神</div>
+      </div>
+
+      <!-- 第二格: 八星等生日禮項下 -->
+      <div class="section-badge">🎁 八星等生日禮項下</div>
       <div class="quick-grid">
         <div class="shiny-btn" onclick="quickSearch('AVEDA')">💆 AVEDA 訂製療程</div>
         <div class="shiny-btn" onclick="quickSearch('生生優動')">🧘 生生優動 VIP優伴</div>
         <div class="shiny-btn" onclick="quickSearch('10個重點')">💡 落地執行10大重點</div>
-        <div class="shiny-btn" onclick="quickSearch('慈善信託')">🕊️ 慈善信託介紹</div>
       </div>
 
-      <!-- Category 1: 核心資格 -->
-      <div class="section-badge">💎 核心資格與精神</div>
+      <!-- 第三格: 核心資格 -->
+      <div class="section-badge">💎 核心資格</div>
       <div class="quick-grid">
-        <div class="shiny-btn" onclick="quickSearch('3W')">🌟 3W核心精神</div>
-        <div class="shiny-btn" onclick="quickSearch('王品')">🎁 迎新私聚與定存</div>
         <div class="shiny-btn" onclick="quickSearch('財管2.0')">👑 財管2.0門檻</div>
+        <div class="shiny-btn" onclick="quickSearch('典藏套組')">🧳 典藏套組開發</div>
       </div>
       
-      <!-- Category 2: 開發策略 -->
+      <!-- 第四格: 目標客群與開發策略 -->
       <div class="section-badge">🎯 目標客群與開發策略</div>
       <div class="quick-grid">
         <div class="shiny-btn" onclick="quickSearch('目標客戶')">🎯 四大目標客群</div>
-        <div class="shiny-btn" onclick="quickSearch('典藏套組')">🧳 典藏套組開發</div>
       </div>
 
-      <!-- Category 3: 家族專屬智庫 -->
+      <!-- 第五格: 家族專屬智庫 -->
       <div class="section-badge">🏛️ 家族專屬智庫</div>
       <div class="quick-grid">
         <div class="shiny-btn" onclick="quickSearch('四大面向')">🧭 家辦四大面向</div>
         <div class="shiny-btn" onclick="quickSearch('個人稅')">⚖️ 傳承家醫科(個人稅)</div>
         <div class="shiny-btn" onclick="quickSearch('都更')">🏢 都更與地政全流程</div>
-        <div class="shiny-btn" onclick="quickSearch('創世代')">💻 創世代知識網頁</div>
       </div>
 
-      <!-- Category 4: 議價與客製化 -->
-      <div class="section-badge">💰 大額議價與客製化</div>
+      <!-- 第六格: 頂級信用卡優勢與禮遇 -->
+      <div class="section-badge">💳 頂級信用卡優勢與禮遇</div>
       <div class="quick-grid">
-        <div class="shiny-btn" onclick="quickSearch('存款議價')">🏦 台外幣存款議價</div>
-        <div class="shiny-btn" onclick="quickSearch('授信議價')">📉 質借與房貸優勢</div>
-        <div class="shiny-btn" onclick="quickSearch('客製投資')">📈 嚴選債券與私募</div>
-      </div>
-
-      <!-- Category 5: 信用卡與禮遇 -->
-      <div class="section-badge">💳 頂級信用卡與禮遇</div>
-      <div class="quick-grid">
-        <div class="shiny-btn" onclick="quickSearch('信用卡PK')">⚔️ 信用卡優勢 PK</div>
+        <div class="shiny-btn" onclick="quickSearch('信用卡PK')">⚔️ 信用卡優勢</div>
         <div class="shiny-btn" onclick="quickSearch('辦卡優先')">⚡ 辦卡與客服優先</div>
         <div class="shiny-btn" onclick="quickSearch('貴賓加碼')">🎁 迎新加碼與用卡技巧</div>
       </div>
 
-      <!-- Category 7: 保險與融資專區 -->
+      <!-- 第七格: 亞資保險商品保代部 -->
       <div class="section-badge">🛡️ 亞資保險商品保代部</div>
       <div class="quick-grid">
         <div class="shiny-btn" onclick="quickSearch('亞資專區')">🌐 亞資保險商品</div>
@@ -203,9 +196,8 @@
   </div>
 
   <div class="nav">
-    <button class="tab-btn active" onclick="resetHome()">分類首頁</button>
-    <button class="tab-btn" onclick="quickSearch('10個重點')">生日禮亮點</button>
-    <button class="tab-btn" onclick="quickSearch('議價')">議價總覽</button>
+    <button id="tab-home" class="tab-btn active" onclick="resetHome()">首頁</button>
+    <button id="tab-second" class="tab-btn" onclick="quickSearch('10個重點', this)">第二頁：落地執行10大重點</button>
   </div>
 </div>
 
@@ -214,23 +206,55 @@
     document.getElementById('searchInput').value = '';
     document.getElementById('quickNav').style.display = 'block';
     document.getElementById('searchResult').style.display = 'none';
+    
+    // 更新導覽列樣式
+    document.getElementById('tab-home').classList.add('active');
+    document.getElementById('tab-second').classList.remove('active');
     window.scrollTo(0, 0);
   }
 
-  function quickSearch(text) {
+  function quickSearch(text, btnElement = null) {
     document.getElementById('searchInput').value = text;
     performSearch();
+    
+    // 若為第二頁按鈕觸發，更新導覽列樣式
+    if (btnElement && btnElement.id === 'tab-second') {
+      document.getElementById('tab-home').classList.remove('active');
+      document.getElementById('tab-second').classList.add('active');
+    } else {
+      document.getElementById('tab-home').classList.add('active');
+      document.getElementById('tab-second').classList.remove('active');
+    }
   }
 
-  // --- 高階分門別類 JSON 知識庫 ---
+  // --- 高階知識庫資料 ---
   const qaDatabase = [
-    // === Category 8: 生日禮專區 (NEW) ===
+    // 核心精神
+    {
+      keywords: ["創世代", "知識網頁", "Family", "Firm", "Fortune"],
+      question: "「創世代知識網頁」提供哪些專屬內容？",
+      answer: `
+      <span class="tag">專屬資訊</span><span class="tag">私密邀請制</span><br>
+      遠銀獨創「創世代知識網頁」（密碼：<b style="color:#D4A300">feibwm</b>），採私密邀請制，定期更新駐站講師內容。三大面向包含：<br>
+      1. <span class="highlight">Family (代際傳承)：</span>家族溝通與二代接班觀點。<br>
+      2. <span class="highlight">Firm (趨勢洞察)：</span>家族企業結構問題、轉型趨勢與經營戰略。<br>
+      3. <span class="highlight">Fortune (品味生活)：</span>結合時尚潮流，提供趨勢與品味內容。`
+    },
+    {
+      keywords: ["3W", "核心精神", "八星等", "Wealth", "Well-being", "Welfare"],
+      question: "八星等權益的三大核心精神 (3W) 是什麼？",
+      answer: `
+      <span class="tag">核心價值</span><br>
+      我們希望以家族辦公室的宏觀思維，提供家族財富治理及傳承，實踐人生的幸福十樂，同時用慈善信託締造社會福祉。三大核心為：Wealth (財富)、Well-being (幸福)、Welfare (社會福祉)。`
+    },
+    
+    // 生日禮項下
     {
       keywords: ["AVEDA", "蘊活欣生訂製療程", "時尚體驗", "頭皮", "按摩"],
       question: "八星等生日禮「AVEDA 蘊活欣生訂製療程」有何特色與優點？",
       answer: `
       <span class="tag">時尚體驗</span><span class="tag">深層紓壓</span><br>
-      AVEDA 為美國環保美妝品牌，療程約 90~120 分鐘，具備以下優點<span class="source-cite">[1][2]</span>：<br>
+      AVEDA 為美國環保美妝品牌，療程約 90~120 分鐘，具備以下優點：<br>
       1. <span class="highlight">客製化療程設計：</span>透過專業檢測儀分析，針對出油、敏感、氣味或細疏髮等特質提供專屬護理。<br>
       2. <span class="highlight">沙龍專用舒敏配方：</span>富含兩倍獨家花植科技萃取適應原，即刻恢復頭皮柔軟彈性及強化防禦力。<br>
       3. <span class="highlight">獨家節奏式按摩手法：</span>28 道深度頭皮按摩釋放頭脹緊繃，並加強眉骨穴點紓壓疲勞眼周。<br>
@@ -241,7 +265,7 @@
       question: "八星等生日禮「生生優動 VIP優伴服務」有何特色與優點？",
       answer: `
       <span class="tag">健康體驗</span><span class="tag">AI結合</span><br>
-      結合頂尖醫療體系與科技，由醫師、物理治療師與運動指導員協作提供<span class="source-cite">[1][3]</span>：<br>
+      結合頂尖醫療體系與科技，由醫師、物理治療師與運動指導員協作提供：<br>
       1. <span class="highlight">4週 VIP 優伴服務：</span>提供實體或視訊(二擇一)的看診服務，並加上專屬的文字陪伴。<br>
       2. <span class="highlight">客製化運動計畫：</span>依據檢測結果量身設計個人化復能運動。<br>
       3. <span class="highlight">12個月 Youdon APP：</span>專屬智慧物理治療 APP，內含 1500+ 真人示範標準動作與語音引導，將健康管理落實到日常生活中。`
@@ -251,7 +275,7 @@
       question: "針對生日禮二選一，理專可落地執行給客戶的 10 個重點與優勢為何？",
       answer: `
       <span class="tag">行銷亮點</span><span class="tag">客群維繫</span><br>
-      理專在向客戶推廣時，可活用以下 10 大亮點<span class="source-cite">[3, 5, 7, 8][1][2]</span>：<br>
+      理專在向客戶推廣時，可活用以下 10 大亮點：<br>
       1. <b>「專屬時刻」的尊榮感：</b>捨棄制式贈品，為客戶預留專屬的頂級 Me Time。<br>
       2. <b>高彈性的轉贈機制：</b>若客戶太忙，兌換券可自由轉贈親友使用，心意不打折。<br>
       3. <b>長達 90 天寬裕效期：</b>效期長，讓客戶毫無壓力地安排體驗時間。<br>
@@ -263,24 +287,8 @@
       9. <b>全台綿密的據點支援：</b>AVEDA 13間門市與生生優動全台數十家院所，就近方便體驗。<br>
       10. <b>無縫接軌的尊榮流程：</b>理專確認後寄發數位/實體憑證，條碼核銷流程流暢專業。`
     },
-    {
-      keywords: ["慈善信託", "公益", "平台價值", "嚴長壽"],
-      question: "遠銀慈善信託的平台價值與嚴選機構有哪些？",
-      answer: `
-      <span class="tag">社會福祉</span><span class="tag">永續金流</span><br>
-      首創將安養信託結合慈善信託（完全自益），本金不動用，以投資孳息定期捐贈，轉化為長期公益金流。<br>
-      <span class="highlight">可事前指定嚴選公益機構：</span><br>
-      包含嚴長壽創辦的「公益平台文化基金會」連結資源(學思達、均一、江賢二藝術、TC音樂)等。`
-    },
 
-    // === Category 1: 核心資格與精神 ===
-    {
-      keywords: ["3W", "核心精神", "八星等", "Wealth", "Well-being", "Welfare"],
-      question: "八星等權益的三大核心精神 (3W) 是什麼？",
-      answer: `
-      <span class="tag">核心價值</span><br>
-      我們希望以家族辦公室的宏觀思維，提供家族財富治理及傳承，實踐人生的幸福十樂，同時用慈善信託締造社會福祉。三大核心為：Wealth (財富)、Well-being (幸福)、Welfare (社會福祉)。`
-    },
+    // 核心資格
     {
       keywords: ["財管2.0", "資格", "准入", "門檻"],
       question: "財管2.0 (高資產客戶) 的准入門檻與評估標準？",
@@ -288,20 +296,31 @@
       <span class="tag">資格認定</span><br>
       需具備 AUM ≧ 1億元之財力聲明與佐證。需完成專業知識問卷(達8分以上)，並具備交易經驗(申購10次/持有6個月/持有至到期等)。本行會每年定期評估，每兩年辦理一次覆審。`
     },
-
-    // === Category 2: 開發策略 ===
     {
-      keywords: ["目標客戶", "客群畫像", "股權集中", "多屋族"],
+      keywords: ["典藏套組", "行李掛牌", "英文名字", "開發", "輔助"],
+      question: "理專如何使用「典藏套組」輔助開發八星等客戶？",
+      answer: `
+      <span class="tag">開發工具</span><span class="tag">客製化互動</span><br>
+      理專在使用「典藏套組」時，可依循以下策略：<br>
+      1. <span class="highlight">建立尊榮關係的起點：</span>理專應先熟悉 DEMO 套組，作為說明八星等權益的輔助工具。<br>
+      2. <span class="highlight">預告客製化禮遇：</span>向客戶展示並預告後續將為其打造「客製化的正式金屬行李掛牌」。<br>
+      3. <span class="highlight">藉機取得客製資訊：</span>請客戶提供專屬的「英文名字」，藉此自然拉近距離並展現客製化的用心。<br>
+      4. <span class="highlight">後續統籌與覆核：</span>由區主管 (ASM) 協助統籌與覆核印製姓名，確保作業無瑕。`
+    },
+
+    // 目標客群與開發策略
+    {
+      keywords: ["目標客戶", "四大目標客群", "股權集中", "多屋族"],
       question: "高資產業務的四大核心目標客戶 (客群畫像) 有哪些？",
       answer: `
       <span class="tag">目標客群</span><br>
-      1. 股權高度集中的企業主 (面臨接班考驗)。<br>
-      2. 稅務與風險偏高的企業家 (資金查核風險)。<br>
-      3. 境內外資產眾多的家族 (CFC/CRS風險)。<br>
-      4. 不動產稅務規劃需活化者 (持有多屋但現金不足)。`
+      1. <b>股權高度集中的企業主</b> (面臨接班考驗)。<br>
+      2. <b>稅務與風險偏高的企業家</b> (資金查核風險)。<br>
+      3. <b>境內外資產眾多的家族</b> (CFC/CRS風險)。<br>
+      4. <b>不動產稅務規劃需活化者</b> (持有多屋但現金不足)。`
     },
 
-    // === Category 3: 家族專屬智庫 ===
+    // 家族專屬智庫
     {
       keywords: ["四大面向", "家辦", "家族辦公室", "智庫"],
       question: "家族辦公室專屬智庫的四大核心服務面向為何？",
@@ -319,49 +338,80 @@
       <span class="tag">傳承家醫科</span><br>
       所有資產規劃最終皆「回歸以個人為主體」，且高度關乎身分法（親屬與繼承法）。服務涵蓋：資產市值重估、不動產移轉節稅、符合民法的傳承工具分析等。`
     },
-
-    // === Category 4: 大額議價與客製化 ===
     {
-      keywords: ["存款議價", "大額定存", "台幣議價", "美元加碼", "非美外幣"],
-      question: "八星等台/外幣大額定存議價的優勢與流程為何？",
+      keywords: ["地政", "都更", "都市更新", "選屋", "產權登記", "活化"],
+      question: "都更與地政全流程服務包含哪些價值與諮詢？",
       answer: `
-      <span class="tag">存款議價</span><br>
-      <ul>
-        <li><span class="highlight">美元大額定存：</span>單筆達 USD 10萬元(含)以上，透過副總權限上簽，各天期利率可獲 <b style="color:#D4A300">+5bps</b> 加碼。</li>
-        <li><span class="highlight">非美外幣定存：</span>可向「資金管理組」詢問資金成本辦理。</li>
-        <li><span class="highlight">台幣大額定存：</span>專案上簽至 <b style="color:#D4A300">總經理權限</b> 取得專屬優惠利率。</li>
-      </ul>`
-    },
-    {
-      keywords: ["授信議價", "質借", "房貸優勢", "擔保"],
-      question: "授信質借與尊榮房貸有哪些專屬議價與優惠？",
-      answer: `
-      <span class="tag">授信優惠</span><br>
-      <ul>
-        <li><span class="highlight">自行質借：</span>免收 3,000元開辦費，利率較一般 PI 客戶 <b style="color:#D4A300">再減碼 25bps</b>。</li>
-        <li><span class="highlight">房貸優惠：</span>利率較七星等再低 5~10bps，<b style="color:#D4A300">全額減免 10,000元開辦費</b>，且優先撥款。</li>
-      </ul>`
+      <span class="tag">地政業務</span><span class="tag">不動產活化</span><br>
+      地政業務的核心在於強化高資產客戶對 **「不動產活化與傳承」** 的動機。<br>
+      針對 **都更（都市更新）** 的全流程專屬諮詢包含：<br>
+      1. <span class="highlight">都更選屋諮詢：</span>提供參與都更過程中的選屋疑問專業解答與建議。<br>
+      2. <span class="highlight">流程及稅務諮詢：</span>涵蓋都更的整體作業流程與涉及的相關不動產稅務問題。<br>
+      3. 綜合產權登記與進度諮詢。`
     },
 
-    // === Category 5: 信用卡與禮遇 ===
+    // 頂級信用卡優勢與禮遇
     {
       keywords: ["信用卡PK", "信用卡優勢", "頂級快樂卡", "星展", "台新", "永豐"],
-      question: "遠東頂級快樂卡與他行頂級卡(星展/台新/永豐)的優勢PK？",
+      question: "遠東頂級快樂卡與他行頂級卡的優勢PK？",
       answer: `
       <span class="tag">跨行比較</span><br>
       遠東頂級快樂卡具備絕對優勢：全年<b style="color:#D4A300">不限次</b>豪華車款機場接送、全年<b style="color:#D4A300">不限次</b>使用雙品牌貴賓室(PP/U.FIRST)，以及海外最高 4.5% 回饋，CP值市場第一。`
     },
-
-    // === Category 7: 保險與融資 ===
     {
-      keywords: ["保費融資業務", "融資業務", "規範", "受益人", "限制", "風險"],
-      question: "辦理保費融資業務有哪些客戶資格要求與銀行保護設定？",
+      keywords: ["辦卡優先", "進件流程", "客服優先", "分區服務"],
+      question: "八星等辦卡與客服的優先處理流程為何？",
+      answer: `
+      <span class="tag">快捷通道</span><br>
+      <ul>
+        <li><span class="highlight">辦卡優先：</span>進件、徵審、製卡各僅需 1 天，整體 3~4 天可送達。必須於申請書及信封標註 <b style="color:#D4A300">「8星等專案」</b>，並通知個金作業處窗口。</li>
+        <li><span class="highlight">客服優先：</span>撥打專線，輸入 ID 後系統自動辨識並轉接「尊榮貴賓服務專員」。</li>
+      </ul>`
+    },
+    {
+      keywords: ["迎新", "貴賓加碼", "刷卡金", "禮券", "輕鬆用卡", "用卡技巧"],
+      question: "迎新加碼回饋與輕鬆用卡小技巧有哪些？",
+      answer: `
+      <span class="tag">回饋加碼</span><br>
+      <ul>
+        <li><span class="highlight">迎新與續期回饋：</span>90天內(續卡為年度內)刷滿 50萬/80萬/150萬，分別回饋刷卡金 <b style="color:#D4A300">8仟/1.2萬/2.4萬元</b>。核卡後 60天內刷 1萬元，加碼贈「遠東 SOGO 禮券 2,000元」。</li>
+        <li><span class="highlight">用卡小技巧：</span>辦卡時正確填寫「實際年收入」或「AUM」並標示「8星等專案」；出國或大筆消費前致電客服系統註記。</li>
+      </ul>`
+    },
+
+    // 亞資保險商品保代部
+    {
+      keywords: ["亞資專區保險商品", "亞資專區", "保險商品", "死亡給付", "跨境", "健康保險"],
+      question: "亞資專區保險商品的核心重點有哪些？",
       answer: `
       <span class="tag">保代部</span><br>
-      <ul>
-        <li><span class="highlight">資格要求：</span>須為「高資產客戶」，要保人與被保險人須為「同一人」。</li>
-        <li><span class="highlight">銀行保護：</span>銀行須被指定為「第一順位受益人」。未清償前，變更要保人等11項關鍵變更皆須「獲得銀行書面同意」。</li>
-      </ul>`
+      亞資專區保險商品以高資產客戶為目標客群，重點商品包含：<br>
+      1. <b>不受死亡給付最低比率規範：</b>突破傳統限制，適用資產傳承與保障規劃。<br>
+      2. <b>外幣收付多次給付型健康保險：</b>支援多幣別，滿足國際化客戶跨國資產與健康需求。<br>
+      3. <b>保費融資與保單融資：</b>以高資產契約為擔保，創造資產槓桿效應。`
+    },
+    {
+      keywords: ["為保費融資量身打造", "量身打造", "躉繳", "首日解約金"],
+      question: "哪些保險商品是「為保費融資量身打造」？有何特點？",
+      answer: `
+      <span class="tag">保代部</span><span class="tag">保費融資</span><br>
+      包含「利率變動型壽險」與「分紅保險」。<br>
+      <span class="highlight">四大特點：</span><br>
+      1. <b>僅限躉繳：</b>確保擔保品完整性。<br>
+      2. <b>高首日解約金：</b>高於一般商品，降低銀行風險。<br>
+      3. <b>專屬批註條款：</b>明確設定銀行優先受償權。<br>
+      4. <b>嚴密風險管理：</b>違約時銀行可要求解約清償。`
+    },
+    {
+      keywords: ["保費融資與保單融資的區別", "區別", "差異", "保單融資"],
+      question: "保費融資與保單融資的關鍵區別為何？",
+      answer: `
+      <span class="tag">保代部</span><span class="tag">融資區別</span><br>
+      <table>
+        <tr><th>比較維度</th><th>保費融資</th><th>保單融資</th></tr>
+        <tr><td>承作商品/擔保品</td><td>限投保指定的「新契約」保單</td><td>限定「既有保單」</td></tr>
+        <tr><td>資金用途</td><td>僅限支付保費，槓桿購買大額保單</td><td>用途不限，活化既有資產</td></tr>
+      </table>`
     }
   ];
 
@@ -399,7 +449,7 @@
       resultDiv.innerHTML = `
         <div class="card">
           <h3 class="card-title">🔍 查無相關資料</h3>
-          <p class="card-text">您的查詢：「${query}」沒有對應的內容。請嘗試輸入「AVEDA」、「生生優動」或「10個重點」。</p>
+          <p class="card-text">您的查詢：「${query}」沒有對應的內容。請嘗試使用導覽列捷徑。</p>
         </div>`;
     } else {
       resultDiv.innerHTML = foundHTML;
