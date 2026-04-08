@@ -197,7 +197,7 @@
 
   <div class="nav">
     <button id="tab-home" class="tab-btn active" onclick="resetHome()">首頁</button>
-    <button id="tab-second" class="tab-btn" onclick="quickSearch('10個重點', this)">第二頁：落地執行10大重點</button>
+    <button id="tab-second" class="tab-btn" onclick="quickSearch('10個重點', this)">落地執行10大重點</button>
   </div>
 </div>
 
@@ -217,7 +217,7 @@
     document.getElementById('searchInput').value = text;
     performSearch();
     
-    // 若為第二頁按鈕觸發，更新導覽列樣式
+    // 若為底部按鈕觸發，更新導覽列樣式
     if (btnElement && btnElement.id === 'tab-second') {
       document.getElementById('tab-home').classList.remove('active');
       document.getElementById('tab-second').classList.add('active');
