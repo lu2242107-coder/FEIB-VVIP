@@ -98,7 +98,7 @@
     background: var(--card-bg); border-radius: 16px; padding: 22px; margin-bottom: 20px;
     border: 1px solid #F0E6D2; box-shadow: var(--shadow); border-top: 4px solid var(--gold-main);
   }
-  .card-title { color: var(--gold-main); font-size: 18px; margin-top: 0; margin-bottom: 15px; border-bottom: 1px solid #F9F4E8; padding-bottom: 10px; font-weight: 900; line-height: 1.4;}
+  .card-title { color: var(--gold-main); font-size: 17px; margin-top: 0; margin-bottom: 15px; border-bottom: 1px solid #F9F4E8; padding-bottom: 10px; font-weight: 900; line-height: 1.4;}
   .card-text { font-size: 14px; line-height: 1.8; color: #5A4D31; margin: 0; }
   .highlight { color: #5A4D31; font-weight: bold; background: var(--gold-light); padding: 2px 6px; border-radius: 4px; font-size: 13px;} 
   .tag { display: inline-block; background: var(--accent-color); color: #B8860B; padding: 5px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; margin-bottom: 10px; margin-right: 6px;}
@@ -112,12 +112,12 @@
   th { background-color: var(--gold-main); color: #FFF; font-weight: bold; }
   tr:nth-child(even) { background-color: #FFFAF0; }
 
-  /* 底部導覽列 */
+  /* 底部導覽列 (加入第三頁) */
   .nav { 
     display: flex; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); position: fixed; bottom: 0; 
     width: 100%; max-width: 480px; border-top: 1px solid #F0E6D2; z-index: 100;
   }
-  .nav button { flex: 1; padding: 18px 5px; background: transparent; color: var(--text-sub); border: none; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.3s;}
+  .nav button { flex: 1; padding: 15px 2px; background: transparent; color: var(--text-sub); border: none; font-size: 13px; font-weight: bold; cursor: pointer; transition: 0.3s;}
   .nav button.active { color: var(--gold-main); border-top: 3px solid var(--gold-main); background: #FFFCF2;}
 </style>
 </head>
@@ -126,7 +126,7 @@
 <div class="app-container">
   <div class="header">
     <h1 class="shiny-text">八星等尊榮權益總覽</h1>
-    <p>專屬家辦 ｜ 尊榮禮遇 ｜ 財管 2.0</p>
+    <p>專屬家辦 ｜ 尊榮禮遇 ｜ 億萬大亨</p>
   </div>
 
   <div id="page-home" class="page active">
@@ -163,7 +163,7 @@
       <!-- 第四格: 目標客群與開發策略 -->
       <div class="section-badge">🎯 目標客群與開發策略</div>
       <div class="quick-grid">
-        <div class="shiny-btn" onclick="quickSearch('目標客戶')">🎯 四大目標客群</div>
+        <div class="shiny-btn" onclick="quickSearch('四大目標客群')">🎯 四大目標客群</div>
       </div>
 
       <!-- 第五格: 家族專屬智庫 -->
@@ -190,14 +190,26 @@
         <div class="shiny-btn" onclick="quickSearch('區別')">⚖️ 保費與保單融資區別</div>
       </div>
 
+      <!-- 第八格: 億萬大亨活動 (NEW) -->
+      <div class="section-badge">🚀 億萬大亨活動專區</div>
+      <div class="quick-grid">
+        <div class="shiny-btn" onclick="quickSearch('客戶特徵')">👥 客戶特徵與Action</div>
+        <div class="shiny-btn" onclick="quickSearch('活動禮遇')">🎁 目的、客群與禮遇</div>
+        <div class="shiny-btn" onclick="quickSearch('注意事項')">⚠️ 活動注意事項</div>
+        <div class="shiny-btn" onclick="quickSearch('財力聲明')">✍️ 財力聲明填寫重點</div>
+        <div class="shiny-btn" onclick="quickSearch('證明文件')">📄 證明文件檢核要項</div>
+      </div>
+
     </div>
 
     <div id="searchResult" style="display:none;"></div>
   </div>
 
+  <!-- 底部導覽列 -->
   <div class="nav">
     <button id="tab-home" class="tab-btn active" onclick="resetHome()">首頁</button>
     <button id="tab-second" class="tab-btn" onclick="quickSearch('10個重點', this)">落地執行10大重點</button>
+    <button id="tab-third" class="tab-btn" onclick="quickSearch('億萬大亨', this)">第三頁：億萬大亨活動</button>
   </div>
 </div>
 
@@ -208,8 +220,8 @@
     document.getElementById('searchResult').style.display = 'none';
     
     // 更新導覽列樣式
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.getElementById('tab-home').classList.add('active');
-    document.getElementById('tab-second').classList.remove('active');
     window.scrollTo(0, 0);
   }
 
@@ -217,25 +229,88 @@
     document.getElementById('searchInput').value = text;
     performSearch();
     
-    // 若為底部按鈕觸發，更新導覽列樣式
-    if (btnElement && btnElement.id === 'tab-second') {
-      document.getElementById('tab-home').classList.remove('active');
-      document.getElementById('tab-second').classList.add('active');
+    // 更新導覽列樣式
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    if (btnElement) {
+      btnElement.classList.add('active');
     } else {
       document.getElementById('tab-home').classList.add('active');
-      document.getElementById('tab-second').classList.remove('active');
     }
+    window.scrollTo(0, 0);
   }
 
   // --- 高階知識庫資料 ---
   const qaDatabase = [
+    // === 第三頁：億萬大亨活動 (NEW) ===
+    {
+      keywords: ["億萬大亨", "客戶特徵", "內低外高", "C客群", "D客群", "Action"],
+      question: "2026億萬大亨活動的「客戶特徵」與前線 Action 為何？",
+      answer: `
+      <span class="tag">億萬大亨</span><span class="tag">客戶特徵</span><br>
+      針對 144 位億萬大亨潛力客戶的特徵分析：<br>
+      1. <b>內低外高：</b>行外資產人均達 1.1億，人均本行資產約 5,128萬。<br>
+      2. <b>資產分布：</b>分A(存投保)、B(存投)、C(存保)、D(存)四類客群。<br><br>
+      <span class="highlight">【前線 Action】：</span><br>
+      請理專特別關注 <b style="color:#D4A300">C、D 客群</b>，盡早為客戶累積投資經驗！`
+    },
+    {
+      keywords: ["億萬大亨", "活動禮遇", "目的", "客群", "任務", "王品"],
+      question: "億萬大亨禮遇的「目的、客群、任務」與專屬獎勵是什麼？",
+      answer: `
+      <span class="tag">億萬大亨</span><span class="tag">活動任務</span><br>
+      活動期間為 2026/4/1~6/30，以保持開發動能持續挖掘億級客戶：<br>
+      1. <span class="highlight">目的：</span>提前梳理挖掘高資產客戶，協助深度 KYC，搭配八星等推廣。<br>
+      2. <span class="highlight">客群：</span>本行有 RM Code 之自然人或法人，且「本行 AUM 未達 1億元」。<br>
+      3. <span class="highlight">任務：</span>提供 AUM≧1億元財力聲明書及佐證資料，並提交經主管簽核之財力證明檢核表。<br><br>
+      🎁 <b>完成任務享：</b><b style="color:#D4A300">王品集團食尚私聚</b> (約當3人美饌，價值 3,000元，限量 50席)。<br>
+      <i>*(同場加碼福利：王品牛排上傳用餐照款待嫩煎鮪魚鮮蝦；夏慕尼分享牽手照款待波士頓龍蝦)*</i>`
+    },
+    {
+      keywords: ["億萬大亨", "注意事項", "規則", "限制"],
+      question: "辦理億萬大亨活動有哪些不可不知的「注意事項」？",
+      answer: `
+      <span class="tag">億萬大亨</span><span class="tag">注意事項</span><br>
+      1. AUM未達1億元資格，以 <b>2025/12/31</b> 為基準。<br>
+      2. 客戶提供之佐證資料須為申請日前 <b>3個月內或最近一期</b>。<br>
+      3. <b>掃描檔 Notes寄送：</b>收件人(分行通路部長官 黃建斌/區總監/ASM)；副本(行銷發展部 曾朝斌/吳仲哲等)。<br>
+      4. <b>正本寄送：</b>財力聲明、檢核表及佐證「正本」內部傳送至 行銷發展部 吳仲哲。<br>
+      5. 限量 50 個名額依 Notes 時間為準；已符合 2025 活動者不可重複參加。<br>
+      6. 食尚私聚以「各區為單位」自行舉辦，會後需提交簽到表。<br>
+      7. 若事後檢核未符資格，得取消禮遇資格。`
+    },
+    {
+      keywords: ["億萬大亨", "財力聲明", "客戶填寫", "聲明書"],
+      question: "億萬大亨「客戶財力聲明書」的客戶填寫重點為何？",
+      answer: `
+      <span class="tag">億萬大亨</span><span class="tag">財力聲明</span><br>
+      引導客戶填寫財力聲明書時，請確認以下重點：<br>
+      1. <span class="highlight">勾選資產類型：</span>請勾選本人所持有之資產(如存款、國內外有價證券、結構型商品、黃金存摺、保險商品或其它)。<br>
+      2. <span class="highlight">淨值計算須知：</span>投資本金扣除質借、金融資產以市場價格扣除質借、投資型保險以保單價值計算等。<br>
+      3. <span class="highlight">客戶親筆簽署：</span>立聲明書人親筆簽名、填寫身分證統一編號，並押上正確日期，聲明內容屬實並同意配合銀行查證。`
+    },
+    {
+      keywords: ["億萬大亨", "證明文件", "財力證明檢核表", "理專填寫"],
+      question: "理專填寫「財力證明檢核表」時，證明文件的應備要項說明有哪些？",
+      answer: `
+      <span class="tag">億萬大亨</span><span class="tag">證明文件檢核</span><br>
+      理專檢核佐證文件時，請依循以下 8 大重點說明：<br>
+      1. 載明客戶戶名、證明機構名稱。<br>
+      2. 外國金融機構文件，英文姓名須與客戶護照相符。<br>
+      3. 文件日期須為 <b>檢核日前 3 個月內或最近一期</b>。<br>
+      4. 外幣換算新臺幣需檢附本行系統查詢畫面(若文件已載約當新臺幣則免)。<br>
+      5. 保險需為「保單現值」對帳單(由保險公司或金融機構出具)。<br>
+      6. 財力證明不包含配偶/未成年子女；聯名帳戶依契約約定屬其部分計入，未約定則均分計算。<br>
+      7. 綜合對帳單若已彙計總資產並載明約當新臺幣，則填列於銀行往來，無需分列各商品。<br>
+      8. <b>如有設質，需揭露已動用質借金額並扣除。</b>`
+    },
+
     // 核心精神
     {
       keywords: ["創世代", "知識網頁", "Family", "Firm", "Fortune"],
       question: "「創世代知識網頁」提供哪些專屬內容？",
       answer: `
       <span class="tag">專屬資訊</span><span class="tag">私密邀請制</span><br>
-      遠銀獨創「創世代知識網頁」（密碼：<b style="color:#D4A300">feibwm</b>），採私密邀請制，定期更新駐站講師內容。三大面向包含：<br>
+      遠銀獨創「創世代知識網頁」（密碼：<b style="color:#D4A300">feibwm</b>），採私密邀請制。三大面向包含：<br>
       1. <span class="highlight">Family (代際傳承)：</span>家族溝通與二代接班觀點。<br>
       2. <span class="highlight">Firm (趨勢洞察)：</span>家族企業結構問題、轉型趨勢與經營戰略。<br>
       3. <span class="highlight">Fortune (品味生活)：</span>結合時尚潮流，提供趨勢與品味內容。`
@@ -254,21 +329,18 @@
       question: "八星等生日禮「AVEDA 蘊活欣生訂製療程」有何特色與優點？",
       answer: `
       <span class="tag">時尚體驗</span><span class="tag">深層紓壓</span><br>
-      AVEDA 為美國環保美妝品牌，療程約 90~120 分鐘，具備以下優點：<br>
-      1. <span class="highlight">客製化療程設計：</span>透過專業檢測儀分析，針對出油、敏感、氣味或細疏髮等特質提供專屬護理。<br>
-      2. <span class="highlight">沙龍專用舒敏配方：</span>富含兩倍獨家花植科技萃取適應原，即刻恢復頭皮柔軟彈性及強化防禦力。<br>
-      3. <span class="highlight">獨家節奏式按摩手法：</span>28 道深度頭皮按摩釋放頭脹緊繃，並加強眉骨穴點紓壓疲勞眼周。<br>
-      非常推薦給壓力大、需要釋放緊繃感的高階主管族群。`
+      療程約 90~120 分鐘，具備以下優點：<br>
+      1. <span class="highlight">客製化療程設計：</span>針對出油、敏感等特質提供專屬護理。<br>
+      2. <span class="highlight">獨家節奏式按摩手法：</span>28 道深度頭皮按摩釋放頭脹緊繃，並加強眉骨穴點紓壓疲勞眼周。`
     },
     {
       keywords: ["生生優動", "VIP優伴服務", "健康體驗", "物理治療", "Youdon"],
       question: "八星等生日禮「生生優動 VIP優伴服務」有何特色與優點？",
       answer: `
       <span class="tag">健康體驗</span><span class="tag">AI結合</span><br>
-      結合頂尖醫療體系與科技，由醫師、物理治療師與運動指導員協作提供：<br>
-      1. <span class="highlight">4週 VIP 優伴服務：</span>提供實體或視訊(二擇一)的看診服務，並加上專屬的文字陪伴。<br>
-      2. <span class="highlight">客製化運動計畫：</span>依據檢測結果量身設計個人化復能運動。<br>
-      3. <span class="highlight">12個月 Youdon APP：</span>專屬智慧物理治療 APP，內含 1500+ 真人示範標準動作與語音引導，將健康管理落實到日常生活中。`
+      結合頂尖醫療體系與科技：<br>
+      1. <span class="highlight">4週 VIP 優伴服務：</span>提供實體或視訊(二擇一)看診，並加專屬文字陪伴。<br>
+      2. <span class="highlight">12個月 Youdon APP：</span>專屬智慧物理治療 APP，內含 1500+ 真人示範，落實健康管理。`
     },
     {
       keywords: ["10個重點", "落地執行", "優勢", "溝通重點", "生日禮二選一"],
@@ -276,16 +348,16 @@
       answer: `
       <span class="tag">行銷亮點</span><span class="tag">客群維繫</span><br>
       理專在向客戶推廣時，可活用以下 10 大亮點：<br>
-      1. <b>「專屬時刻」的尊榮感：</b>捨棄制式贈品，為客戶預留專屬的頂級 Me Time。<br>
-      2. <b>高彈性的轉贈機制：</b>若客戶太忙，兌換券可自由轉贈親友使用，心意不打折。<br>
-      3. <b>長達 90 天寬裕效期：</b>效期長，讓客戶毫無壓力地安排體驗時間。<br>
-      4. <b>創造自然的互動契機：</b>生日前一個月理專將主動聯繫詢問選項，是極佳的客情維繫機會。<br>
-      5. <b>量身打造的精準服務：</b>AVEDA 頭皮檢測或生生優動 AI 評估，皆是1對1客製化。<br>
-      6. <b>針對痛點的深層紓壓：</b>AVEDA 的 28 道按摩能直擊高階主管的高壓與用眼過度痛點。<br>
-      7. <b>突破時空的健康管理：</b>生生優動可選「視訊看診」，無畏距離也能照顧健康。<br>
-      8. <b>長效期的健康守護：</b>長達 4 週的專業優伴與 12 個月的 APP 使用權，效益長遠。<br>
-      9. <b>全台綿密的據點支援：</b>AVEDA 13間門市與生生優動全台數十家院所，就近方便體驗。<br>
-      10. <b>無縫接軌的尊榮流程：</b>理專確認後寄發數位/實體憑證，條碼核銷流程流暢專業。`
+      1. <b>「專屬時刻」的尊榮感：</b>捨棄制式贈品，預留頂級 Me Time。<br>
+      2. <b>高彈性的轉贈機制：</b>兌換券可自由轉贈親友使用。<br>
+      3. <b>長達 90 天寬裕效期：</b>無壓力安排體驗時間。<br>
+      4. <b>創造自然的互動契機：</b>生日前一個月主動聯繫，客情維繫佳。<br>
+      5. <b>量身打造的精準服務：</b>1對1客製化評估。<br>
+      6. <b>針對痛點的深層紓壓：</b>直擊高階主管的高壓與疲勞。<br>
+      7. <b>突破時空的健康管理：</b>可選「視訊看診」無畏距離。<br>
+      8. <b>長效期的健康守護：</b>4週專業優伴與12個月APP。<br>
+      9. <b>全台綿密的據點支援：</b>全台多點就近體驗。<br>
+      10. <b>無縫接軌的尊榮流程：</b>條碼核銷流程流暢專業。`
     },
 
     // 核心資格
@@ -294,23 +366,21 @@
       question: "財管2.0 (高資產客戶) 的准入門檻與評估標準？",
       answer: `
       <span class="tag">資格認定</span><br>
-      需具備 AUM ≧ 1億元之財力聲明與佐證。需完成專業知識問卷(達8分以上)，並具備交易經驗(申購10次/持有6個月/持有至到期等)。本行會每年定期評估，每兩年辦理一次覆審。`
+      需具備 AUM ≧ 1億元之財力聲明與佐證。需完成專業知識問卷(達8分以上)，並具備交易經驗。本行每年定期評估，每兩年辦理一次覆審。`
     },
     {
       keywords: ["典藏套組", "行李掛牌", "英文名字", "開發", "輔助"],
       question: "理專如何使用「典藏套組」輔助開發八星等客戶？",
       answer: `
       <span class="tag">開發工具</span><span class="tag">客製化互動</span><br>
-      理專在使用「典藏套組」時，可依循以下策略：<br>
-      1. <span class="highlight">建立尊榮關係的起點：</span>理專應先熟悉 DEMO 套組，作為說明八星等權益的輔助工具。<br>
-      2. <span class="highlight">預告客製化禮遇：</span>向客戶展示並預告後續將為其打造「客製化的正式金屬行李掛牌」。<br>
-      3. <span class="highlight">藉機取得客製資訊：</span>請客戶提供專屬的「英文名字」，藉此自然拉近距離並展現客製化的用心。<br>
-      4. <span class="highlight">後續統籌與覆核：</span>由區主管 (ASM) 協助統籌與覆核印製姓名，確保作業無瑕。`
+      1. <span class="highlight">建立尊榮關係的起點：</span>作為說明八星等權益的輔助工具。<br>
+      2. <span class="highlight">預告客製化禮遇：</span>預告後續為其打造「金屬行李掛牌」。<br>
+      3. <span class="highlight">藉機取得客製資訊：</span>請客戶提供專屬「英文名字」拉近距離。`
     },
 
     // 目標客群與開發策略
     {
-      keywords: ["目標客戶", "四大目標客群", "股權集中", "多屋族"],
+      keywords: ["四大目標客群", "目標客戶", "股權集中", "多屋族"],
       question: "高資產業務的四大核心目標客戶 (客群畫像) 有哪些？",
       answer: `
       <span class="tag">目標客群</span><br>
@@ -343,10 +413,10 @@
       question: "都更與地政全流程服務包含哪些價值與諮詢？",
       answer: `
       <span class="tag">地政業務</span><span class="tag">不動產活化</span><br>
-      地政業務的核心在於強化高資產客戶對 **「不動產活化與傳承」** 的動機。<br>
-      針對 **都更（都市更新）** 的全流程專屬諮詢包含：<br>
-      1. <span class="highlight">都更選屋諮詢：</span>提供參與都更過程中的選屋疑問專業解答與建議。<br>
-      2. <span class="highlight">流程及稅務諮詢：</span>涵蓋都更的整體作業流程與涉及的相關不動產稅務問題。<br>
+      核心在於強化高資產客戶對 **「不動產活化與傳承」** 的動機。<br>
+      針對 **都更（都市更新）** 的專屬諮詢包含：<br>
+      1. 都更選屋諮詢。<br>
+      2. 流程及稅務諮詢。<br>
       3. 綜合產權登記與進度諮詢。`
     },
 
@@ -364,7 +434,7 @@
       answer: `
       <span class="tag">快捷通道</span><br>
       <ul>
-        <li><span class="highlight">辦卡優先：</span>進件、徵審、製卡各僅需 1 天，整體 3~4 天可送達。必須於申請書及信封標註 <b style="color:#D4A300">「8星等專案」</b>，並通知個金作業處窗口。</li>
+        <li><span class="highlight">辦卡優先：</span>整體 3~4 天可送達。必須於申請書及信封標註 <b style="color:#D4A300">「8星等專案」</b>，並通知個金作業處窗口。</li>
         <li><span class="highlight">客服優先：</span>撥打專線，輸入 ID 後系統自動辨識並轉接「尊榮貴賓服務專員」。</li>
       </ul>`
     },
@@ -374,7 +444,7 @@
       answer: `
       <span class="tag">回饋加碼</span><br>
       <ul>
-        <li><span class="highlight">迎新與續期回饋：</span>90天內(續卡為年度內)刷滿 50萬/80萬/150萬，分別回饋刷卡金 <b style="color:#D4A300">8仟/1.2萬/2.4萬元</b>。核卡後 60天內刷 1萬元，加碼贈「遠東 SOGO 禮券 2,000元」。</li>
+        <li><span class="highlight">迎新回饋：</span>90天內刷滿 50萬/80萬/150萬，分別回饋刷卡金 <b style="color:#D4A300">8仟/1.2萬/2.4萬元</b>。</li>
         <li><span class="highlight">用卡小技巧：</span>辦卡時正確填寫「實際年收入」或「AUM」並標示「8星等專案」；出國或大筆消費前致電客服系統註記。</li>
       </ul>`
     },
@@ -385,10 +455,10 @@
       question: "亞資專區保險商品的核心重點有哪些？",
       answer: `
       <span class="tag">保代部</span><br>
-      亞資專區保險商品以高資產客戶為目標客群，重點商品包含：<br>
-      1. <b>不受死亡給付最低比率規範：</b>突破傳統限制，適用資產傳承與保障規劃。<br>
-      2. <b>外幣收付多次給付型健康保險：</b>支援多幣別，滿足國際化客戶跨國資產與健康需求。<br>
-      3. <b>保費融資與保單融資：</b>以高資產契約為擔保，創造資產槓桿效應。`
+      重點商品包含：<br>
+      1. <b>不受死亡給付最低比率規範：</b>適用資產傳承與保障規劃。<br>
+      2. <b>外幣收付多次給付型健康保險：</b>支援多幣別，滿足跨國資產與健康需求。<br>
+      3. <b>保費融資與保單融資：</b>創造資產槓桿效應。`
     },
     {
       keywords: ["為保費融資量身打造", "量身打造", "躉繳", "首日解約金"],
@@ -410,7 +480,7 @@
       <table>
         <tr><th>比較維度</th><th>保費融資</th><th>保單融資</th></tr>
         <tr><td>承作商品/擔保品</td><td>限投保指定的「新契約」保單</td><td>限定「既有保單」</td></tr>
-        <tr><td>資金用途</td><td>僅限支付保費，槓桿購買大額保單</td><td>用途不限，活化既有資產</td></tr>
+        <tr><td>資金用途</td><td>僅限支付保費</td><td>用途不限，活化既有資產</td></tr>
       </table>`
     }
   ];
