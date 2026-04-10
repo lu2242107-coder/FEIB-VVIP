@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -119,13 +120,60 @@
   }
   .nav button { flex: 1; padding: 15px 2px; background: transparent; color: var(--text-sub); border: none; font-size: 13px; font-weight: bold; cursor: pointer; transition: 0.3s;}
   .nav button.active { color: var(--gold-main); border-top: 3px solid var(--gold-main); background: #FFFCF2;}
+
+  /* 登入與管理員彈出視窗設計 */
+  .modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); z-index: 1000; display: none;
+    justify-content: center; align-items: center; backdrop-filter: blur(5px);
+  }
+  .modal-box {
+    background: #FFF; width: 85%; max-width: 320px; border-radius: 16px;
+    padding: 30px 20px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    border-top: 5px solid var(--gold-main);
+  }
+  .modal-box h2 { margin-top: 0; color: var(--text-main); font-size: 20px; }
+  .modal-box input {
+    width: 90%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid #CCC;
+    font-size: 15px; text-align: center;
+  }
+  .modal-box button {
+    background: var(--gold-main); color: #FFF; border: none; padding: 12px 30px;
+    border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%;
+  }
+  
+  /* 後台紀錄表格專用 */
+  .log-container { max-height: 300px; overflow-y: auto; margin-top: 15px; text-align: left;}
+  .close-btn { background: #CCC !important; margin-top: 10px;}
+  .clear-btn { background: #D9534F !important; margin-top: 10px;}
 </style>
 </head>
 <body>
 
+<!-- 強制登入視窗 -->
+<div id="loginModal" class="modal-overlay" style="display:flex;">
+  <div class="modal-box">
+    <h2>🔐 智庫系統登入</h2>
+    <p style="font-size:13px; color:#666; margin-bottom: 5px;">請輸入您的真實姓名或 RM Code</p>
+    <input type="text" id="usernameInput" placeholder="例如：王小明 / RM1234">
+    <button onclick="performLogin()">進入系統</button>
+  </div>
+</div>
+
+<!-- 管理員後台視窗 -->
+<div id="adminModal" class="modal-overlay">
+  <div class="modal-box" style="max-width: 400px; width: 95%;">
+    <h2>📋 系統登入紀錄控管</h2>
+    <p style="font-size:13px; color:#666; margin:0;">近期的存取時間與人員清單</p>
+    <div id="logContent" class="log-container"></div>
+    <button class="clear-btn" onclick="clearLogs()">清除所有紀錄</button>
+    <button class="close-btn" onclick="closeAdmin()">關閉後台</button>
+  </div>
+</div>
+
 <div class="app-container">
   <div class="header">
-    <h1 class="shiny-text">八星等尊榮權益總覽</h1>
+    <h1 class="shiny-text">八星等尊榮權益總覽 <span onclick="showAdminLogs()" style="cursor:pointer; font-size:16px; filter: grayscale(100%);">⚙️</span></h1>
     <p>專屬家辦 ｜ 尊榮禮遇 ｜ 億萬大亨</p>
   </div>
 
@@ -154,10 +202,12 @@
       </div>
 
       <!-- 第三格: 核心資格 -->
-      <div class="section-badge">💎 核心資格</div>
+      <div class="section-badge">💎 核心資格與合規</div>
       <div class="quick-grid">
         <div class="shiny-btn" onclick="quickSearch('財管2.0')">👑 財管2.0門檻</div>
+        <div class="shiny-btn" onclick="quickSearch('交易經驗')">📊 交易經驗標準</div>
         <div class="shiny-btn" onclick="quickSearch('典藏套組')">🧳 典藏套組開發</div>
+        <div class="shiny-btn" onclick="quickSearch('覆審')">⚠️ 覆審未配合處置</div>
       </div>
       
       <!-- 第四格: 目標客群與開發策略 -->
@@ -214,12 +264,64 @@
 </div>
 
 <script>
+  // --- 登入與紀錄控管邏輯 ---
+  function performLogin() {
+    const username = document.getElementById('usernameInput').value.trim();
+    if(!username) {
+      alert('為了控管權限，請務必輸入您的姓名或編號！');
+      return;
+    }
+    
+    // 取得當前時間
+    const now = new Date();
+    const loginTime = now.toLocaleString('zh-TW', { hour12: false });
+    
+    // 寫入本地端記憶體 LocalStorage
+    const logEntry = { user: username, time: loginTime };
+    let logs = JSON.parse(localStorage.getItem('RoyalVIP_Logs')) || [];
+    logs.push(logEntry);
+    localStorage.setItem('RoyalVIP_Logs', JSON.stringify(logs));
+    
+    // 關閉登入視窗
+    document.getElementById('loginModal').style.display = 'none';
+  }
+
+  function showAdminLogs() {
+    let logs = JSON.parse(localStorage.getItem('RoyalVIP_Logs')) || [];
+    let html = '<table><tr><th style="width:45%">登入者/RM</th><th>登入時間</th></tr>';
+    
+    if (logs.length === 0) {
+      html += '<tr><td colspan="2" style="text-align:center;">尚無任何紀錄</td></tr>';
+    } else {
+      // 反轉陣列，讓最新的排在最上面
+      for(let i = logs.length - 1; i >= 0; i--) {
+        html += `<tr><td>${logs[i].user}</td><td>${logs[i].time}</td></tr>`;
+      }
+    }
+    html += '</table>';
+    
+    document.getElementById('logContent').innerHTML = html;
+    document.getElementById('adminModal').style.display = 'flex';
+  }
+
+  function closeAdmin() {
+    document.getElementById('adminModal').style.display = 'none';
+  }
+
+  function clearLogs() {
+    if(confirm('⚠️ 警告：您確定要清除所有存取紀錄嗎？此動作無法復原。')) {
+      localStorage.removeItem('RoyalVIP_Logs');
+      showAdminLogs(); // 重新整理表格
+    }
+  }
+
+
+  // --- 導覽與搜尋系統邏輯 ---
   function resetHome() {
     document.getElementById('searchInput').value = '';
     document.getElementById('quickNav').style.display = 'block';
     document.getElementById('searchResult').style.display = 'none';
     
-    // 更新導覽列樣式
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.getElementById('tab-home').classList.add('active');
     window.scrollTo(0, 0);
@@ -229,7 +331,6 @@
     document.getElementById('searchInput').value = text;
     performSearch();
     
-    // 更新導覽列樣式
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     if (btnElement) {
       btnElement.classList.add('active');
@@ -298,22 +399,43 @@
       10. <b>無縫接軌的尊榮流程：</b>條碼核銷流程流暢專業。`
     },
 
-    // 核心資格
+    // 核心資格與合規
     {
-      keywords: ["財管2.0", "資格", "准入", "門檻"],
+      keywords: ["財管2.0", "資格", "准入", "門檻", "高資產"],
       question: "財管2.0 (高資產客戶) 的准入門檻與評估標準？",
       answer: `
       <span class="tag">資格認定</span><br>
-      需具備 AUM ≧ 1億元之財力聲明與佐證。需完成專業知識問卷(達8分以上)，並具備交易經驗。本行每年定期評估，每兩年辦理一次覆審。`
+      需具備 AUM ≧ 1億元之財力聲明與佐證。需完成專業知識問卷(達8分以上)，並具備相關交易經驗。本行每年定期評估，每兩年辦理一次覆審。`
     },
     {
-      keywords: ["典藏套組", "行李掛牌", "英文名字", "開發", "輔助"],
-      question: "理專如何使用「典藏套組」輔助開發八星等客戶？",
+      keywords: ["交易經驗", "標準", "結構型商品", "衍生性"],
+      question: "財管2.0 (高資產客戶) 的「交易經驗」認定標準有哪些？",
+      answer: `
+      <span class="tag">資格認定</span><span class="tag">合規標準</span><br>
+      必須符合下列 3 項標準中擇 1 認定：<br>
+      1. <span class="highlight">近2年內</span>申購或轉換金融商品之交易次數達 10次(含)以上，且有 2種以上不同商品。<br>
+      2. <span class="highlight">近2年內</span>持有 2筆境內、外結構型商品或衍生性金融商品達 6個月以上。<br>
+      3. <span class="highlight">近2年內</span>有 2筆境內、外結構型商品或衍生性金融商品持有至到期之經驗。`
+    },
+    {
+      keywords: ["覆審", "定審", "未配合審查", "暫停業務"],
+      question: "八星等定審覆審作業中，若客戶未配合審查會如何？",
+      answer: `
+      <span class="tag">定審覆審</span><span class="tag">風險控管</span><br>
+      若客戶未配合每兩年的覆審（包括未提供文件或無法聯繫等情形），將面臨以下處置：<br>
+      1. <span class="highlight">暫停業務：</span>將暫停該客戶之相關業務。<br>
+      2. <span class="highlight">留存備查：</span>須紀錄情況留存備查。<br>
+      3. <span class="highlight">重新審查：</span>在恢復業務前，需再次完成審查作業始可恢復。`
+    },
+    {
+      keywords: ["典藏套組", "行李掛牌", "英文名字", "開發", "輔助", "引導"],
+      question: "理專如何運用「典藏套組」介紹權益，並引導客戶提供掛牌資訊？",
       answer: `
       <span class="tag">開發工具</span><span class="tag">客製化互動</span><br>
-      1. <span class="highlight">建立尊榮關係的起點：</span>作為說明八星等權益的輔助工具。<br>
-      2. <span class="highlight">預告客製化禮遇：</span>預告後續為其打造「金屬行李掛牌」。<br>
-      3. <span class="highlight">藉機取得客製資訊：</span>請客戶提供專屬「英文名字」拉近距離。`
+      1. <span class="highlight">輔助說明：</span>理專應先熟悉內容物設計與情境，在互動時作為預告與說明的輔助工具。<br>
+      2. <span class="highlight">預告客製化禮遇：</span>除了展示套組，需主動向客戶預告後續將再為其打造「客製化的正式金屬行李掛牌」。<br>
+      3. <span class="highlight">取得掛牌資訊：</span>順勢向客戶說明印製掛牌的需要，自然引導客戶提供專屬的「英文名字」。<br>
+      4. <span class="highlight">統籌覆核：</span>取得資訊後，請各區業務主管(ASM)協助統籌覆核轄下理專回覆之印製姓名，並至指定路徑填寫姓名登記表。`
     },
 
     // 目標客群與開發策略
