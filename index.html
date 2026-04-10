@@ -9,13 +9,13 @@
      高雅鵝黃華麗 UI ＋ 閃亮動態光澤設計
      ========================================= */
   :root {
-    --primary-bg: #FFFCF2;      /* 溫暖象牙/極淺鵝黃底色 */
-    --card-bg: #FFFFFF;         /* 純白卡片 */
-    --gold-main: #D4A300;       /* 皇家琥珀金/深鵝黃 */
-    --gold-light: #FFDF66;      /* 明亮鵝黃 */
-    --text-main: #4A3F2A;       /* 優雅深棕灰文字 */
-    --text-sub: #8C7B65;        /* 淺褐灰文字 */
-    --accent-color: #FFF9D6;    /* 鵝黃點綴色 */
+    --primary-bg: #FFFCF2;      
+    --card-bg: #FFFFFF;         
+    --gold-main: #D4A300;       
+    --gold-light: #FFDF66;      
+    --text-main: #4A3F2A;       
+    --text-sub: #8C7B65;        
+    --accent-color: #FFF9D6;    
     --shadow: 0 10px 30px rgba(212, 163, 0, 0.1); 
   }
   
@@ -31,7 +31,6 @@
     box-shadow: 0 0 40px rgba(0,0,0,0.05); overflow-x: hidden;
   }
 
-  /* 頂部 Header 設計 */
   .header {
     background: linear-gradient(135deg, #FFFFFF 0%, var(--accent-color) 100%);
     border-bottom: 3px solid var(--gold-main);
@@ -50,7 +49,6 @@
   @keyframes shineText { to { background-position: 200% center; } }
   .header p { margin: 8px 0 0 0; color: var(--text-sub); font-size: 13px; font-weight: bold; letter-spacing: 1px;}
   
-  /* 使用者選單列 */
   .user-bar {
     display: flex; justify-content: space-between; align-items: center;
     background: var(--gold-main); color: #FFF; padding: 6px 15px; font-size: 12px; font-weight: bold;
@@ -66,7 +64,6 @@
   .page.active { display: block; animation: fadeUp 0.5s ease-out; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* 搜尋列 */
   .search-box { 
     display: flex; margin-bottom: 25px; 
     box-shadow: 0 5px 15px rgba(212, 163, 0, 0.08); border-radius: 12px; background: #fff;
@@ -90,7 +87,6 @@
   
   .quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 30px; }
   
-  /* 閃耀按鈕設計 */
   .shiny-btn {
     background: var(--card-bg); border: 1px solid #F0E6D2; padding: 15px 8px; border-radius: 12px;
     text-align: center; color: var(--text-main); font-size: 13px; font-weight: bold; cursor: pointer;
@@ -104,7 +100,6 @@
   }
   .shiny-btn:active, .shiny-btn:hover { border-color: var(--gold-main); background: var(--accent-color); color: var(--gold-main); transform: translateY(-2px);}
 
-  /* 卡片設計 */
   .card {
     background: var(--card-bg); border-radius: 16px; padding: 22px; margin-bottom: 20px;
     border: 1px solid #F0E6D2; box-shadow: var(--shadow); border-top: 4px solid var(--gold-main);
@@ -124,13 +119,11 @@
   .qa-type-care { color: #dc3545; font-weight: 900; font-size: 13px; }
   .qa-type-ask { color: #007bff; font-weight: 900; font-size: 13px; }
 
-  /* 優雅表格 */
   table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 12px; border-radius: 6px; overflow: hidden; border: 1px solid #F0E6D2;}
   th, td { border: 1px solid #F0E6D2; padding: 10px 8px; text-align: left; }
   th { background-color: var(--gold-main); color: #FFF; font-weight: bold; }
   tr:nth-child(even) { background-color: #FFFAF0; }
 
-  /* 底部導覽列 */
   .nav { 
     display: flex; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); position: fixed; bottom: 0; 
     width: 100%; max-width: 480px; border-top: 1px solid #F0E6D2; z-index: 100;
@@ -138,7 +131,6 @@
   .nav button { flex: 1; padding: 15px 2px; background: transparent; color: var(--text-sub); border: none; font-size: 13px; font-weight: bold; cursor: pointer; transition: 0.3s;}
   .nav button.active { color: var(--gold-main); border-top: 3px solid var(--gold-main); background: #FFFCF2;}
 
-  /* 彈出視窗設計 */
   .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.8); z-index: 1000; display: none;
@@ -159,7 +151,6 @@
     border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; width: 85%; margin-top: 10px;
   }
   
-  /* 後台紀錄表格專用 */
   .log-container { max-height: 300px; overflow-y: auto; margin-top: 15px; text-align: left;}
   .close-btn { background: #CCC !important; margin-top: 10px; color: #333 !important;}
   .clear-btn { background: #D9534F !important; margin-top: 10px;}
@@ -171,7 +162,10 @@
 <div id="loginModal" class="modal-overlay" style="display:flex;">
   <div class="modal-box">
     <h2>🔐 智庫系統登入</h2>
-    <p style="font-size:12px; color:#666; margin-bottom: 5px;">請輸入您的帳號與密碼<br>(初次登入：密碼同帳號，即自動註冊)</p>
+    <p style="font-size:12px; color:#666; margin-bottom: 5px;">
+      主帳戶：Tony (密碼：661001)<br>
+      一般使用者：初次登入時，密碼輸入與帳號相同即可自動開通
+    </p>
     <input type="text" id="usernameInput" placeholder="姓名或行員編號 (RM Code)">
     <input type="password" id="passwordInput" placeholder="請輸入密碼">
     <button onclick="performLogin()">登入系統</button>
@@ -183,7 +177,7 @@
   <div class="modal-box">
     <h2>🔑 變更密碼</h2>
     <input type="password" id="oldPwd" placeholder="請輸入原密碼">
-    <input type="password" id="newPwd" placeholder="請設定新密碼">
+    <input type="password" id="newPwd" placeholder="請設定新密碼 (至少4碼)">
     <input type="password" id="newPwdConfirm" placeholder="再次確認新密碼">
     <button onclick="updatePassword()">確認變更</button>
     <button class="close-btn" onclick="closePwdModal()">取消</button>
@@ -226,7 +220,7 @@
     
     <div id="quickNav">
 
-      <!-- 💡 全新加入：嚴謹客戶犀利提問區 -->
+      <!-- 💡 嚴謹客戶犀利提問區 -->
       <div class="section-badge" style="background: linear-gradient(90deg, #E65C00, #F9D423); color:#FFF;">🧐 嚴謹客戶犀利提問區</div>
       <div class="quick-grid">
         <div class="shiny-btn" onclick="quickSearch('嚴謹合規')">⚖️ 資格與合規風險</div>
@@ -310,49 +304,83 @@
 </div>
 
 <script>
-  // --- 登入、權限與時間紀錄控管邏輯 ---
+  // ==========================================
+  // 【升級版】 登入、權限與時間紀錄控管邏輯
+  // ==========================================
   let currentUser = "";
   let currentSessionIndex = -1;
   let sessionTimer = null;
 
-  function initDB() {
-    let users = JSON.parse(localStorage.getItem('RoyalVIP_Users'));
-    if (!users) {
-      users = { 'Tony': '661001' };
-      localStorage.setItem('RoyalVIP_Users', JSON.stringify(users));
-    } else if (!users['Tony']) {
-      users['Tony'] = '661001';
-      localStorage.setItem('RoyalVIP_Users', JSON.stringify(users));
-    }
+  // 強制獲取與初始化本地資料庫
+  function getDB() {
+      let db = localStorage.getItem('RoyalVIP_Users');
+      if (!db) {
+          return { 'Tony': '661001' };
+      }
+      try {
+          let parsed = JSON.parse(db);
+          // 確保 Tony 主帳戶始終存在於資料庫中
+          if (!parsed['Tony']) {
+              parsed['Tony'] = '661001';
+          }
+          return parsed;
+      } catch(e) {
+          // 若資料庫格式損壞則重置
+          return { 'Tony': '661001' };
+      }
   }
 
   function performLogin() {
-    const user = document.getElementById('usernameInput').value.trim();
+    let user = document.getElementById('usernameInput').value.trim();
     const pass = document.getElementById('passwordInput').value.trim();
     
     if(!user || !pass) {
       alert('請完整輸入帳號與密碼！'); return;
     }
     
-    let users = JSON.parse(localStorage.getItem('RoyalVIP_Users'));
+    // 取得資料庫最新狀態
+    let users = getDB();
     
-    if (!users[user]) {
-      if (pass !== user) {
-        alert('初次登入時，密碼預設需與帳號相同以進行綁定註冊！'); return;
-      }
-      users[user] = pass;
-      localStorage.setItem('RoyalVIP_Users', JSON.stringify(users));
-      alert('帳號自動開通成功！');
+    // 驗證是否為主帳戶 Tony (不分大小寫)
+    let isTony = (user.toLowerCase() === 'tony');
+
+    if (isTony) {
+        user = 'Tony'; // 標準化為首字母大寫的 Tony
+        // 若輸入的密碼不是預設密碼 661001，且不等於 Tony 修改後的新密碼
+        if (pass !== '661001' && users['Tony'] !== pass) {
+            alert('管理員密碼錯誤，請重新輸入！'); return;
+        }
+        // 如果 Tony 第一次登入或使用了預設密碼 661001，保證資料庫內為 661001
+        if (pass === '661001') {
+            users['Tony'] = '661001'; 
+        }
     } else {
-      if (users[user] !== pass) {
-        alert('密碼錯誤，請重新輸入！'); return;
-      }
+        // 一般使用者邏輯
+        if (!users[user]) {
+          // 初次登入且密碼不等於帳號名稱 -> 阻擋
+          if (pass !== user) {
+            alert('【帳號自動註冊機制】\n首次登入時，密碼請輸入與帳號【完全相同】的字串！\n(例如：帳號輸入您的名字，密碼也請輸入您的名字)'); 
+            return;
+          }
+          // 初次登入且密碼等於帳號 -> 自動註冊成功
+          users[user] = pass;
+          alert('帳號自動開通註冊成功！');
+        } else {
+          // 非初次登入 -> 驗證密碼
+          if (users[user] !== pass) {
+            alert('密碼錯誤，請重新輸入！'); return;
+          }
+        }
     }
+    
+    // 將最新狀態寫回資料庫
+    localStorage.setItem('RoyalVIP_Users', JSON.stringify(users));
     
     currentUser = user;
     document.getElementById('welcomeMsg').innerText = `歡迎, ${user}`;
     
-    if (user === 'Tony') {
+    // 開啟管理員後台權限
+    if (isTony) {
       document.getElementById('adminBtn').style.display = 'inline-block';
     } else {
       document.getElementById('adminBtn').style.display = 'none';
@@ -362,6 +390,30 @@
     document.getElementById('loginModal').style.display = 'none';
     document.getElementById('usernameInput').value = '';
     document.getElementById('passwordInput').value = '';
+  }
+
+  function updatePassword() {
+    const oldP = document.getElementById('oldPwd').value.trim();
+    const newP = document.getElementById('newPwd').value.trim();
+    const confP = document.getElementById('newPwdConfirm').value.trim();
+    let users = getDB(); // 取得最新 DB
+    
+    // 驗證舊密碼 (若 Tony 用 661001 登入，允許使用 661001 變更)
+    let isOldPassCorrect = false;
+    if (currentUser === 'Tony') {
+        if (oldP === '661001' || oldP === users['Tony']) isOldPassCorrect = true;
+    } else {
+        if (oldP === users[currentUser]) isOldPassCorrect = true;
+    }
+
+    if (!isOldPassCorrect) { alert('原密碼錯誤！'); return; }
+    if (newP === "" || newP.length < 4) { alert('新密碼長度至少需 4 碼！'); return; }
+    if (newP !== confP) { alert('兩次輸入的新密碼不一致！'); return; }
+    
+    users[currentUser] = newP;
+    localStorage.setItem('RoyalVIP_Users', JSON.stringify(users));
+    alert('密碼變更成功！下回請使用新密碼登入。');
+    closePwdModal();
   }
 
   function startSessionLog(user) {
@@ -401,25 +453,7 @@
     document.getElementById('pwdModal').style.display = 'flex';
   }
 
-  function closePwdModal() {
-    document.getElementById('pwdModal').style.display = 'none';
-  }
-
-  function updatePassword() {
-    const oldP = document.getElementById('oldPwd').value.trim();
-    const newP = document.getElementById('newPwd').value.trim();
-    const confP = document.getElementById('newPwdConfirm').value.trim();
-    let users = JSON.parse(localStorage.getItem('RoyalVIP_Users'));
-    
-    if (users[currentUser] !== oldP) { alert('原密碼錯誤！'); return; }
-    if (newP === "" || newP.length < 4) { alert('新密碼長度至少需 4 碼！'); return; }
-    if (newP !== confP) { alert('兩次輸入的新密碼不一致！'); return; }
-    
-    users[currentUser] = newP;
-    localStorage.setItem('RoyalVIP_Users', JSON.stringify(users));
-    alert('密碼變更成功！下回請使用新密碼登入。');
-    closePwdModal();
-  }
+  function closePwdModal() { document.getElementById('pwdModal').style.display = 'none'; }
 
   function formatDuration(sec) {
     if (!sec) return "剛登入";
@@ -480,7 +514,7 @@
   // --- 高階知識庫資料 (新增提問區50項 + 完整20項模組) ---
   const qaDatabase = [
     // ==========================================
-    // 💡 全新擴充：嚴謹客戶 50 大犀利提問區
+    // 💡 嚴謹客戶 50 大犀利提問區
     // ==========================================
     {
       keywords: ["嚴謹合規", "嚴謹客戶", "犀利提問", "資格認定", "合規風險", "AUM", "身分審查", "最想發問", "最在意", "最有興趣", "計算標準", "結算", "定審", "覆審", "短期市場波動", "拔除資格", "交易經驗", "衍生性商品", "無法聯繫", "暫停業務", "財力聲明書", "個資保護"],
@@ -536,7 +570,7 @@
       question: "🧐 嚴謹客戶提問：慈善信託與資金控制",
       answer: `
         <div class="qa-box"><span class="qa-type-interest">💡 最有興趣：</span> 遠銀慈善信託屬於「完全自益信託」，我依然握有資產的實質控制權。</div>
-        <div class="qa-box"><span class="qa-type-care">⚠️ 最在意：</span> 「返還信託財產」的機制。如果我未來家族企業需要龐大現金救急，我申請將慈善信託解約並取回本金，最快需要幾個工作天？</div>
+        <div class="qa-box"><span class="qa-type-care">⚠️ 最在意：</span> 「返還信託財產」的機制。如果我未來家族企業需要龐大現金救急，我申請將慈善信託解解約並取回本金，最快需要幾個工作天？</div>
         <div class="qa-box"><span class="qa-type-ask">❓ 最想發問：</span> 慈善信託的門檻只要100萬新台幣，但每年的「信託管理費」是怎麼收取的？會不會本金太小導致被管理費吃掉？</div>
         <div class="qa-box"><span class="qa-type-interest">💡 最有興趣：</span> 可以「事前指定特定之慈善機構」（如江賢二藝術園區、嚴長壽的均一學校等）作為孳息捐贈對象，確保資金去向符合我的理念。</div>
         <div class="qa-box"><span class="qa-type-care">⚠️ 最在意：</span> 捐助效益的追蹤。銀行或受贈機構是否會每年提供正式的「財務運用稽核報告」供我審視？</div>
@@ -578,7 +612,6 @@
     // ==========================================
     // 原有 20 大模組內容 (保持不變)
     // ==========================================
-    // 1. 實戰銷售與話術
     {
       keywords: ["破冰話術", "亞灣", "3W", "銷售話術", "Wealth"],
       question: "破冰與銷售話術：如何切入亞灣專區與 3W 核心精神？",
@@ -638,8 +671,6 @@
          - <b>Firm (趨勢洞察)：</b>企業轉型與創新戰略。<br>
          - <b>Fortune (品味生活)：</b>頂級休閒與藝術收藏。`
     },
-
-    // 2. 作業流程與申請捷徑
     {
       keywords: ["財管2.0", "資格檢核", "高資產", "AUM", "交易經驗"],
       question: "高資產客戶 (財管2.0) 資格數位檢核清單？",
@@ -693,8 +724,6 @@
       📂 <b>【行李掛牌姓名登記表】路徑：</b><br>
       <code>\\\\10.49.138.130\\個人金融事業群\\個金公告區\\個金公告\\02.專案區(有期效性)\\20260102【八星等禮遇手冊名單】</code> (窗口：行銷發展部 傅秋美)`
     },
-
-    // 3. 專屬禮遇與活動控管
     {
       keywords: ["生日控管", "生日禮", "預約", "時程"],
       question: "生日禮二選一預約進度控管表與時程？",
@@ -750,8 +779,6 @@
       - 音樂盛宴與深度旅遊<br>
       理專可提早鎖定合適客戶，利用此稀缺資源創造強烈尊榮記憶點。`
     },
-
-    // 4. 售後服務與客戶維繫
     {
       keywords: ["手續費", "交易手續費", "跨提", "跨轉", "單筆基金"],
       question: "八星等跨提/跨轉與手續費優惠清單？",
@@ -804,8 +831,6 @@
       9. <b>全台綿密的據點支援：</b>全台多點就近體驗。<br>
       10. <b>無縫接軌的尊榮流程：</b>條碼核銷流程流暢專業。`
     },
-
-    // 5. 家族專屬智庫
     {
       keywords: ["四大面向", "家辦", "家族辦公室", "智庫"],
       question: "家族辦公室專屬智庫的四大核心服務面向為何？",
@@ -843,8 +868,6 @@
       2. <span class="highlight">預告客製化禮遇：</span>除了展示套組，需主動向客戶預告後續將再為其打造「客製化的正式金屬行李掛牌」。<br>
       3. <span class="highlight">取得掛牌資訊：</span>順勢向客戶說明印製掛牌的需要，自然引導客戶提供專屬的「英文名字」。`
     },
-
-    // 6. 億萬大亨活動
     {
       keywords: ["億萬大亨", "客戶特徵", "內低外高", "C客群", "D客群", "Action"],
       question: "2026億萬大亨活動的「客戶特徵」與前線 Action 為何？",
@@ -944,9 +967,9 @@
     }
   }
 
-  // 初始化執行
+  // 強制初始化資料庫
   window.onload = function() {
-    initDB();
+    getDB();
   };
 </script>
 
