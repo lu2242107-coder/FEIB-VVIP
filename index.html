@@ -31,11 +31,11 @@
     box-shadow: 0 0 40px rgba(0,0,0,0.05); overflow-x: hidden;
   }
 
-  /* 頂部 Header 閃耀字體 */
+  /* 頂部 Header 設計 */
   .header {
     background: linear-gradient(135deg, #FFFFFF 0%, var(--accent-color) 100%);
     border-bottom: 3px solid var(--gold-main);
-    padding: 35px 20px 20px; text-align: center; position: relative;
+    padding: 30px 20px 20px; text-align: center; position: relative;
     overflow: hidden;
   }
   .shiny-text {
@@ -49,6 +49,18 @@
   }
   @keyframes shineText { to { background-position: 200% center; } }
   .header p { margin: 8px 0 0 0; color: var(--text-sub); font-size: 13px; font-weight: bold; letter-spacing: 1px;}
+  
+  /* 使用者選單列 */
+  .user-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--gold-main); color: #FFF; padding: 6px 15px; font-size: 12px; font-weight: bold;
+  }
+  .user-bar button {
+    background: transparent; border: 1px solid #FFF; color: #FFF; border-radius: 4px;
+    padding: 3px 8px; font-size: 11px; cursor: pointer; margin-left: 5px;
+  }
+  .user-bar button:hover { background: #FFF; color: var(--gold-main); }
+  #adminBtn { display: none; background: #333; border-color: #333; }
 
   .page { display: none; padding: 20px; padding-bottom: 90px; }
   .page.active { display: block; animation: fadeUp 0.5s ease-out; }
@@ -90,7 +102,6 @@
     background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
     transform: skewX(-25deg); animation: shimmerBtn 4s infinite;
   }
-  @keyframes shimmerBtn { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
   .shiny-btn:active, .shiny-btn:hover { border-color: var(--gold-main); background: var(--accent-color); color: var(--gold-main); transform: translateY(-2px);}
 
   /* 卡片設計 */
@@ -120,7 +131,7 @@
   .nav button { flex: 1; padding: 15px 2px; background: transparent; color: var(--text-sub); border: none; font-size: 13px; font-weight: bold; cursor: pointer; transition: 0.3s;}
   .nav button.active { color: var(--gold-main); border-top: 3px solid var(--gold-main); background: #FFFCF2;}
 
-  /* 登入與管理員彈出視窗設計 */
+  /* 彈出視窗設計 */
   .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.8); z-index: 1000; display: none;
@@ -133,17 +144,17 @@
   }
   .modal-box h2 { margin-top: 0; color: var(--text-main); font-size: 20px; }
   .modal-box input {
-    width: 90%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid #CCC;
-    font-size: 15px; text-align: center;
+    width: 85%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #CCC;
+    font-size: 15px; text-align: center; box-sizing: border-box;
   }
   .modal-box button {
     background: var(--gold-main); color: #FFF; border: none; padding: 12px 30px;
-    border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%;
+    border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; width: 85%; margin-top: 10px;
   }
   
   /* 後台紀錄表格專用 */
   .log-container { max-height: 300px; overflow-y: auto; margin-top: 15px; text-align: left;}
-  .close-btn { background: #CCC !important; margin-top: 10px;}
+  .close-btn { background: #CCC !important; margin-top: 10px; color: #333 !important;}
   .clear-btn { background: #D9534F !important; margin-top: 10px;}
 </style>
 </head>
@@ -153,9 +164,22 @@
 <div id="loginModal" class="modal-overlay" style="display:flex;">
   <div class="modal-box">
     <h2>🔐 智庫系統登入</h2>
-    <p style="font-size:13px; color:#666; margin-bottom: 5px;">請輸入您的真實姓名或 RM Code</p>
-    <input type="text" id="usernameInput" placeholder="例如：王小明 / RM1234">
-    <button onclick="performLogin()">進入系統</button>
+    <p style="font-size:12px; color:#666; margin-bottom: 5px;">請輸入您的帳號與密碼<br>(初次登入：密碼同帳號，即自動註冊)</p>
+    <input type="text" id="usernameInput" placeholder="姓名或行員編號 (RM Code)">
+    <input type="password" id="passwordInput" placeholder="請輸入密碼">
+    <button onclick="performLogin()">登入系統</button>
+  </div>
+</div>
+
+<!-- 變更密碼視窗 -->
+<div id="pwdModal" class="modal-overlay">
+  <div class="modal-box">
+    <h2>🔑 變更密碼</h2>
+    <input type="password" id="oldPwd" placeholder="請輸入原密碼">
+    <input type="password" id="newPwd" placeholder="請設定新密碼">
+    <input type="password" id="newPwdConfirm" placeholder="再次確認新密碼">
+    <button onclick="updatePassword()">確認變更</button>
+    <button class="close-btn" onclick="closePwdModal()">取消</button>
   </div>
 </div>
 
@@ -163,7 +187,7 @@
 <div id="adminModal" class="modal-overlay">
   <div class="modal-box" style="max-width: 400px; width: 95%;">
     <h2>📋 系統登入紀錄控管</h2>
-    <p style="font-size:13px; color:#666; margin:0;">近期的存取時間與人員清單</p>
+    <p style="font-size:13px; color:#666; margin:0;">近期的存取時間與停留時長</p>
     <div id="logContent" class="log-container"></div>
     <button class="clear-btn" onclick="clearLogs()">清除所有紀錄</button>
     <button class="close-btn" onclick="closeAdmin()">關閉後台</button>
@@ -171,8 +195,18 @@
 </div>
 
 <div class="app-container">
+  
+  <div class="user-bar">
+    <span id="welcomeMsg">歡迎, 尚未登入</span>
+    <div>
+      <button onclick="openPwdModal()">變更密碼</button>
+      <button id="adminBtn" onclick="showAdminLogs()">⚙️ 後台</button>
+      <button onclick="performLogout()" style="background:#D9534F; border:none;">登出</button>
+    </div>
+  </div>
+
   <div class="header">
-    <h1 class="shiny-text">八星等尊榮權益總覽 <span onclick="showAdminLogs()" style="cursor:pointer; font-size:16px; filter: grayscale(100%);">⚙️</span></h1>
+    <h1 class="shiny-text">八星等尊榮權益總覽</h1>
     <p>專屬家辦 ｜ 尊榮禮遇 ｜ 億萬大亨</p>
   </div>
 
@@ -263,38 +297,161 @@
 </div>
 
 <script>
-  // --- 登入與紀錄控管邏輯 ---
+  // --- 登入、權限與時間紀錄控管邏輯 ---
+  let currentUser = "";
+  let currentSessionIndex = -1;
+  let sessionTimer = null;
+
+  // 初始化資料庫 (確保 Tony 預設存在)
+  function initDB() {
+    let users = JSON.parse(localStorage.getItem('RoyalVIP_Users'));
+    if (!users) {
+      users = { 'Tony': '661001' };
+      localStorage.setItem('RoyalVIP_Users', JSON.stringify(users));
+    } else if (!users['Tony']) {
+      users['Tony'] = '661001';
+      localStorage.setItem('RoyalVIP_Users', JSON.stringify(users));
+    }
+  }
+
   function performLogin() {
-    const username = document.getElementById('usernameInput').value.trim();
-    if(!username) {
-      alert('為了控管權限，請務必輸入您的姓名或編號！');
+    const user = document.getElementById('usernameInput').value.trim();
+    const pass = document.getElementById('passwordInput').value.trim();
+    
+    if(!user || !pass) {
+      alert('請完整輸入帳號與密碼！');
       return;
     }
     
-    // 取得當前時間
-    const now = new Date();
-    const loginTime = now.toLocaleString('zh-TW', { hour12: false });
+    let users = JSON.parse(localStorage.getItem('RoyalVIP_Users'));
     
-    // 寫入本地端記憶體 LocalStorage
-    const logEntry = { user: username, time: loginTime };
-    let logs = JSON.parse(localStorage.getItem('RoyalVIP_Logs')) || [];
-    logs.push(logEntry);
-    localStorage.setItem('RoyalVIP_Logs', JSON.stringify(logs));
+    // 驗證或自動註冊
+    if (!users[user]) {
+      if (pass !== user) {
+        alert('初次登入時，密碼預設需與帳號相同以進行綁定註冊！');
+        return;
+      }
+      users[user] = pass; // 自動註冊
+      localStorage.setItem('RoyalVIP_Users', JSON.stringify(users));
+      alert('帳號自動開通成功！');
+    } else {
+      if (users[user] !== pass) {
+        alert('密碼錯誤，請重新輸入！');
+        return;
+      }
+    }
     
-    // 關閉登入視窗
+    // 登入成功
+    currentUser = user;
+    document.getElementById('welcomeMsg').innerText = `歡迎, ${user}`;
+    
+    if (user === 'Tony') {
+      document.getElementById('adminBtn').style.display = 'inline-block';
+    } else {
+      document.getElementById('adminBtn').style.display = 'none';
+    }
+
+    // 啟動停留時間計算
+    startSessionLog(user);
+
     document.getElementById('loginModal').style.display = 'none';
+    document.getElementById('usernameInput').value = '';
+    document.getElementById('passwordInput').value = '';
+  }
+
+  function startSessionLog(user) {
+    let logs = JSON.parse(localStorage.getItem('RoyalVIP_Logs')) || [];
+    let now = new Date();
+    
+    logs.push({
+      user: user,
+      loginTime: now.getTime(),
+      loginStr: now.toLocaleString('zh-TW', { hour12: false }),
+      durationSec: 0
+    });
+    localStorage.setItem('RoyalVIP_Logs', JSON.stringify(logs));
+    currentSessionIndex = logs.length - 1;
+
+    // 每 3 秒背景更新一次停留時長
+    sessionTimer = setInterval(() => {
+      let currentLogs = JSON.parse(localStorage.getItem('RoyalVIP_Logs')) || [];
+      if (currentLogs[currentSessionIndex]) {
+        let diff = Math.floor((new Date().getTime() - currentLogs[currentSessionIndex].loginTime) / 1000);
+        currentLogs[currentSessionIndex].durationSec = diff;
+        localStorage.setItem('RoyalVIP_Logs', JSON.stringify(currentLogs));
+      }
+    }, 3000);
+  }
+
+  function performLogout() {
+    clearInterval(sessionTimer);
+    currentUser = "";
+    currentSessionIndex = -1;
+    document.getElementById('loginModal').style.display = 'flex';
+  }
+
+  // --- 變更密碼邏輯 ---
+  function openPwdModal() {
+    document.getElementById('oldPwd').value = '';
+    document.getElementById('newPwd').value = '';
+    document.getElementById('newPwdConfirm').value = '';
+    document.getElementById('pwdModal').style.display = 'flex';
+  }
+
+  function closePwdModal() {
+    document.getElementById('pwdModal').style.display = 'none';
+  }
+
+  function updatePassword() {
+    const oldP = document.getElementById('oldPwd').value.trim();
+    const newP = document.getElementById('newPwd').value.trim();
+    const confP = document.getElementById('newPwdConfirm').value.trim();
+    
+    let users = JSON.parse(localStorage.getItem('RoyalVIP_Users'));
+    
+    if (users[currentUser] !== oldP) {
+      alert('原密碼錯誤！'); return;
+    }
+    if (newP === "" || newP.length < 4) {
+      alert('新密碼長度至少需 4 碼！'); return;
+    }
+    if (newP !== confP) {
+      alert('兩次輸入的新密碼不一致！'); return;
+    }
+    
+    users[currentUser] = newP;
+    localStorage.setItem('RoyalVIP_Users', JSON.stringify(users));
+    alert('密碼變更成功！下回請使用新密碼登入。');
+    closePwdModal();
+  }
+
+  // --- 後台管理員邏輯 ---
+  function formatDuration(sec) {
+    if (!sec) return "剛登入";
+    let h = Math.floor(sec / 3600);
+    let m = Math.floor((sec % 3600) / 60);
+    let s = sec % 60;
+    let res = "";
+    if(h > 0) res += `${h}小時`;
+    if(m > 0) res += `${m}分`;
+    res += `${s}秒`;
+    return res;
   }
 
   function showAdminLogs() {
     let logs = JSON.parse(localStorage.getItem('RoyalVIP_Logs')) || [];
-    let html = '<table><tr><th style="width:45%">登入者/RM</th><th>登入時間</th></tr>';
+    let html = '<table><tr><th>登入帳號</th><th>登入時間</th><th>停留時間</th></tr>';
     
     if (logs.length === 0) {
-      html += '<tr><td colspan="2" style="text-align:center;">尚無任何紀錄</td></tr>';
+      html += '<tr><td colspan="3" style="text-align:center;">尚無紀錄</td></tr>';
     } else {
-      // 反轉陣列，讓最新的排在最上面
+      // 反轉陣列，最新的在上
       for(let i = logs.length - 1; i >= 0; i--) {
-        html += `<tr><td>${logs[i].user}</td><td>${logs[i].time}</td></tr>`;
+        html += `<tr>
+          <td>${logs[i].user}</td>
+          <td>${logs[i].loginStr}</td>
+          <td style="color:#D4A300; font-weight:bold;">${formatDuration(logs[i].durationSec)}</td>
+        </tr>`;
       }
     }
     html += '</table>';
@@ -310,7 +467,7 @@
   function clearLogs() {
     if(confirm('⚠️ 警告：您確定要清除所有存取紀錄嗎？此動作無法復原。')) {
       localStorage.removeItem('RoyalVIP_Logs');
-      showAdminLogs(); // 重新整理表格
+      showAdminLogs(); 
     }
   }
 
@@ -642,6 +799,11 @@
       resultDiv.innerHTML = foundHTML;
     }
   }
+
+  // 初始化執行
+  window.onload = function() {
+    initDB();
+  };
 </script>
 
 </body>
