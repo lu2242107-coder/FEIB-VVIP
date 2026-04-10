@@ -112,7 +112,7 @@
   th { background-color: var(--gold-main); color: #FFF; font-weight: bold; }
   tr:nth-child(even) { background-color: #FFFAF0; }
 
-  /* 底部導覽列 (加入第三頁) */
+  /* 底部導覽列 */
   .nav { 
     display: flex; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); position: fixed; bottom: 0; 
     width: 100%; max-width: 480px; border-top: 1px solid #F0E6D2; z-index: 100;
@@ -190,7 +190,7 @@
         <div class="shiny-btn" onclick="quickSearch('區別')">⚖️ 保費與保單融資區別</div>
       </div>
 
-      <!-- 第八格: 億萬大亨活動 (NEW) -->
+      <!-- 第八格: 億萬大亨活動 -->
       <div class="section-badge">🚀 億萬大亨活動專區</div>
       <div class="quick-grid">
         <div class="shiny-btn" onclick="quickSearch('客戶特徵')">👥 客戶特徵與Action</div>
@@ -208,7 +208,7 @@
   <!-- 底部導覽列 -->
   <div class="nav">
     <button id="tab-home" class="tab-btn active" onclick="resetHome()">首頁</button>
-    <button id="tab-second" class="tab-btn" onclick="quickSearch('10個重點', this)">落地執行重點</button>
+    <button id="tab-second" class="tab-btn" onclick="quickSearch('10個重點', this)">落地執行10大重點</button>
     <button id="tab-third" class="tab-btn" onclick="quickSearch('億萬大亨', this)">億萬大亨活動</button>
   </div>
 </div>
@@ -241,79 +241,17 @@
 
   // --- 高階知識庫資料 ---
   const qaDatabase = [
-    // === 第三頁：億萬大亨活動 (NEW) ===
-    {
-      keywords: ["億萬大亨", "客戶特徵", "內低外高", "C客群", "D客群", "Action"],
-      question: "2026億萬大亨活動的「客戶特徵」與前線 Action 為何？",
-      answer: `
-      <span class="tag">億萬大亨</span><span class="tag">客戶特徵</span><br>
-      針對 144 位億萬大亨潛力客戶的特徵分析：<br>
-      1. <b>內低外高：</b>行外資產人均達 1.1億，人均本行資產約 5,128萬。<br>
-      2. <b>資產分布：</b>分A(存投保)、B(存投)、C(存保)、D(存)四類客群。<br><br>
-      <span class="highlight">【前線 Action】：</span><br>
-      請理專特別關注 <b style="color:#D4A300">C、D 客群</b>，盡早為客戶累積投資經驗！`
-    },
-    {
-      keywords: ["億萬大亨", "活動禮遇", "目的", "客群", "任務", "王品"],
-      question: "億萬大亨禮遇的「目的、客群、任務」與專屬獎勵是什麼？",
-      answer: `
-      <span class="tag">億萬大亨</span><span class="tag">活動任務</span><br>
-      活動期間為 2026/4/1~6/30，以保持開發動能持續挖掘億級客戶：<br>
-      1. <span class="highlight">目的：</span>提前梳理挖掘高資產客戶，協助深度 KYC，搭配八星等推廣。<br>
-      2. <span class="highlight">客群：</span>本行有 RM Code 之自然人或法人，且「本行 AUM 未達 1億元」。<br>
-      3. <span class="highlight">任務：</span>提供 AUM≧1億元財力聲明書及佐證資料，並提交經主管簽核之財力證明檢核表。<br><br>
-      🎁 <b>完成任務享：</b><b style="color:#D4A300">王品集團食尚私聚</b> (約當3人美饌，價值 3,000元，限量 50席)。<br>
-      <i>*(同場加碼福利：王品牛排上傳用餐照款待嫩煎鮪魚鮮蝦；夏慕尼分享牽手照款待波士頓龍蝦)*</i>`
-    },
-    {
-      keywords: ["億萬大亨", "注意事項", "規則", "限制"],
-      question: "辦理億萬大亨活動有哪些不可不知的「注意事項」？",
-      answer: `
-      <span class="tag">億萬大亨</span><span class="tag">注意事項</span><br>
-      1. AUM未達1億元資格，以 <b>2025/12/31</b> 為基準。<br>
-      2. 客戶提供之佐證資料須為申請日前 <b>3個月內或最近一期</b>。<br>
-      3. <b>掃描檔 Notes寄送：</b>收件人(分行通路部長官 黃建斌/區總監/ASM)；副本(行銷發展部 曾朝斌/吳仲哲等)。<br>
-      4. <b>正本寄送：</b>財力聲明、檢核表及佐證「正本」內部傳送至 行銷發展部 吳仲哲。<br>
-      5. 限量 50 個名額依 Notes 時間為準；已符合 2025 活動者不可重複參加。<br>
-      6. 食尚私聚以「各區為單位」自行舉辦，會後需提交簽到表。<br>
-      7. 若事後檢核未符資格，得取消禮遇資格。`
-    },
-    {
-      keywords: ["億萬大亨", "財力聲明", "客戶填寫", "聲明書"],
-      question: "億萬大亨「客戶財力聲明書」的客戶填寫重點為何？",
-      answer: `
-      <span class="tag">億萬大亨</span><span class="tag">財力聲明</span><br>
-      引導客戶填寫財力聲明書時，請確認以下重點：<br>
-      1. <span class="highlight">勾選資產類型：</span>請勾選本人所持有之資產(如存款、國內外有價證券、結構型商品、黃金存摺、保險商品或其它)。<br>
-      2. <span class="highlight">淨值計算須知：</span>投資本金扣除質借、金融資產以市場價格扣除質借、投資型保險以保單價值計算等。<br>
-      3. <span class="highlight">客戶親筆簽署：</span>立聲明書人親筆簽名、填寫身分證統一編號，並押上正確日期，聲明內容屬實並同意配合銀行查證。`
-    },
-    {
-      keywords: ["億萬大亨", "證明文件", "財力證明檢核表", "理專填寫"],
-      question: "理專填寫「財力證明檢核表」時，證明文件的應備要項說明有哪些？",
-      answer: `
-      <span class="tag">億萬大亨</span><span class="tag">證明文件檢核</span><br>
-      理專檢核佐證文件時，請依循以下 8 大重點說明：<br>
-      1. 載明客戶戶名、證明機構名稱。<br>
-      2. 外國金融機構文件，英文姓名須與客戶護照相符。<br>
-      3. 文件日期須為 <b>檢核日前 3 個月內或最近一期</b>。<br>
-      4. 外幣換算新臺幣需檢附本行系統查詢畫面(若文件已載約當新臺幣則免)。<br>
-      5. 保險需為「保單現值」對帳單(由保險公司或金融機構出具)。<br>
-      6. 財力證明不包含配偶/未成年子女；聯名帳戶依契約約定屬其部分計入，未約定則均分計算。<br>
-      7. 綜合對帳單若已彙計總資產並載明約當新臺幣，則填列於銀行往來，無需分列各商品。<br>
-      8. <b>如有設質，需揭露已動用質借金額並扣除。</b>`
-    },
-
     // 核心精神
     {
       keywords: ["創世代", "知識網頁", "Family", "Firm", "Fortune"],
-      question: "「創世代知識網頁」提供哪些專屬內容？",     
+      question: "「創世代知識網頁」提供哪些專屬內容？",
       answer: `
       <span class="tag">專屬資訊</span><span class="tag">私密邀請制</span><br>
       遠銀獨創「創世代知識網頁」（密碼：<b style="color:#D4A300">feibwm</b>），採私密邀請制。三大面向包含：<br>
       1. <span class="highlight">Family (代際傳承)：</span>家族溝通與二代接班觀點。<br>
       2. <span class="highlight">Firm (趨勢洞察)：</span>家族企業結構問題、轉型趨勢與經營戰略。<br>
-      3. <span class="highlight">Fortune (品味生活)：</span>結合時尚潮流，提供趨勢與品味內容。`
+      3. <span class="highlight">Fortune (品味生活)：</span>結合時尚潮流，提供趨勢與品味內容。<br><br>
+      🔗 <a href="https://www.feib.com.tw/upload/family_vip/main.html" target="_blank" style="color:#D4A300; font-weight:bold; text-decoration:underline;">點擊此處前往：創世代知識網頁</a>`
     },
     {
       keywords: ["3W", "核心精神", "八星等", "Wealth", "Well-being", "Welfare"],
@@ -482,6 +420,64 @@
         <tr><td>承作商品/擔保品</td><td>限投保指定的「新契約」保單</td><td>限定「既有保單」</td></tr>
         <tr><td>資金用途</td><td>僅限支付保費</td><td>用途不限，活化既有資產</td></tr>
       </table>`
+    },
+
+    // 億萬大亨活動
+    {
+      keywords: ["億萬大亨", "客戶特徵", "內低外高", "C客群", "D客群", "Action"],
+      question: "2026億萬大亨活動的「客戶特徵」與前線 Action 為何？",
+      answer: `
+      <span class="tag">億萬大亨</span><span class="tag">客戶特徵</span><br>
+      針對潛力客戶的特徵分析：<br>
+      1. <b>內低外高：</b>行外資產高，本行資產偏低。<br>
+      2. <b>資產分布：</b>分A(存投保)、B(存投)、C(存保)、D(存)四類客群。<br><br>
+      <span class="highlight">【前線 Action】：</span><br>
+      請理專特別關注 <b style="color:#D4A300">C、D 客群</b>，盡早為客戶累積投資經驗！`
+    },
+    {
+      keywords: ["億萬大亨", "活動禮遇", "目的", "客群", "任務", "王品"],
+      question: "億萬大亨禮遇的「目的、客群、任務」與專屬獎勵是什麼？",
+      answer: `
+      <span class="tag">億萬大亨</span><span class="tag">活動任務</span><br>
+      活動期間為 2026/4/1~6/30，以保持開發動能持續挖掘億級客戶：<br>
+      1. <span class="highlight">目的：</span>提前梳理挖掘高資產客戶，協助深度 KYC。<br>
+      2. <span class="highlight">客群：</span>本行有 RM Code 之自然人或法人，且「本行 AUM 未達 1億元」。<br>
+      3. <span class="highlight">任務：</span>提供 AUM≧1億元財力聲明書及佐證資料，並提交經主管簽核之財力證明檢核表。<br><br>
+      🎁 <b>完成任務享：</b><b style="color:#D4A300">王品集團食尚私聚</b> (約當3人美饌，價值 3,000元，限量 50席)。`
+    },
+    {
+      keywords: ["億萬大亨", "注意事項", "規則", "限制"],
+      question: "辦理億萬大亨活動有哪些不可不知的「注意事項」？",
+      answer: `
+      <span class="tag">億萬大亨</span><span class="tag">注意事項</span><br>
+      1. AUM未達1億元資格，以 <b>2025/12/31</b> 為基準。<br>
+      2. 佐證資料須為申請日前 <b>3個月內或最近一期</b>。<br>
+      3. <b>掃描檔寄送：</b>收件人(分行通路部長官/區總監/ASM)；副本(行銷發展部長官)。<br>
+      4. <b>正本寄送：</b>財力聲明、檢核表及佐證「正本」內部傳送至 行銷發展部。<br>
+      5. 限量 50 個名額依 Notes 時間為準；已符合 2025 活動者不可重複參加。`
+    },
+    {
+      keywords: ["億萬大亨", "財力聲明", "客戶填寫", "聲明書"],
+      question: "億萬大亨「客戶財力聲明書」的客戶填寫重點為何？",
+      answer: `
+      <span class="tag">億萬大亨</span><span class="tag">財力聲明</span><br>
+      引導客戶填寫財力聲明書時，請確認以下重點：<br>
+      1. <span class="highlight">勾選資產類型：</span>勾選本人所持有之各類資產。<br>
+      2. <span class="highlight">淨值計算須知：</span>留意扣除質借金額、保險以保單價值計算等。<br>
+      3. <span class="highlight">客戶親筆簽署：</span>親筆簽名、填寫身分證字號，並押上正確日期。`
+    },
+    {
+      keywords: ["億萬大亨", "證明文件", "財力證明檢核表", "理專填寫"],
+      question: "理專填寫「財力證明檢核表」時，證明文件的應備要項說明有哪些？",
+      answer: `
+      <span class="tag">億萬大亨</span><span class="tag">證明文件檢核</span><br>
+      理專檢核佐證文件時，請依循以下重點說明：<br>
+      1. 載明客戶戶名、證明機構名稱；外國文件英文姓名須與護照相符。<br>
+      2. 文件日期須為 <b>檢核日前 3 個月內或最近一期</b>。<br>
+      3. 外幣換算新臺幣需檢附本行系統查詢畫面。<br>
+      4. 保險需為「保單現值」對帳單。<br>
+      5. 財力證明不包含配偶/未成年子女；聯名帳戶依契約約定屬其部分計入。<br>
+      6. <b>如有設質，需揭露已動用質借金額並扣除。</b>`
     }
   ];
 
