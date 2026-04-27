@@ -3,922 +3,1007 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>八星等尊榮權益 - 皇家極致黑金版</title>
+<title>八星等尊榮智庫 - 極致流沙金完整版 (含後台統計)</title>
 <style>
   /* =========================================
-     極致奢華黑金 UI ＋ 閃耀動態流光設計
+     全局重置與微軟正黑體
      ========================================= */
+  *, *::before, *::after { box-sizing: border-box; }
+  ::-webkit-scrollbar { display: none; }
+  
   :root {
-    --primary-bg: #050505;          /* 深邃黑底 */
-    --card-bg: rgba(20, 18, 15, 0.85); /* 微透光黑金卡片 */
-    --gold-main: #D4AF37;           /* 經典香檳金 */
-    --gold-light: #F9F1C8;          /* 亮金/白金 */
-    --gold-dark: #AA771C;           /* 深琥珀金 */
-    --text-main: #F2E3C6;           /* 柔和奶油白文字 */
-    --text-sub: #A89B85;            /* 淺金灰文字 */
-    --shadow-gold: 0 8px 25px rgba(212, 175, 55, 0.2); 
+    --bg-dark: #050403;          
+    --card-bg: linear-gradient(145deg, #1A1712, #0A0805);
+    --gold-main: #D4AF37;           
+    --gold-light: #FDF5D3;          
+    --gold-glow: rgba(212, 175, 55, 0.8); 
+    --text-main: #EAE0C8;           
     --border-gold: 1px solid rgba(212, 175, 55, 0.4);
   }
   
   body {
-    background: radial-gradient(circle at top right, #1a1814, var(--primary-bg));
-    color: var(--text-main);
-    font-family: 'Helvetica Neue', '微軟正黑體', Arial, sans-serif;
-    margin: 0; padding: 0; display: flex; justify-content: center;
-    min-height: 100vh;
+    background: radial-gradient(circle at top right, #2A2010, var(--bg-dark), #000);
+    background-attachment: fixed; color: var(--text-main);
+    font-family: '微軟正黑體', 'Microsoft JhengHei', sans-serif !important;
+    margin: 0; padding: 0; display: flex; justify-content: center; min-height: 100vh;
+    overflow-x: hidden; -ms-overflow-style: none; scrollbar-width: none;
   }
   
   .app-container {
-    width: 100%; max-width: 480px; background: transparent;
+    width: 100%; max-width: 500px; background: transparent;
     min-height: 100vh; position: relative;
-    box-shadow: 0 0 50px rgba(0,0,0,0.8); overflow-x: hidden;
+    box-shadow: 0 0 50px rgba(0,0,0,0.9); overflow-x: hidden; padding-bottom: 85px;
+    display: none; /* 登入前隱藏主畫面 */
   }
 
-  /* 頂部 Header 奢華流光設計 */
-  .header {
-    background: linear-gradient(180deg, rgba(20,18,15,0.95) 0%, rgba(5,5,5,0.9) 100%);
-    border-bottom: 2px solid var(--gold-main);
-    padding: 35px 20px 25px; text-align: center; position: relative;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+  /* =========================================
+     登入與修改密碼遮罩介面 (黑金奢華風)
+     ========================================= */
+  .overlay-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(5, 4, 3, 0.98); z-index: 9999;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    backdrop-filter: blur(10px); padding: 20px;
   }
+  .login-box {
+    background: var(--card-bg); border: 1px solid var(--gold-main);
+    border-radius: 8px; padding: 35px 25px; width: 100%; max-width: 360px;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.3); text-align: center;
+  }
+  .login-box h2 {
+    margin-top: 0; color: var(--gold-light); font-size: 24px; letter-spacing: 2px;
+    margin-bottom: 10px; text-shadow: 0 0 10px var(--gold-glow);
+  }
+  .login-box p { color: #A89B85; font-size: 13px; margin-bottom: 15px; font-weight: bold;}
   
-  .shiny-text {
-    margin: 0; font-size: 26px; font-weight: 900; letter-spacing: 3px;
-    background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+  /* 登入說明提示區 */
+  .login-notice {
+    text-align: left; background: rgba(212, 175, 55, 0.1); border-left: 4px solid var(--gold-main);
+    padding: 12px; border-radius: 4px; margin-bottom: 20px;
+    color: #EAE0C8; font-size: 13px; line-height: 1.6; font-weight: bold;
+  }
+  .login-notice span { color: var(--gold-main); font-weight: 900; }
+
+  .auth-input {
+    width: 100%; padding: 14px 15px; margin-bottom: 15px; border-radius: 6px;
+    border: 1px solid rgba(212, 175, 55, 0.5); background: rgba(0,0,0,0.6);
+    color: var(--gold-light); font-size: 16px; font-weight: bold; font-family: '微軟正黑體';
+  }
+  .auth-input:focus { outline: none; background: rgba(212,175,55,0.1); border-color: var(--gold-main); }
+  .auth-btn {
+    width: 100%; background: linear-gradient(135deg, #D4AF37, #AA771C);
+    color: #000; border: none; padding: 14px; border-radius: 6px;
+    font-size: 16px; font-weight: 900; cursor: pointer; letter-spacing: 2px;
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); font-family: '微軟正黑體';
+    transition: transform 0.2s;
+  }
+  .auth-btn:active { transform: scale(0.96); }
+  .close-btn {
+    margin-top: 15px; background: transparent; color: #A89B85; border: 1px solid #A89B85;
+  }
+
+  /* 頂部按鈕 (加至桌面 / 修改密碼 / 後台) */
+  .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+  .header-btn-group { display: flex; gap: 8px; }
+  .pw-btn {
+    background: transparent; color: var(--gold-main); border: 1px solid var(--gold-main);
+    padding: 6px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; cursor: pointer;
+  }
+  /* 管理者專屬按鈕樣式 */
+  #admin-btn {
+    background: rgba(212, 175, 55, 0.2);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  }
+
+  /* =========================================
+     流沙金閃亮發光特效
+     ========================================= */
+  @keyframes flowGold {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
+  .quicksand-gold-text {
+    background: linear-gradient(to right, #B38728, #FFF8D6, #D4AF37, #FFF8D6, #B38728);
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: shineText 3s linear infinite;
-    text-shadow: 0px 5px 15px rgba(252, 246, 186, 0.2);
+    animation: flowGold 3s linear infinite;
   }
-  @keyframes shineText { to { background-position: 200% center; } }
-  
-  .header p { margin: 10px 0 0 0; color: var(--gold-main); font-size: 13px; font-weight: bold; letter-spacing: 2px;}
 
-  /* 使用者選單列 */
-  .user-bar {
-    display: flex; justify-content: space-between; align-items: center;
-    background: linear-gradient(90deg, #8A631B, #D4AF37, #8A631B);
-    color: #000; padding: 8px 15px; font-size: 12px; font-weight: 900;
+  /* 頂部奢華 Header + 常駐搜尋欄 */
+  .header {
+    background: linear-gradient(180deg, rgba(15,10,5,0.98) 0%, rgba(5,4,3,0.95) 100%);
+    border-bottom: 2px solid var(--gold-main);
+    padding: 20px 15px 15px; position: sticky; top: 0; z-index: 150;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.9); backdrop-filter: blur(12px);
   }
-  .user-bar button {
-    background: rgba(0,0,0,0.6); border: 1px solid #FFF; color: var(--gold-light); border-radius: 4px;
-    padding: 4px 10px; font-size: 11px; font-weight: bold; cursor: pointer; margin-left: 5px; transition: 0.3s;
+  .shiny-title {
+    margin: 0; font-size: 26px; font-weight: 900; letter-spacing: 2px;
+    text-shadow: 0px 0px 20px rgba(253, 245, 211, 0.6), 0px 0px 10px var(--gold-glow);
   }
-  .user-bar button:hover { background: #FFF; color: #000; }
-  #adminBtn { display: none; background: #500; border-color: #F00; color: #FFF;}
+  .header-subtitle { color: #A89B85; font-size: 12px; font-weight: bold; letter-spacing: 2px; margin:0;}
 
-  .page { display: none; padding: 20px; padding-bottom: 90px; }
-  .page.active { display: block; animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-  /* 搜尋列 */
-  .search-box { 
-    display: flex; margin-bottom: 25px; 
-    box-shadow: var(--shadow-gold); border-radius: 12px; background: rgba(0,0,0,0.5);
-    position: relative; z-index: 2; border: var(--border-gold);
+  /* 常駐即時搜尋欄 */
+  .sticky-search-box { 
+    display: flex; width: 100%; margin-top: 10px;
+    box-shadow: 0 0 20px rgba(212,175,55,0.25); border-radius: 6px; 
+    background: rgba(0,0,0,0.8); border: 1px solid rgba(212, 175, 55, 0.6);
   }
-  .search-box input {
-    flex: 1; padding: 15px 18px; border-radius: 12px 0 0 12px;
+  .sticky-search-box input {
+    flex: 1; padding: 12px 15px; border-radius: 6px; width: 100%;
     border: none; background: transparent; color: var(--gold-light); font-size: 15px;
+    font-weight: bold; font-family: '微軟正黑體';
   }
-  .search-box input::placeholder { color: #888; }
-  .search-box input:focus { outline: none; background: rgba(255,255,255,0.05);}
-  .search-box button {
-    padding: 15px 22px; background: linear-gradient(145deg, #BF953F, #AA771C); color: #000; font-weight: 900; font-size: 15px; 
-    border: none; border-radius: 0 12px 12px 0; cursor: pointer; transition: 0.3s;
-  }
-  .search-box button:hover { background: linear-gradient(145deg, #FCF6BA, #BF953F); box-shadow: 0 0 15px #D4AF37;}
+  .sticky-search-box input:focus { outline: none; background: rgba(212,175,55,0.1); }
+  .sticky-search-box input::placeholder { color: #887A5C; }
 
-  /* 標題徽章 */
-  .section-badge {
-    display: inline-block; background: linear-gradient(90deg, #111, #33280F); color: var(--gold-main);
-    padding: 6px 16px; border-radius: 4px; border-left: 4px solid var(--gold-main);
-    font-size: 13px; font-weight: 900; margin-bottom: 15px; letter-spacing: 1px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5); text-transform: uppercase;
-  }
-  
-  .quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 35px; }
-  
-  /* 閃耀黑金按鈕設計 */
-  .shiny-btn {
-    background: linear-gradient(145deg, #1A1A1A, #0A0A0A); border: 1px solid #44381C; 
-    padding: 16px 8px; border-radius: 10px; text-align: center; color: var(--gold-main); 
-    font-size: 13px; font-weight: bold; cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.6); transition: all 0.3s ease;
-    position: relative; overflow: hidden;
-  }
-  .shiny-btn::after {
-    content: ''; position: absolute; top: -50%; left: -100%; width: 50%; height: 200%;
-    background: linear-gradient(to right, rgba(212, 175, 55, 0) 0%, rgba(212, 175, 55, 0.15) 50%, rgba(212, 175, 55, 0) 100%);
-    transform: skewX(-25deg); animation: shimmerBtn 5s infinite;
-  }
-  .shiny-btn:active, .shiny-btn:hover { 
-    border-color: var(--gold-light); background: linear-gradient(145deg, #2A2410, #111); 
-    color: var(--gold-light); transform: translateY(-3px); box-shadow: var(--shadow-gold);
-  }
+  /* 視窗切換控制 */
+  .view-section { display: none; padding: 20px 15px; animation: fadeIn 0.4s ease-out; }
+  .view-section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* 奢華毛玻璃卡片 */
-  .card {
-    background: var(--card-bg); border-radius: 12px; padding: 25px; margin-bottom: 22px;
-    border: var(--border-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    position: relative;
+  /* =========================================
+     手風琴分類卡片
+     ========================================= */
+  .category-card {
+    background: var(--card-bg); border: var(--border-gold); 
+    border-radius: 6px; margin-bottom: 16px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+    transition: all 0.3s ease;
   }
-  .card::before {
-    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
-    background: linear-gradient(90deg, #BF953F, #FCF6BA, #AA771C); border-radius: 12px 12px 0 0;
-  }
-  
-  .card-title { color: var(--gold-light); font-size: 18px; margin-top: 0; margin-bottom: 18px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 12px; font-weight: 900; line-height: 1.4; text-shadow: 0 2px 4px rgba(0,0,0,0.8);}
-  .card-text { font-size: 14px; line-height: 1.9; color: var(--text-main); margin: 0; }
-  
-  .highlight { color: #000; font-weight: 900; background: linear-gradient(90deg, #D4AF37, #F9F1C8); padding: 3px 8px; border-radius: 4px; font-size: 13px;} 
-  .tag { display: inline-block; background: rgba(212,175,55,0.15); color: var(--gold-light); border: 1px solid var(--gold-main); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-bottom: 12px; margin-right: 8px;}
-  
-  /* 提問區專用高亮樣式 */
-  .qa-box { margin-bottom: 16px; padding: 15px; background: rgba(0,0,0,0.4); border-radius: 8px; border-left: 3px solid transparent; transition: 0.3s;}
-  .qa-box:hover { background: rgba(212, 175, 55, 0.05); }
-  
-  /* 針對三大類別給予不同奢華色調 */
-  .qa-box.interest { border-left-color: #4CAF50; }
-  .qa-box.care { border-left-color: #F44336; }
-  .qa-box.ask { border-left-color: #2196F3; }
-  
-  .qa-type-interest { color: #81C784; font-weight: 900; font-size: 14px; display:block; margin-bottom:4px; letter-spacing: 1px;}
-  .qa-type-care { color: #E57373; font-weight: 900; font-size: 14px; display:block; margin-bottom:4px; letter-spacing: 1px;}
-  .qa-type-ask { color: #64B5F6; font-weight: 900; font-size: 14px; display:block; margin-bottom:4px; letter-spacing: 1px;}
+  .category-card:hover { border-color: var(--gold-light); box-shadow: 0 5px 20px var(--gold-glow); }
+  .category-header { padding: 18px 15px; cursor: pointer; display: flex; flex-direction: column; position: relative; }
+  .cat-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .cat-title { font-size: 20px; font-weight: 900; letter-spacing: 1.5px; text-shadow: 0 0 15px rgba(212, 175, 55, 0.9); }
+  .cat-icon { font-size: 22px; margin-right: 8px; }
+  .cat-toggle { font-size: 18px; color: var(--gold-light); transition: transform 0.3s ease; }
+  .category-card.expanded .cat-toggle { transform: rotate(180deg); }
+  .cat-summary { font-size: 14px; color: #A89B85; line-height: 1.5; font-weight: bold; margin: 0; }
+  .category-content { display: none; padding: 0 15px 20px 15px; background: rgba(0,0,0,0.4); }
+  .category-card.expanded .category-content { display: block; animation: slideDown 0.3s ease-out; border-top: 1px solid rgba(212,175,55,0.2); margin-top: 5px; padding-top: 15px; }
 
-  table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 13px; border-radius: 8px; overflow: hidden; border: var(--border-gold); background: rgba(0,0,0,0.3);}
-  th, td { border: 1px solid rgba(212, 175, 55, 0.3); padding: 12px 10px; text-align: left; }
-  th { background: linear-gradient(180deg, #33280F, #111); color: var(--gold-light); font-weight: bold; text-align: center;}
-  tr:nth-child(even) { background-color: rgba(255,255,255,0.03); }
+  /* 九宮格按鈕 */
+  .quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .grid-btn {
+    background: linear-gradient(145deg, #1C1914, #0A0805); border: 1px solid #44381C; 
+    padding: 14px 6px; border-radius: 6px; text-align: center; color: #D3C5A8; 
+    font-size: 13.5px; font-weight: bold; cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: all 0.3s ease;
+  }
+  .grid-btn:active { transform: scale(0.96); background: #33280F;}
+  .grid-btn span { display: block; font-size: 18px; margin-bottom: 6px; }
+
+  .standalone-title { color: var(--gold-main); font-size: 16px; font-weight: 900; margin: 30px 0 15px; border-left: 4px solid var(--gold-main); padding-left: 10px; letter-spacing: 1px; text-shadow: 0 0 10px var(--gold-glow);}
+
+  /* 破冰區面板 */
+  .icebreaker-card { background: rgba(10, 15, 25, 0.85); border: 1px solid rgba(100, 181, 246, 0.4); border-radius: 6px; margin-bottom: 20px; padding: 15px; width: 100%; }
+  .ib-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(100, 181, 246, 0.2); padding-bottom: 10px; margin-bottom: 12px; }
+  .ib-title { font-size: 15px; font-weight: 900; color: #90CAF9; }
+  .ib-btn { background: linear-gradient(135deg, #1976D2, #0D47A1); color: #FFF; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: bold;}
+  .ib-content { font-size: 14.5px; line-height: 1.8; color: #E3F2FD; font-weight: bold; min-height: 70px; word-break: break-word;}
+  .ib-counter { text-align: right; font-size: 11px; color: #64B5F6; margin-top: 10px; font-weight: bold;}
+
+  /* 獨立 QA 提問卡片 */
+  .qa-item { margin-bottom: 16px; box-shadow: 0 5px 15px rgba(0,0,0,0.6); border-radius: 6px; width: 100%; }
+  .qa-row { 
+    display: flex; align-items: center; justify-content: space-between; 
+    padding: 18px 16px; background: var(--card-bg); border: var(--border-gold); 
+    border-radius: 6px; cursor: pointer; width: 100%; 
+  }
+  .qa-text { font-size: 15.5px; font-weight: bold; color: var(--gold-light); line-height: 1.5; flex: 1; padding-right: 12px; word-break: break-word; }
+  .qa-action-btn { 
+    background: linear-gradient(135deg, #D4AF37, #AA771C); color: #000; border: none; 
+    padding: 10px 18px; border-radius: 6px; font-size: 14px; font-weight: 900; 
+    cursor: pointer; white-space: nowrap; flex-shrink: 0; font-family: '微軟正黑體';
+    box-shadow: 0 0 10px rgba(212,175,55,0.4);
+  }
+  .qa-answer-box { 
+    display: none; padding: 20px 16px; background: rgba(15, 15, 15, 0.98); 
+    border: 1px solid rgba(212, 175, 55, 0.3); border-top: none; 
+    border-radius: 0 0 6px 6px; color: #EAE0C8; margin-top: -4px; 
+    font-size: 15px; line-height: 1.8; width: 100%; font-weight: bold;
+  }
+  .qa-answer-box.open { display: block; animation: slideDown 0.3s ease-out; }
+  .ans-label { display: inline-block; background: rgba(212, 175, 55, 0.15); color: var(--gold-main); padding: 4px 10px; border-radius: 4px; font-size: 13px; font-weight: 900; margin-bottom: 12px; border: 1px solid var(--gold-main); }
+  .highlight { color: #000; font-weight: 900; background: linear-gradient(90deg, #D4AF37, #FDF5D3); padding: 2px 6px; border-radius: 4px; font-size: 14px;}
+
+  .category-badge {
+    display: inline-block; padding: 12px 15px; border-radius: 6px; font-size: 16px; font-weight: 900; 
+    margin: 10px 0 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.5); letter-spacing: 1px; width: 100%;
+    background: linear-gradient(90deg, #33280F, #0a0a0a); border-left: 5px solid var(--gold-main); color: var(--gold-main);
+  }
 
   /* 底部導覽列 */
-  .nav { 
-    display: flex; background: rgba(10,10,10,0.95); backdrop-filter: blur(15px); position: fixed; bottom: 0; 
-    width: 100%; max-width: 480px; border-top: 1px solid #33280F; z-index: 100;
+  .nav-bar { display: flex; background: rgba(5,4,3,0.98); position: fixed; bottom: 0; width: 100%; max-width: 500px; border-top: 1px solid #33280F; z-index: 100; box-shadow: 0 -5px 25px rgba(0,0,0,0.9); }
+  .nav-bar button { flex: 1; padding: 20px 0; background: transparent; color: #777; border: none; font-size: 16px; font-weight: 900; cursor: pointer; transition: 0.3s; font-family: '微軟正黑體';}
+  .nav-bar button.active { 
+    color: var(--gold-main); background: rgba(212, 175, 55, 0.08); 
+    border-top: 3px solid var(--gold-main); text-shadow: 0 0 15px var(--gold-glow);
   }
-  .nav button { flex: 1; padding: 16px 2px; background: transparent; color: #666; border: none; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.3s;}
-  .nav button.active { color: var(--gold-main); background: rgba(212, 175, 55, 0.05); border-top: 3px solid var(--gold-main); text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);}
-
-  /* 彈出視窗設計 */
-  .modal-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.9); z-index: 1000; display: none;
-    justify-content: center; align-items: center; backdrop-filter: blur(8px);
-  }
-  .modal-box {
-    background: #111; width: 85%; max-width: 320px; border-radius: 16px;
-    padding: 35px 20px; text-align: center; box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
-    border: 1px solid #D4AF37; position: relative;
-  }
-  .modal-box h2 { margin-top: 0; color: var(--gold-light); font-size: 22px; letter-spacing: 1px;}
-  .modal-box input {
-    width: 90%; padding: 14px; margin: 10px 0; border-radius: 8px; border: 1px solid #555;
-    background: #000; color: #FFF; font-size: 15px; text-align: center; box-sizing: border-box;
-  }
-  .modal-box input:focus { outline: none; border-color: var(--gold-main); box-shadow: 0 0 10px rgba(212,175,55,0.5);}
-  .modal-box button {
-    background: linear-gradient(145deg, #BF953F, #AA771C); color: #000; border: none; padding: 14px 30px;
-    border-radius: 8px; font-size: 16px; font-weight: 900; cursor: pointer; width: 90%; margin-top: 15px;
-  }
-  .modal-box button:hover { background: linear-gradient(145deg, #FCF6BA, #BF953F); }
-  
-  .log-container { max-height: 300px; overflow-y: auto; margin-top: 15px; text-align: left;}
-  .close-btn { background: #333 !important; color: #FFF !important; border: 1px solid #666;}
-  .clear-btn { background: #800 !important; color: #FFF !important; border: 1px solid #F00;}
 </style>
 </head>
 <body>
 
-<!-- 強制登入視窗 -->
-<div id="loginModal" class="modal-overlay" style="display:flex;">
-  <div class="modal-box">
-    <h2>🔐 智庫系統登入</h2>
-    <p style="font-size:12px; color:#888; margin-bottom: 15px; line-height:1.6;">
-      請輸入您的帳號與密碼<br>(一般使用者初次登入：密碼請輸入與帳號相同即可自動開通)
-    </p>
-    <input type="text" id="usernameInput" placeholder="姓名或行員編號 (RM Code)">
-    <input type="password" id="passwordInput" placeholder="請輸入密碼">
-    <button onclick="performLogin()">登入系統</button>
-  </div>
-</div>
-
-<!-- 變更密碼視窗 -->
-<div id="pwdModal" class="modal-overlay">
-  <div class="modal-box">
-    <h2>🔑 變更密碼</h2>
-    <input type="password" id="oldPwd" placeholder="請輸入原密碼">
-    <input type="password" id="newPwd" placeholder="請設定新密碼 (至少4碼)">
-    <input type="password" id="newPwdConfirm" placeholder="再次確認新密碼">
-    <button onclick="updatePassword()">確認變更</button>
-    <button class="close-btn" onclick="closePwdModal()">取消</button>
-  </div>
-</div>
-
-<!-- 管理員後台視窗 -->
-<div id="adminModal" class="modal-overlay">
-  <div class="modal-box" style="max-width: 400px; width: 95%;">
-    <h2>📋 系統登入紀錄控管</h2>
-    <p style="font-size:13px; color:#AAA; margin:0;">近期的存取時間與停留時長</p>
-    <div id="logContent" class="log-container"></div>
-    <button class="clear-btn" onclick="clearLogs()">清除所有紀錄</button>
-    <button class="close-btn" onclick="closeAdmin()">關閉後台</button>
-  </div>
-</div>
-
-<div class="app-container">
-  
-  <div class="user-bar">
-    <span id="welcomeMsg">歡迎, 尚未登入</span>
-    <div>
-      <button onclick="openPwdModal()">變更密碼</button>
-      <button id="adminBtn" onclick="showAdminLogs()">⚙️ 後台</button>
-      <button onclick="performLogout()" style="background:rgba(200,0,0,0.5); border-color:#F00;">登出</button>
-    </div>
-  </div>
-
-  <div class="header">
-    <h1 class="shiny-text">八星等尊榮權益總覽</h1>
-    <p>WEALTH ｜ WELL-BEING ｜ WELFARE</p>
-  </div>
-
-  <div id="page-home" class="page active">
+<!-- 登入系統遮罩 -->
+<div id="login-screen" class="overlay-screen">
+  <div class="login-box">
+    <h2 class="quicksand-gold-text">皇家尊榮智庫</h2>
     
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="輸入關鍵字搜尋智庫...">
-      <button onclick="performSearch()">搜尋</button>
+    <!-- 登入引導提示區塊 -->
+    <div class="login-notice">
+      🔑 <b>【首次登入說明】</b><br>
+      請輸入您的專屬使用者帳號。<br>
+      如果您是首次使用，<span>密碼與您的使用者帳號相同</span>。<br>
+      (登入後，可點擊右上角「密碼設定」自行修改密碼)
     </div>
+
+    <input type="text" id="login-user" class="auth-input" placeholder="請輸入帳號">
+    <input type="password" id="login-pass" class="auth-input" placeholder="請輸入密碼">
+    <button class="auth-btn" onclick="handleLogin()">登入系統</button>
+  </div>
+</div>
+
+<!-- 修改密碼遮罩 -->
+<div id="changepw-screen" class="overlay-screen" style="display:none;">
+  <div class="login-box">
+    <h2 class="quicksand-gold-text">修改登入密碼</h2>
+    <p>確保您的智庫系統權限安全</p>
+    <input type="password" id="old-pw" class="auth-input" placeholder="輸入舊密碼">
+    <input type="password" id="new-pw" class="auth-input" placeholder="輸入新密碼">
+    <button class="auth-btn" onclick="submitChangePw()">確認修改</button>
+    <button class="auth-btn close-btn" onclick="closeChangePw()">取消返回</button>
+  </div>
+</div>
+
+<!-- 加至桌面教學遮罩 -->
+<div id="addtohome-screen" class="overlay-screen" style="display:none;">
+  <div class="login-box">
+    <h2 class="quicksand-gold-text" style="font-size: 22px;">📱 將智庫加至桌面</h2>
+    <p style="margin-bottom: 20px;">設為手機桌面捷徑，隨時快速查閱</p>
     
-    <div id="quickNav">
-
-      <!-- 💡 全新分類：嚴謹客戶心理狀態提問區 -->
-      <div class="section-badge" style="border-left-color: #D4AF37;">🎯 頂級客戶提問攻防區</div>
-      <div class="quick-grid" style="grid-template-columns: 1fr;">
-        <div class="shiny-btn" style="text-align:left; padding-left: 20px;" onclick="quickSearch('最有興趣')">
-          <span style="font-size:16px;">💡</span> 【最有興趣】的禮遇與放寬標準
-        </div>
-        <div class="shiny-btn" style="text-align:left; padding-left: 20px;" onclick="quickSearch('最在意')">
-          <span style="font-size:16px;">⚠️</span> 【最在意】的風險與隱私細節
-        </div>
-        <div class="shiny-btn" style="text-align:left; padding-left: 20px;" onclick="quickSearch('最想發問')">
-          <span style="font-size:16px;">❓</span> 【最想發問】的合規與收費標準
-        </div>
-      </div>
-
-      <!-- 1. 實戰銷售與話術 -->
-      <div class="section-badge">💼 實戰銷售與話術輔助</div>
-      <div class="quick-grid">
-        <div class="shiny-btn" onclick="quickSearch('破冰話術')">🗣️ 破冰與銷售話術</div>
-        <div class="shiny-btn" onclick="quickSearch('4K認證')">🏆 4K認證服務解析</div>
-        <div class="shiny-btn" onclick="quickSearch('慈善比較')">⚖️ 慈善vs公益比較表</div>
-        <div class="shiny-btn" onclick="quickSearch('市場前瞻')">📈 市場前瞻派發追蹤</div>
-        <div class="shiny-btn" onclick="quickSearch('名家陣容')">🎓 創世代名家專題</div>
-      </div>
-
-      <!-- 2. 作業流程與申請捷徑 -->
-      <div class="section-badge">⚡ 作業流程與申請捷徑</div>
-      <div class="quick-grid">
-        <div class="shiny-btn" onclick="quickSearch('財管2.0')">👑 財管2.0資格檢核</div>
-        <div class="shiny-btn" onclick="quickSearch('大額定存')">💰 大額定存議價看版</div>
-        <div class="shiny-btn" onclick="quickSearch('綠色通道')">💳 頂卡綠色通道進件</div>
-        <div class="shiny-btn" onclick="quickSearch('亞灣保險')">🛡️ 保險綠色與亞灣專區</div>
-        <div class="shiny-btn" onclick="quickSearch('表單總匯')">🔗 內部表單連結總匯</div>
-      </div>
-
-      <!-- 3. 專屬禮遇與活動控管 -->
-      <div class="section-badge">🎁 專屬禮遇與活動控管</div>
-      <div class="quick-grid">
-        <div class="shiny-btn" onclick="quickSearch('生日控管')">📅 生日禮預約進度控管</div>
-        <div class="shiny-btn" onclick="quickSearch('機接預約')">✈️ 機接預約3步驟</div>
-        <div class="shiny-btn" onclick="quickSearch('慈善機構')">🤝 慈善信託6大機構</div>
-        <div class="shiny-btn" onclick="quickSearch('尊榮房貸')">🏠 房貸與質借優惠</div>
-        <div class="shiny-btn" onclick="quickSearch('菁選體驗')">🥂 尊榮菁選體驗預告</div>
-      </div>
+    <div style="text-align: left; color: #EAE0C8; font-size: 14px; line-height: 1.8; margin-bottom: 25px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.3);">
+      <span style="color: #D4AF37; font-weight: 900; font-size: 15px;">🍎 蘋果 iOS (Safari瀏覽器)：</span><br>
+      1. 點擊瀏覽器底部的 <b>「分享」</b> 圖示<br>
+      &nbsp;&nbsp;&nbsp; (一個方形帶有向上箭頭的圖示)<br>
+      2. 往下滑動選單，點選 <b>「加入主畫面」</b><br>
+      3. 點擊右上角 <b>「新增」</b> 即可。<br><br>
       
-      <!-- 4. 售後服務與客戶維繫 -->
-      <div class="section-badge">🛡️ 售後服務與客戶維繫</div>
-      <div class="quick-grid">
-        <div class="shiny-btn" onclick="quickSearch('手續費')">💸 交易手續費優惠清單</div>
-        <div class="shiny-btn" onclick="quickSearch('分區客服')">📞 信用卡分區聯絡簿</div>
-        <div class="shiny-btn" onclick="quickSearch('定審覆審')">⚠️ 定審與覆審機制</div>
-        <div class="shiny-btn" onclick="quickSearch('10個重點')">💡 落地執行10大重點</div>
-      </div>
-
-      <!-- 5. 家族專屬智庫 -->
-      <div class="section-badge">🏛️ 家族專屬智庫</div>
-      <div class="quick-grid">
-        <div class="shiny-btn" onclick="quickSearch('四大面向')">🧭 家辦四大面向</div>
-        <div class="shiny-btn" onclick="quickSearch('個人稅')">⚖️ 傳承家醫科(個人稅)</div>
-        <div class="shiny-btn" onclick="quickSearch('都更')">🏢 都更與地政全流程</div>
-        <div class="shiny-btn" onclick="quickSearch('典藏套組')">🧳 典藏套組輔助應用</div>
-      </div>
-
-      <!-- 6. 億萬大亨活動 -->
-      <div class="section-badge">🚀 億萬大亨活動專區</div>
-      <div class="quick-grid">
-        <div class="shiny-btn" onclick="quickSearch('客戶特徵')">👥 客戶特徵與Action</div>
-        <div class="shiny-btn" onclick="quickSearch('活動禮遇')">🎁 目的、客群與禮遇</div>
-        <div class="shiny-btn" onclick="quickSearch('注意事項')">⚠️ 活動注意事項</div>
-        <div class="shiny-btn" onclick="quickSearch('財力聲明')">✍️ 財力聲明填寫重點</div>
-        <div class="shiny-btn" onclick="quickSearch('證明文件')">📄 證明文件檢核要項</div>
-      </div>
-
+      <span style="color: #D4AF37; font-weight: 900; font-size: 15px;">🤖 安卓 Android (Chrome瀏覽器)：</span><br>
+      1. 點擊瀏覽器右上角的 <b>「更多」</b> 圖示<br>
+      &nbsp;&nbsp;&nbsp; (直立的三個點點)<br>
+      2. 在選單中點選 <b>「加到主畫面」</b><br>
+      3. 點擊 <b>「新增」</b> 即可。
     </div>
 
-    <div id="searchResult" style="display:none;"></div>
+    <button class="auth-btn" onclick="closeAddToHome()">我知道了</button>
+  </div>
+</div>
+
+<!-- 系統主畫面 (登入後顯示) -->
+<div class="app-container" id="main-app">
+  <div class="header">
+    <div class="header-actions">
+      <h1 class="shiny-title quicksand-gold-text">八星等智庫</h1>
+      <div class="header-btn-group">
+        <button class="pw-btn" onclick="openAddToHome()">📱 桌面捷徑</button>
+        <!-- 僅有管理者能看到的後台按鈕 -->
+        <button class="pw-btn" id="admin-btn" style="display:none;" onclick="openBackend()">📊 後台數據</button>
+        <button class="pw-btn" onclick="openChangePw()">⚙️ 密碼</button>
+      </div>
+    </div>
+    <p class="header-subtitle">WEALTH ｜ WELL-BEING ｜ WELFARE</p>
+    <div class="sticky-search-box">
+      <input type="text" id="globalSearch" placeholder="🔍 即時快搜：頂級信用卡、家族辦公室..." oninput="realtimeFilter(this.value)">
+    </div>
   </div>
 
-  <!-- 底部導覽列 -->
-  <div class="nav">
-    <button id="tab-home" class="tab-btn active" onclick="resetHome()">首頁</button>
-    <button id="tab-second" class="tab-btn" onclick="quickSearch('最想發問', this)">提問攻防區</button>
-    <button id="tab-third" class="tab-btn" onclick="quickSearch('億萬大亨', this)">億萬大亨活動</button>
+  <div id="view-search-results" class="view-section">
+    <div class="category-badge">⚡ 專屬快搜結果</div>
+    <div id="list-global-search"></div>
+  </div>
+
+  <!-- 首頁 -->
+  <div id="view-home" class="view-section active">
+    <!-- 八星等客戶權益 -->
+    <div class="category-card">
+      <div class="category-header" onclick="toggleCard(this)">
+        <div class="cat-title-row">
+          <div class="cat-title quicksand-gold-text"><span class="cat-icon">🏆</span>八星等客戶權益</div>
+          <div class="cat-toggle">▼</div>
+        </div>
+        <p class="cat-summary">專為 AUM 達一億元以上之貴賓，提供全方位私銀級尊榮禮遇與專屬權益。</p>
+      </div>
+      <div class="category-content">
+        <div class="quick-grid">
+          <div class="grid-btn" onclick="quickSearch('億萬大亨迎賓')"><span>👑</span> 億萬大亨迎賓禮遇</div>
+          <div class="grid-btn" onclick="quickSearch('101次免手續費')"><span>💸</span> 101次免手續費</div>
+          <div class="grid-btn" onclick="quickSearch('頂級卡進件')"><span>💳</span> 頂級卡進件通道</div>
+          <div class="grid-btn" onclick="quickSearch('客服優先')"><span>📞</span> 客服優先插隊</div>
+          <div class="grid-btn" onclick="quickSearch('專屬權益手冊')"><span>📖</span> 專屬權益手冊</div>
+          <div class="grid-btn" onclick="quickSearch('定審覆審機制')"><span>⚠️</span> 資格定審覆審機制</div>
+          <div class="grid-btn" onclick="quickSearch('典藏套組')"><span>🧳</span> 典藏套組與掛牌</div>
+          <div class="grid-btn" onclick="quickSearch('尊榮菁選')"><span>🥂</span> 尊榮菁選私密體驗</div>
+          <div class="grid-btn" onclick="quickSearch('外幣匯出')"><span>💱</span> 外幣匯出免手續費</div>
+          <div class="grid-btn" onclick="quickSearch('單筆基金折扣')"><span>📉</span> 單筆基金3折起</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 家族辦公室 -->
+    <div class="category-card">
+      <div class="category-header" onclick="toggleCard(this)">
+        <div class="cat-title-row">
+          <div class="cat-title quicksand-gold-text"><span class="cat-icon">🏛️</span>家族辦公室</div>
+          <div class="cat-toggle">▼</div>
+        </div>
+        <p class="cat-summary">整合資產、傳承、稅務、信託四大專業，打造「4K認證」體系。</p>
+      </div>
+      <div class="category-content">
+        <div class="quick-grid">
+          <div class="grid-btn" onclick="quickSearch('4K認證專家')"><span>✅</span> 4K認證專家團隊</div>
+          <div class="grid-btn" onclick="quickSearch('傳承家醫科')"><span>⚖️</span> 傳承家醫(個人稅)</div>
+          <div class="grid-btn" onclick="quickSearch('企業稅務')"><span>🏢</span> 企業稅務與接班</div>
+          <div class="grid-btn" onclick="quickSearch('地政與都更')"><span>🏗️</span> 地政與都更服務</div>
+          <div class="grid-btn" onclick="quickSearch('閉鎖性公司')"><span>🔐</span> 閉鎖性公司防外人</div>
+          <div class="grid-btn" onclick="quickSearch('企業退場防線')"><span>🚪</span> 企業退場保險防線</div>
+          <div class="grid-btn" onclick="quickSearch('家族憲法')"><span>📜</span> 家族憲法共識制定</div>
+          <div class="grid-btn" onclick="quickSearch('信託守門人')"><span>🛡️</span> 信託守門人架構</div>
+          <div class="grid-btn" onclick="quickSearch('資產全景盤點')"><span>🔍</span> 資產全景盤點檢視</div>
+          <div class="grid-btn" onclick="quickSearch('跨國稅務諮詢')"><span>🌐</span> 跨國稅務法律諮詢</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 信用卡權益 -->
+    <div class="category-card">
+      <div class="category-header" onclick="toggleCard(this)">
+        <div class="cat-title-row">
+          <div class="cat-title quicksand-gold-text"><span class="cat-icon">💳</span>信用卡權益</div>
+          <div class="cat-toggle">▼</div>
+        </div>
+        <p class="cat-summary">涵蓋無限次機場接送、雙品牌貴賓室、高爾夫與頂級飯店折扣。</p>
+      </div>
+      <div class="category-content">
+        <div class="quick-grid">
+          <div class="grid-btn" onclick="quickSearch('無限次機接')"><span>✈️</span> 無限次機接服務</div>
+          <div class="grid-btn" onclick="quickSearch('雙品牌貴賓室')"><span>🛋️</span> 雙品牌機場貴賓室</div>
+          <div class="grid-btn" onclick="quickSearch('高爾夫飯店折扣')"><span>⛳</span> 高爾夫與飯店折扣</div>
+          <div class="grid-btn" onclick="quickSearch('百貨免費停車')"><span>🅿️</span> 百貨免費停車禮遇</div>
+          <div class="grid-btn" onclick="quickSearch('海外回饋')"><span>🌎</span> 海外最高4.5%回饋</div>
+          <div class="grid-btn" onclick="quickSearch('急件補卡')"><span>⚡</span> 國內急件急速補卡</div>
+          <div class="grid-btn" onclick="quickSearch('快速臨調額度')"><span>📈</span> 快速臨調額度處理</div>
+          <div class="grid-btn" onclick="quickSearch('尊榮客服專線')"><span>📞</span> 尊榮客服專線優先</div>
+          <div class="grid-btn" onclick="quickSearch('辦卡優先審查')"><span>📝</span> 辦卡優先審查通道</div>
+          <div class="grid-btn" onclick="quickSearch('保費回饋')"><span>🛡️</span> 保費0.5%回饋無上限</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 慈善信託 -->
+    <div class="category-card">
+      <div class="category-header" onclick="toggleCard(this)">
+        <div class="cat-title-row">
+          <div class="cat-title quicksand-gold-text"><span class="cat-icon">🤝</span>慈善信託</div>
+          <div class="cat-toggle">▼</div>
+        </div>
+        <p class="cat-summary">低門檻 100 萬起，可事前指定捐贈機構，讓善念發揮永續影響力。</p>
+      </div>
+      <div class="category-content">
+        <div class="quick-grid">
+          <div class="grid-btn" onclick="quickSearch('慈善公益差異')"><span>⚖️</span> 慈善與公益差異</div>
+          <div class="grid-btn" onclick="quickSearch('100萬門檻')"><span>💰</span> 100萬極低成立門檻</div>
+          <div class="grid-btn" onclick="quickSearch('指定慈善機構')"><span>🏥</span> 指定特定慈善機構</div>
+          <div class="grid-btn" onclick="quickSearch('本金隨時返還')"><span>🔄</span> 本金可隨時申請返還</div>
+          <div class="grid-btn" onclick="quickSearch('投資獲利付管理費')"><span>📈</span> 投資獲利支付管理費</div>
+          <div class="grid-btn" onclick="quickSearch('安養結合慈善')"><span>👵</span> 安養結合慈善架構</div>
+          <div class="grid-btn" onclick="quickSearch('捐款收據節稅')"><span>🧾</span> 捐款收據正本與節稅</div>
+          <div class="grid-btn" onclick="quickSearch('江賢二藝術')"><span>🎨</span> 江賢二藝術園區</div>
+          <div class="grid-btn" onclick="quickSearch('均一學思達')"><span>📚</span> 均一與學思達教育</div>
+          <div class="grid-btn" onclick="quickSearch('賽親世界展望')"><span>🌍</span> 賽親與世界展望會</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 存款及投資 -->
+    <div class="category-card">
+      <div class="category-header" onclick="toggleCard(this)">
+        <div class="cat-title-row">
+          <div class="cat-title quicksand-gold-text"><span class="cat-icon">📈</span>存款及投資</div>
+          <div class="cat-toggle">▼</div>
+        </div>
+        <p class="cat-summary">量身打造台外幣豐利存款議價，及嚴選私募基金與常春藤名校債。</p>
+      </div>
+      <div class="category-content">
+        <div class="quick-grid">
+          <div class="grid-btn" onclick="quickSearch('美元大額議價')"><span>💵</span> 美大額定存議價</div>
+          <div class="grid-btn" onclick="quickSearch('非美金詢價')"><span>💱</span> 非美金外幣詢價</div>
+          <div class="grid-btn" onclick="quickSearch('常春藤名校債')"><span>🎓</span> 3A常春藤名校債</div>
+          <div class="grid-btn" onclick="quickSearch('FCN自由選')"><span>🎯</span> FCN標的自由選</div>
+          <div class="grid-btn" onclick="quickSearch('限量私募基金')"><span>💎</span> 限量嚴選私募基金</div>
+          <div class="grid-btn" onclick="quickSearch('市場前瞻季刊')"><span>📰</span> 市場前瞻季刊派發</div>
+          <div class="grid-btn" onclick="quickSearch('投資組合檢視')"><span>📊</span> 專屬投資組合檢視</div>
+          <div class="grid-btn" onclick="quickSearch('風險RR值上限')"><span>⚖️</span> 風險RR值評估上限</div>
+          <div class="grid-btn" onclick="quickSearch('結構型設計')"><span>🧩</span> 股權匯率結構型設計</div>
+          <div class="grid-btn" onclick="quickSearch('基金最低折扣')"><span>📉</span> 單筆基金申購3折起</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 授信產品 -->
+    <div class="category-card">
+      <div class="category-header" onclick="toggleCard(this)">
+        <div class="cat-title-row">
+          <div class="cat-title quicksand-gold-text"><span class="cat-icon">💰</span>授信產品</div>
+          <div class="cat-toggle">▼</div>
+        </div>
+        <p class="cat-summary">賦予大戶極致靈活的資金調度彈性，包含房貸、質借免開辦費及優先撥款。</p>
+      </div>
+      <div class="category-content">
+        <div class="quick-grid">
+          <div class="grid-btn" onclick="quickSearch('質借免開辦費')"><span>🏦</span> 自行質借免開辦費</div>
+          <div class="grid-btn" onclick="quickSearch('房貸免開辦費')"><span>🏠</span> 尊榮房貸免開辦費</div>
+          <div class="grid-btn" onclick="quickSearch('優先審核撥款')"><span>⚡</span> 房貸優先審核撥款</div>
+          <div class="grid-btn" onclick="quickSearch('循環型房貸')"><span>🔄</span> 循環型房貸2.58%起</div>
+          <div class="grid-btn" onclick="quickSearch('定存借台幣')"><span>💵</span> 外幣定存借新台幣</div>
+          <div class="grid-btn" onclick="quickSearch('亞灣槓桿放寬')"><span>⚓</span> 亞灣專區槓桿放寬</div>
+          <div class="grid-btn" onclick="quickSearch('均攤型優惠')"><span>📉</span> 均攤型房貸2.20%</div>
+          <div class="grid-btn" onclick="quickSearch('香港定存質借')"><span>🇭🇰</span> 香港分行定存質借</div>
+          <div class="grid-btn" onclick="quickSearch('專業鑑價豪宅')"><span>🏢</span> 外部專業鑑價豪宅</div>
+          <div class="grid-btn" onclick="quickSearch('靈活資金調度')"><span>🌊</span> 大額靈活資金調度</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 生日禮遇 -->
+    <div class="category-card">
+      <div class="category-header" onclick="toggleCard(this)">
+        <div class="cat-title-row">
+          <div class="cat-title quicksand-gold-text"><span class="cat-icon">🎁</span>生日禮遇</div>
+          <div class="cat-toggle">▼</div>
+        </div>
+        <p class="cat-summary">頂級時尚紓壓與 AI 健康物理治療雙重選擇，預留專屬照顧時刻。</p>
+      </div>
+      <div class="category-content">
+        <div class="quick-grid">
+          <div class="grid-btn" onclick="quickSearch('生日禮二選一')"><span>🎂</span> 專屬生日禮二選一</div>
+          <div class="grid-btn" onclick="quickSearch('AVEDA療程')"><span>💆</span> AVEDA頭皮養護療程</div>
+          <div class="grid-btn" onclick="quickSearch('VIP優伴服務')"><span>🧘</span> 生生優動VIP優伴</div>
+          <div class="grid-btn" onclick="quickSearch('90天轉贈效期')"><span>🎫</span> 票券90天轉贈效期</div>
+          <div class="grid-btn" onclick="quickSearch('數位憑證核銷')"><span>📱</span> 數位憑證條碼核銷</div>
+          <div class="grid-btn" onclick="quickSearch('視訊諮詢陪伴')"><span>💻</span> 視訊諮詢文字陪伴</div>
+          <div class="grid-btn" onclick="quickSearch('Youdon APP')"><span>📲</span> Youdon智慧物理APP</div>
+          <div class="grid-btn" onclick="quickSearch('客製化運動處方')"><span>📋</span> 客製化運動處方設計</div>
+          <div class="grid-btn" onclick="quickSearch('頭皮微循環按摩')"><span>💆‍♂️</span> 頭皮微循環獨家按摩</div>
+          <div class="grid-btn" onclick="quickSearch('居家復能照顧')"><span>🏠</span> 居家復能照顧計畫</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 保代 -->
+    <div class="category-card">
+      <div class="category-header" onclick="toggleCard(this)">
+        <div class="cat-title-row">
+          <div class="cat-title quicksand-gold-text"><span class="cat-icon">🛡️</span>保代</div>
+          <div class="cat-toggle">▼</div>
+        </div>
+        <p class="cat-summary">以保險作為財富傳承與企業退場防線，並享亞灣特製高槓桿保單。</p>
+      </div>
+      <div class="category-content">
+        <div class="quick-grid">
+          <div class="grid-btn" onclick="quickSearch('保費融資限制')"><span>📑</span> 保費融資權限限制</div>
+          <div class="grid-btn" onclick="quickSearch('亞灣高解約金')"><span>💰</span> 亞灣高解約金保單</div>
+          <div class="grid-btn" onclick="quickSearch('保險退場防火牆')"><span>🔥</span> 企業退場保險防火牆</div>
+          <div class="grid-btn" onclick="quickSearch('核保綠色通道')"><span>⚡</span> 核保綠色優先通道</div>
+          <div class="grid-btn" onclick="quickSearch('不受死亡給付規範')"><span>🛡️</span> 不受死亡給付規範</div>
+          <div class="grid-btn" onclick="quickSearch('外幣健康險')"><span>🏥</span> 外幣多次給付健康險</div>
+          <div class="grid-btn" onclick="quickSearch('產壽險適合度')"><span>📋</span> 產壽險適合度評量</div>
+          <div class="grid-btn" onclick="quickSearch('保單跨世代傳承')"><span>👨‍👩‍👧</span> 保單跨世代傳承設計</div>
+          <div class="grid-btn" onclick="quickSearch('拋棄繼承保險金')"><span>🚪</span> 拋棄繼承領取保險金</div>
+          <div class="grid-btn" onclick="quickSearch('財富身分法整合')"><span>⚖️</span> 財富與身分法整合</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 創世代家族 -->
+    <div class="standalone-title quicksand-gold-text">🎓 創世代家族 (獨立專區)</div>
+    <div class="quick-grid">
+      <div class="grid-btn" onclick="quickSearch('創世代知識網頁')"><span>🌐</span> 創世代知識網頁</div>
+      <div class="grid-btn" onclick="quickSearch('佘日新')"><span>👨‍🏫</span> 佘日新教授專題</div>
+    </div>
+  </div>
+
+  <!-- 提問攻防區 -->
+  <div id="view-qa" class="view-section">
+    <div class="category-card expanded">
+      <div class="category-header" onclick="toggleCard(this)">
+        <div class="cat-title-row">
+          <div class="cat-title quicksand-gold-text"><span class="cat-icon">📝</span>必考！10大實戰精華考題</div>
+          <div class="cat-toggle">▼</div>
+        </div>
+        <p class="cat-summary" style="color:#64B5F6;">根據最新教育訓練篩選，前線理專必備的核心 KPI 知識點。</p>
+      </div>
+      <div class="category-content">
+        <div id="list-exam"></div>
+      </div>
+    </div>
+
+    <div class="category-card">
+      <div class="category-header" onclick="toggleCard(this)">
+        <div class="cat-title-row">
+          <div class="cat-title quicksand-gold-text"><span class="cat-icon">💡</span>客戶【最有興趣】的禮遇</div>
+          <div class="cat-toggle">▼</div>
+        </div>
+        <p class="cat-summary">聚焦大額定存議價、手續費減免、頂級卡綠色通道等放寬亮點。</p>
+      </div>
+      <div class="category-content">
+        <div class="icebreaker-card">
+          <div class="ib-header">
+            <span class="ib-title">💬 實戰破冰情境對話</span>
+            <button class="ib-btn" onclick="nextScript('interest')">🔄 切換腳本</button>
+          </div>
+          <div class="ib-content" id="ib-text-interest"></div>
+          <div class="ib-counter" id="ib-counter-interest">腳本 1 / 10</div>
+        </div>
+        <div id="list-interest"></div>
+      </div>
+    </div>
+
+    <div class="category-card">
+      <div class="category-header" onclick="toggleCard(this)">
+        <div class="cat-title-row">
+          <div class="cat-title quicksand-gold-text"><span class="cat-icon">⚠️</span>客戶【最在意】的風險</div>
+          <div class="cat-toggle">▼</div>
+        </div>
+        <p class="cat-summary">聚焦防範外人、閉鎖性公司、慈善信託返還等隱私與保全議題。</p>
+      </div>
+      <div class="category-content">
+        <div class="icebreaker-card">
+          <div class="ib-header">
+            <span class="ib-title">💬 實戰破冰情境對話</span>
+            <button class="ib-btn" onclick="nextScript('care')">🔄 切換腳本</button>
+          </div>
+          <div class="ib-content" id="ib-text-care"></div>
+          <div class="ib-counter" id="ib-counter-care">腳本 1 / 10</div>
+        </div>
+        <div id="list-care"></div>
+      </div>
+    </div>
+
+    <div class="category-card">
+      <div class="category-header" onclick="toggleCard(this)">
+        <div class="cat-title-row">
+          <div class="cat-title quicksand-gold-text"><span class="cat-icon">❓</span>客戶【最想發問】的合規</div>
+          <div class="cat-toggle">▼</div>
+        </div>
+        <p class="cat-summary">聚焦資格門檻、風險RR值上限、常春藤名校債資格等合規解答。</p>
+      </div>
+      <div class="category-content">
+        <div class="icebreaker-card">
+          <div class="ib-header">
+            <span class="ib-title">💬 實戰破冰情境對話</span>
+            <button class="ib-btn" onclick="nextScript('ask')">🔄 切換腳本</button>
+          </div>
+          <div class="ib-content" id="ib-text-ask"></div>
+          <div class="ib-counter" id="ib-counter-ask">腳本 1 / 10</div>
+        </div>
+        <div id="list-ask"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 億萬大亨專區 -->
+  <div id="view-billionaire" class="view-section">
+    <div class="category-badge quicksand-gold-text" style="border-left-color: #E65C00; box-shadow: 0 0 15px rgba(212,175,55,0.4);">🚀 億萬大亨活動實戰守則</div>
+    <div id="list-billionaire"></div>
+  </div>
+
+  <!-- 底部加大導覽列 -->
+  <div class="nav-bar">
+    <button data-target="view-home" class="active" onclick="switchTab('view-home', this)">首頁智庫</button>
+    <button data-target="view-qa" onclick="switchTab('view-qa', this)">提問攻防</button>
+    <button data-target="view-billionaire" onclick="switchTab('view-billionaire', this)">億萬大亨</button>
   </div>
 </div>
 
 <script>
   // ==========================================
-  // 登入、權限與時間紀錄控管邏輯 (保留 Tony 底層控制)
+  // 【設定區】後台追蹤與觀看網址
+  // ==========================================
+  // 1. Google Apps Script 流量統計網址 (寫入資料用)
+  const GOOGLE_APP_SCRIPT_URL = "請將此處替換為您的Google Apps Script Web App URL";
+  
+  // 2. Google 試算表 後台觀看網址 (管理者Tony專用)
+  const GOOGLE_SHEET_URL = "請將此處替換為您的Google試算表網址";
+
+  // ==========================================
+  // 登入驗證與密碼修改邏輯
   // ==========================================
   let currentUser = "";
-  let currentSessionIndex = -1;
-  let sessionTimer = null;
 
-  function getDB() {
-      let db = localStorage.getItem('RoyalVIP_Users');
-      if (!db) { return { 'Tony': '661001' }; }
-      try {
-          let parsed = JSON.parse(db);
-          if (!parsed['Tony']) { parsed['Tony'] = '661001'; }
-          return parsed;
-      } catch(e) { return { 'Tony': '661001' }; }
+  function handleLogin() {
+    const user = document.getElementById('login-user').value.trim();
+    const pass = document.getElementById('login-pass').value.trim();
+    
+    if (!user || !pass) {
+      alert("請輸入帳號與密碼！"); return;
+    }
+
+    // 管理者判斷 (Tony專屬權限)
+    if (user.toLowerCase() === 'tony' && pass === '661001') {
+      loginSuccess(user, true);
+      return;
+    }
+
+    // 一般使用者判斷
+    const storageKey = 'royal_vip_pw_' + user;
+    const storedPass = localStorage.getItem(storageKey);
+
+    if (!storedPass) {
+      // 首次登入檢核：帳密須相同
+      if (user === pass) {
+        localStorage.setItem(storageKey, pass);
+        alert("歡迎首次登入！為了確保您的智庫安全，請於進入系統後點擊右上角「密碼」進行修改。");
+        loginSuccess(user, false);
+      } else {
+        alert("首次登入，您的密碼必須與使用者名稱相同！");
+      }
+    } else {
+      // 舊用戶檢核
+      if (storedPass === pass) {
+        loginSuccess(user, false);
+      } else {
+        alert("密碼錯誤，請重新輸入！");
+      }
+    }
   }
 
-  function performLogin() {
-    let user = document.getElementById('usernameInput').value.trim();
-    const pass = document.getElementById('passwordInput').value.trim();
-    
-    if(!user || !pass) { alert('請完整輸入帳號與密碼！'); return; }
-    
-    let users = getDB();
-    let isTony = (user.toLowerCase() === 'tony');
-
-    if (isTony) {
-        user = 'Tony'; 
-        if (pass !== '661001' && users['Tony'] !== pass) {
-            alert('密碼錯誤，請重新輸入！'); return;
-        }
-        if (pass === '661001') { users['Tony'] = '661001'; }
-    } else {
-        if (!users[user]) {
-          if (pass !== user) {
-            alert('【帳號自動註冊機制】\n首次登入時，密碼請輸入與帳號【完全相同】的字串！'); 
-            return;
-          }
-          users[user] = pass;
-          alert('帳號自動開通註冊成功！');
-        } else {
-          if (users[user] !== pass) {
-            alert('密碼錯誤，請重新輸入！'); return;
-          }
-        }
-    }
-    
-    localStorage.setItem('RoyalVIP_Users', JSON.stringify(users));
+  function loginSuccess(user, isAdmin) {
     currentUser = user;
-    document.getElementById('welcomeMsg').innerText = `VIP, ${user}`;
-    
-    if (isTony) { document.getElementById('adminBtn').style.display = 'inline-block'; } 
-    else { document.getElementById('adminBtn').style.display = 'none'; }
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('main-app').style.display = 'block';
 
-    startSessionLog(user);
-    document.getElementById('loginModal').style.display = 'none';
-    document.getElementById('usernameInput').value = '';
-    document.getElementById('passwordInput').value = '';
+    // 若為管理者，解鎖後台按鈕
+    if (isAdmin) {
+      document.getElementById('admin-btn').style.display = 'inline-block';
+    }
+
+    recordTraffic(user); // 紀錄流量
   }
 
-  function updatePassword() {
-    const oldP = document.getElementById('oldPwd').value.trim();
-    const newP = document.getElementById('newPwd').value.trim();
-    const confP = document.getElementById('newPwdConfirm').value.trim();
-    let users = getDB(); 
-    
-    let isOldPassCorrect = false;
-    if (currentUser === 'Tony') {
-        if (oldP === '661001' || oldP === users['Tony']) isOldPassCorrect = true;
+  function openBackend() {
+    if(GOOGLE_SHEET_URL.includes("請將此處替換")) {
+      alert("系統提示：您尚未於程式碼設定區填入 GOOGLE_SHEET_URL，請先貼上您的 Google Excel 網址！");
     } else {
-        if (oldP === users[currentUser]) isOldPassCorrect = true;
+      window.open(GOOGLE_SHEET_URL, '_blank');
+    }
+  }
+
+  function openChangePw() {
+    document.getElementById('changepw-screen').style.display = 'flex';
+    document.getElementById('old-pw').value = '';
+    document.getElementById('new-pw').value = '';
+  }
+
+  function closeChangePw() {
+    document.getElementById('changepw-screen').style.display = 'none';
+  }
+
+  function submitChangePw() {
+    const oldP = document.getElementById('old-pw').value.trim();
+    const newP = document.getElementById('new-pw').value.trim();
+
+    if (currentUser.toLowerCase() === 'tony') {
+      alert("超級管理者帳號密碼為系統預設，不允許在此修改。"); return;
     }
 
-    if (!isOldPassCorrect) { alert('原密碼錯誤！'); return; }
-    if (newP === "" || newP.length < 4) { alert('新密碼長度至少需 4 碼！'); return; }
-    if (newP !== confP) { alert('兩次輸入的新密碼不一致！'); return; }
+    if (!oldP || !newP) {
+      alert("新舊密碼皆不可留白。"); return;
+    }
+
+    const storageKey = 'royal_vip_pw_' + currentUser;
+    const storedPass = localStorage.getItem(storageKey);
+
+    if (oldP === storedPass) {
+      localStorage.setItem(storageKey, newP);
+      alert("密碼修改成功！請牢記您的新密碼。");
+      closeChangePw();
+    } else {
+      alert("舊密碼輸入錯誤，請重新確認！");
+    }
+  }
+  
+  // 加至桌面教學控制
+  function openAddToHome() {
+    document.getElementById('addtohome-screen').style.display = 'flex';
+  }
+  function closeAddToHome() {
+    document.getElementById('addtohome-screen').style.display = 'none';
+  }
+
+  function recordTraffic(user) {
+    if (GOOGLE_APP_SCRIPT_URL.includes("請將此處替換")) {
+      console.log("系統提示：尚未設定 Google 雲端統計網址，跳過流量回傳。");
+      return;
+    }
+    const url = `${GOOGLE_APP_SCRIPT_URL}?user=${encodeURIComponent(user)}&action=Login`;
+    // 使用 no-cors 模式背景發送請求，不須理會跨網域限制
+    fetch(url, { mode: 'no-cors' }).catch(err => console.error("流量紀錄失敗", err));
+  }
+
+  // ==========================================
+  // 即時過濾快搜引擎 (Real-time Filter)
+  // ==========================================
+  function realtimeFilter(val) {
+    const query = val.trim().toLowerCase();
+    const tabs = document.querySelectorAll('.view-section');
+    const searchOverlay = document.getElementById('view-search-results');
     
-    users[currentUser] = newP;
-    localStorage.setItem('RoyalVIP_Users', JSON.stringify(users));
-    alert('密碼變更成功！下回請使用新密碼登入。');
-    closePwdModal();
-  }
-
-  function startSessionLog(user) {
-    let logs = JSON.parse(localStorage.getItem('RoyalVIP_Logs')) || [];
-    let now = new Date();
-    logs.push({ user: user, loginTime: now.getTime(), loginStr: now.toLocaleString('zh-TW', { hour12: false }), durationSec: 0 });
-    localStorage.setItem('RoyalVIP_Logs', JSON.stringify(logs));
-    currentSessionIndex = logs.length - 1;
-    sessionTimer = setInterval(() => {
-      let currentLogs = JSON.parse(localStorage.getItem('RoyalVIP_Logs')) || [];
-      if (currentLogs[currentSessionIndex]) {
-        currentLogs[currentSessionIndex].durationSec = Math.floor((new Date().getTime() - currentLogs[currentSessionIndex].loginTime) / 1000);
-        localStorage.setItem('RoyalVIP_Logs', JSON.stringify(currentLogs));
+    if (!query) {
+      searchOverlay.classList.remove('active');
+      const activeBtn = document.querySelector('.nav-bar button.active');
+      if(activeBtn) {
+        const activeTabId = activeBtn.getAttribute('data-target');
+        document.getElementById(activeTabId).classList.add('active');
       }
-    }, 3000);
-  }
-
-  function performLogout() {
-    clearInterval(sessionTimer); currentUser = ""; currentSessionIndex = -1;
-    document.getElementById('loginModal').style.display = 'flex';
-  }
-
-  function openPwdModal() {
-    document.getElementById('oldPwd').value = ''; document.getElementById('newPwd').value = ''; document.getElementById('newPwdConfirm').value = '';
-    document.getElementById('pwdModal').style.display = 'flex';
-  }
-
-  function closePwdModal() { document.getElementById('pwdModal').style.display = 'none'; }
-
-  function formatDuration(sec) {
-    if (!sec) return "剛登入";
-    let h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60, res = "";
-    if(h > 0) res += `${h}小時`; if(m > 0) res += `${m}分`; res += `${s}秒`; return res;
-  }
-
-  function showAdminLogs() {
-    let logs = JSON.parse(localStorage.getItem('RoyalVIP_Logs')) || [];
-    let html = '<table><tr><th>登入帳號</th><th>登入時間</th><th>停留時間</th></tr>';
-    if (logs.length === 0) { html += '<tr><td colspan="3" style="text-align:center;">尚無紀錄</td></tr>'; } 
-    else {
-      for(let i = logs.length - 1; i >= 0; i--) {
-        html += `<tr><td>${logs[i].user}</td><td>${logs[i].loginStr}</td><td style="color:#D4A300; font-weight:bold;">${formatDuration(logs[i].durationSec)}</td></tr>`;
-      }
+      return;
     }
-    html += '</table>'; document.getElementById('logContent').innerHTML = html; document.getElementById('adminModal').style.display = 'flex';
-  }
-
-  function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
-  function clearLogs() {
-    if(confirm('⚠️ 警告：您確定要清除所有存取紀錄嗎？此動作無法復原。')) { localStorage.removeItem('RoyalVIP_Logs'); showAdminLogs(); }
-  }
-
-  function resetHome() {
-    document.getElementById('searchInput').value = '';
-    document.getElementById('quickNav').style.display = 'block';
-    document.getElementById('searchResult').style.display = 'none';
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.getElementById('tab-home').classList.add('active');
-    window.scrollTo(0, 0);
-  }
-
-  function quickSearch(text, btnElement = null) {
-    document.getElementById('searchInput').value = text;
-    performSearch();
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    if (btnElement) { btnElement.classList.add('active'); } 
-    else { document.getElementById('tab-home').classList.add('active'); }
-    window.scrollTo(0, 0);
+    
+    tabs.forEach(tab => tab.classList.remove('active'));
+    searchOverlay.classList.add('active');
+    
+    const results = dbQA.filter(item => {
+      return item.keywords.some(kw => kw.toLowerCase().includes(query)) || 
+             item.q.toLowerCase().includes(query) || 
+             item.a.toLowerCase().includes(query);
+    });
+    renderCards(results, "list-global-search");
   }
 
   // ==========================================
-  // 全新心理狀態重組：提問攻防資料庫 + 20大模組
+  // UI 互動：卡片手風琴展開/收合
   // ==========================================
-  const qaDatabase = [
-    // 💡 類別一：最有興趣 (Interest)
-    {
-      keywords: ["最有興趣", "最感興趣", "禮遇", "放寬", "優勢", "好處", "亮點", "衍生性商品", "4K認證", "企業退場策略", "常春藤", "FCN自由選", "自行質借", "尊榮房貸", "完全自益信託", "指定特定機構", "機接", "跨提跨轉", "免費停車", "生日禮轉贈", "菁選體驗"],
-      question: "💡 頂級客戶提問：【最有興趣】的專屬禮遇與放寬標準",
-      answer: `
-        <div class="qa-box interest"><span class="qa-type-interest">💡 專業投資人門檻放寬</span> 「交易經驗」的放寬標準，例如近2年內持有2筆衍生性商品達6個月即可過關，這對我取得資格相對有利。</div>
-        <div class="qa-box interest"><span class="qa-type-interest">💡 家族辦公室優勢</span> 提供的「4K認證」（尤其是稅制KYT與信託KYT），能協助我檢視境內外資產與CFC/CRS風險。</div>
-        <div class="qa-box interest"><span class="qa-type-interest">💡 接班與退場</span> 「企業退場策略」的規劃。面對多位繼承人接班共識不足時，團隊能提供哪些實質的股權分割或併購建議？</div>
-        <div class="qa-box interest"><span class="qa-type-interest">💡 私銀級特殊標的</span> 取得專業投資人身分後，可申購「不受信評限制」的3A級常春藤名校債券（如哈佛、耶魯）及杜拜政府公債。</div>
-        <div class="qa-box interest"><span class="qa-type-interest">💡 客製化結構商品</span> FCN商品可以「標的自由選」，能客製化連結我指定的美國或日本特定科技股（如NVIDIA）。</div>
-        <div class="qa-box interest"><span class="qa-type-interest">💡 資金槓桿優惠</span> 特定金錢信託自行質借，免收3,000元開辦費，且利率比一般PI客戶再減碼25bps。</div>
-        <div class="qa-box interest"><span class="qa-type-interest">💡 房貸特權</span> 尊榮房貸方案開辦費全免，且循環型房貸利率達2.58%，比七星等客戶更優惠，能隨借隨還。</div>
-        <div class="qa-box interest"><span class="qa-type-interest">💡 慈善與資金控制權</span> 遠銀慈善信託屬於「完全自益信託」，我依然握有資產的實質控制權。</div>
-        <div class="qa-box interest"><span class="qa-type-interest">💡 精準公益捐贈</span> 可以「事前指定特定之慈善機構」（如江賢二藝術園區、嚴長壽的均一學校等）作為孳息捐贈對象，確保資金去向符合理念。</div>
-        <div class="qa-box interest"><span class="qa-type-interest">💡 頂卡機接禮遇</span> 頂級快樂卡提供「全年不限次」豪華車款（雙B或Lexus）機場接送與雙品牌貴賓室。</div>
-        <div class="qa-box interest"><span class="qa-type-interest">💡 日常手續費減免</span> 每月高達 101 次的跨行提款與跨行轉帳免手續費。</div>
-        <div class="qa-box interest"><span class="qa-type-interest">💡 百貨與飯店特權</span> 遠東百貨全天免費停車，以及遠東香格里拉飯店自助餐廳「2人同行1人免費」的優惠。</div>
-        <div class="qa-box interest"><span class="qa-type-interest">💡 生日禮彈性</span> 生日禮的彈性與長效期：票券有 90 天的寬裕效期，且沒有綁定本人，可以自由轉贈給親友或太太使用。</div>
-        <div class="qa-box interest"><span class="qa-type-interest">💡 稀缺尊榮體驗</span> 「尊榮菁選體驗」的私密邀請制活動（如王品集團食尚私聚限量席次）。</div>
-      `
-    },
-    // ⚠️ 類別二：最在意 (Care)
-    {
-      keywords: ["最在意", "在意", "擔心", "風險", "隱私", "個資", "拔除資格", "保密", "折價", "隱藏手續費", "清算", "Margin Call", "斷頭", "外部鑑價", "返還財產", "稽核報告", "機接條件", "中轉行", "保證接通", "資安", "王品標準", "feibwm", "ISO 27001"],
-      question: "⚠️ 頂級客戶提問：【最在意】的風險與隱私細節",
-      answer: `
-        <div class="qa-box care"><span class="qa-type-care">⚠️ 資格拔除疑慮</span> 定期審查（定審覆審）機制的嚴格程度。若名下資產因短期市場波動跌破1億元，是否會立即被拔除資格？</div>
-        <div class="qa-box care"><span class="qa-type-care">⚠️ 個資與查證</span> 「財力聲明書」的隱私與個資保護。宣告行外資產以湊足1億元門檻時，銀行如何查證？資料是否會通報主管機關？</div>
-        <div class="qa-box care"><span class="qa-type-care">⚠️ 外部專家保密</span> 外部專家團隊（如會計師、律師）的保密協定。全球資產架構全盤托出，如何確保資料不外洩？</div>
-        <div class="qa-box care"><span class="qa-type-care">⚠️ 流動性與折價損失</span> 特殊商品（如Cat Bond巨災債、私募基金）的流動性與次級市場報價。急需資金提前贖回的折價損失有多大？</div>
-        <div class="qa-box care"><span class="qa-type-care">⚠️ 獲利侵蝕</span> 匯率型結構商品與外國股票的「隱藏手續費」。買賣價差（Spread）與信託管理費是否會侵蝕獲利？</div>
-        <div class="qa-box care"><span class="qa-type-care">⚠️ 境外基金風險</span> 境外基金若有40%以上投資於非有價證券（如房地產或期貨），其潛在的槓桿風險與清算風險為何？</div>
-        <div class="qa-box care"><span class="qa-type-care">⚠️ 斷頭與追繳機制</span> 亞灣專區「不受五成限制」的質借成數。市場大跌時，Margin Call（追繳保證金）機制與斷頭強制平倉線如何計算？</div>
-        <div class="qa-box care"><span class="qa-type-care">⚠️ 擔保品鑑價</span> 豪宅與店面的鑑價標準。銀行是否願意採納客戶指定的「外部專業鑑價公司」報告，避免貸款額度不足？</div>
-        <div class="qa-box care"><span class="qa-type-care">⚠️ 資金卡關</span> 慈善信託「返還信託財產」的機制。未來家族企業需要龐大現金救急，申請解約取回本金最快需幾個工作天？</div>
-        <div class="qa-box care"><span class="qa-type-care">⚠️ 捐助追蹤</span> 捐助效益的追蹤。銀行或受贈機構是否會每年提供正式的「財務運用稽核報告」供審視？</div>
-        <div class="qa-box care"><span class="qa-type-care">⚠️ 權益文字遊戲</span> 所謂的機接「不限次」其實隱藏了嚴格的前提條件（須刷滿2萬元機票或團費）。這算哪門子的「不限次」？</div>
-        <div class="qa-box care"><span class="qa-type-care">⚠️ 匯出手續費漏洞</span> 外幣匯出免手續費與郵電費，這是否包含「全額到付(BEN/OUR/SHA)」的中轉行手續費？</div>
-        <div class="qa-box care"><span class="qa-type-care">⚠️ 客服佔線</span> 信用卡優先服務宣稱輸入ID就能轉接專人。遇到系統佔線，跨區打給客服組長真的能保證立刻接通嗎？</div>
-        <div class="qa-box care"><span class="qa-type-care">⚠️ APP醫療隱私</span> 生生優動「Youdon 智慧物理治療 APP」。高資產客戶的醫療紀錄、身體狀況等敏感數據在APP上的資安層級為何？</div>
-        <div class="qa-box care"><span class="qa-type-care">⚠️ 稀缺名額分配</span> 王品集團私聚「限量50席」是按什麼標準發送邀請？是AUM規模還是理專先搶先贏？不希望身為八星等卻被排擠。</div>
-        <div class="qa-box care"><span class="qa-type-care">⚠️ 網頁毫無專屬感</span> 「創世代知識網頁」的專屬感。密碼統一給「feibwm」，毫無私密性，隨便誰拿到密碼都能登入？</div>
-        <div class="qa-box care"><span class="qa-type-care">⚠️ 檔案傳輸資安</span> 行李掛牌製作流程。要求客戶給「英文名字」交由ASM統籌，Excel表格傳送過程是否有符合ISO 27001的資安規範？</div>
-      `
-    },
-    // ❓ 類別三：最想發問 (Ask)
-    {
-      keywords: ["最想發問", "發問", "疑問", "計算標準", "匯率結算", "暫停業務", "法律效力", "顧問費用", "最大損失", "定存加碼", "預測準確率", "機動調整頻率", "匯款限制", "更改受益人", "信託管理費", "抵稅", "加價標準", "回饋上限", "免年費", "違約金", "推銷", "醫師親回", "折現"],
-      question: "❓ 頂級客戶提問：【最想發問】的合規與收費標準",
-      answer: `
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 資產結算日</span> 「1億元AUM」的具體計算標準為何？外幣、基金、保單的淨值是用哪一天的匯率或市價結算？</div>
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 覆審未配合處置</span> 兩年一次的覆審中，若因人在國外未配合而被「暫停業務」，是凍結既有資產，還是只限制新交易？</div>
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 法律效力</span> 「黃金特別股」一票否決權的具體法律效力為何？設立閉鎖性公司時，如何保證二代或外部股東無法奪走經營權？</div>
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 專家費用歸屬</span> 諮詢會計師與律師等外部專家的費用，是由銀行全額吸收，還是有諮詢時數或專案規模的上限？</div>
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 極端風險承受</span> FCN主打本金保護但合約寫非保本，若遇到極端黑天鵝事件，最大本金損失比例為何？</div>
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 定存議價極限</span> 美元大額定存有主管權限+5bps，若單筆定存高達1,000萬美元，還能透過專案上簽爭取更高的加碼嗎？</div>
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 投研績效佐證</span> 《Market Forward 市場前瞻》季刊的實際績效如何？過去一年的預測準確率是否有具體數據佐證？</div>
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 利率機動頻率</span> 拿「外幣定存單」擔保借「新台幣」，利率是「3個月定存固定利率+1%」，這個利率機動調整的頻率為何？</div>
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 海外資金限制</span> 用「香港分行」的定存單在台灣設質借外幣，這筆外幣資金的運用是否受到嚴格的海外資金匯款限制？</div>
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 保單控制權</span> 進行保單融資時，銀行作為第一順位優先受償權人，是否會嚴格限制更改受益人或辦理減額繳清的權利？</div>
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 信託收費比例</span> 慈善信託門檻只要100萬新台幣，但每年的「信託管理費」怎麼收？會不會本金太小導致被管理費吃掉？</div>
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 抵稅認定</span> 相較於傳統「公益信託」，設立「慈善信託」在申報個人綜合所得稅時，是否有同等的抵稅效益？</div>
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 機接額外收費</span> 機場接送要求「增加停靠點」去接朋友，或住家位於「偏遠地區」，額外加價收費標準到底是多少？</div>
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 回饋金天花板</span> 頂級卡的海外刷卡回饋高達4.5%。其中加碼的1.5%及指定國家的回饋是否有「每月回饋金額上限」？</div>
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 年費折抵邏輯</span> 首年刷滿150萬元可獲得2.4萬刷卡金，這筆錢是否剛好用來抵銷正卡的年費？等同「有條件免年費」對嗎？</div>
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 房貸違約金</span> 尊榮房貸與一般房貸相比，八星等客戶若提前還清循環型房貸，是否會有任何的「違約金」或提前清償條款？</div>
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 療程強迫推銷</span> 生日禮的 AVEDA 課程標榜 90-120 分鐘，這中間是否會推銷其他產品？(討厭放鬆時被打擾)</div>
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 醫師資歷</span> 生生優動的「視訊諮詢與文字陪伴」服務，是由實習治療師還是資深主治醫師親自回覆？</div>
-        <div class="qa-box ask"><span class="qa-type-ask">❓ 生日禮折現</span> 如果今年沒有選擇生日禮，是否可以將這兩項的額度折現，或換成其他等值的遠東SOGO禮券？</div>
-      `
-    },
+  function toggleCard(headerEl) {
+    const card = headerEl.parentElement;
+    const isExpanded = card.classList.contains('expanded');
+    const siblings = card.parentElement.querySelectorAll('.category-card');
+    siblings.forEach(c => c.classList.remove('expanded'));
+    if (!isExpanded) { card.classList.add('expanded'); }
+  }
 
-    // ==========================================
-    // 原有 20 大模組內容 (保持不變，配合整體設計)
-    // ==========================================
-    {
-      keywords: ["破冰話術", "亞灣", "3W", "銷售話術", "Wealth"],
-      question: "破冰與銷售話術：如何切入亞灣專區與 3W 核心精神？",
-      answer: `
-      <span class="tag">銷售金句</span><span class="tag">觀念引導</span><br>
-      <b>【亞灣專區破冰】：</b>「想和您分享目前金融環境的變化。政府積極推動『亞灣專區』不只是建設，而是『留才引資』，將國際資金集中。遠東商銀將進駐亞灣，同步升級私銀級的專屬服務，高資產客群需要的不再是單一商品，而是更完整的服務模式。」<br><br>
-      <b>【3W 核心解讀】：</b>「我們用家族辦公室的思維為您規劃，實踐三個W：<br>
-      1. <b>Wealth (財富)：</b>運籌無界財富，守護增值傳承。<br>
-      2. <b>Well-being (幸福)：</b>實現精彩人生，共享幸福十樂。<br>
-      3. <b>Welfare (社會福祉)：</b>成就永續福祉，締造社會共榮。」`
-    },
-    {
-      keywords: ["4K認證", "家族辦公室", "4K", "KYC", "KYP", "KYT"],
-      question: "家族辦公室「4K 認證」服務機制為何？",
-      answer: `
-      <span class="tag">團隊優勢</span><span class="tag">專業整合</span><br>
-      遠銀首創 <span class="highlight">4K 認證</span> 服務機制，落實「One Team To One Service」精神：<br>
-      1. <b>KYC</b> (Know Your Customer) - 瞭解客戶需求。<br>
-      2. <b>KYP</b> (Know Your Product) - 熟稔商品特性。<br>
-      3. <b>稅制 KYT</b> (Know Your Tax) - 掌握稅法架構。<br>
-      4. <b>信託 KYT</b> (Know Your Trust) - 靈活運用信託。<br>
-      透過北中南三大區 7 位專家（含資產規劃師、傳承領航員、信託守門人、稅務分析家）做為堅強後盾。`
-    },
-    {
-      keywords: ["慈善比較", "慈善信託", "公益信託", "比較表", "自益", "他益"],
-      question: "慈善信託 vs 公益信託的差異比較表？",
-      answer: `
-      <span class="tag">信託規劃</span><span class="tag">ESG</span><br>
-      <table>
-        <tr><th>比較項目</th><th>遠銀慈善信託</th><th>公益信託</th></tr>
-        <tr><td><b>契約架構</b></td><td>完全自益信託</td><td>完全他益信託</td></tr>
-        <tr><td><b>成立門檻</b></td><td>僅需 NT$ 100 萬</td><td>地方 300萬 / 中央 3000萬</td></tr>
-        <tr><td><b>指定機構</b></td><td><span class="highlight">可以</span>指定特定機構</td><td>不可指定特定機構</td></tr>
-        <tr><td><b>返還財產</b></td><td><span class="highlight">可以</span>隨時申請返還</td><td>不可返還</td></tr>
-        <tr><td><b>主管機關</b></td><td>無須申請核准設立</td><td>須向目的事業主管機關申請</td></tr>
-      </table>`
-    },
-    {
-      keywords: ["市場前瞻", "Market Forward", "派發追蹤", "專案組"],
-      question: "《Market Forward 市場前瞻》的派發時程與運用？",
-      answer: `
-      <span class="tag">投資輔助</span><span class="tag">客戶維繫</span><br>
-      由產品投研專案組提供市場觀點專業論述，作為八星等客戶之參考資料：<br>
-      1. <b>派發頻率：</b>每年 <b>1、4、7、10 月份</b>寄送。<br>
-      2. <b>派發數量：</b>每家分行 <b>18 份</b>（目前以實體刊物為主）。<br>
-      理專可利用此刊物，定期陪同客戶檢視投資組合與市場動向，維持「攻守平衡」的專屬投資服務。`
-    },
-    {
-      keywords: ["名家陣容", "創世代", "知識網頁", "佘日新", "專題"],
-      question: "創世代知識網頁的名家陣容與專題重點？",
-      answer: `
-      <span class="tag">私密專區</span><span class="tag">邀約話術</span><br>
-      創世代知識網頁（登入密碼：<span class="highlight">feibwm</span>）為私密邀請制，每年 3,6,9,12月更新：<br>
-      1. <b>名家陣容：</b>邀請「中華家族傳承發展協會」理事長 <b>佘日新教授</b> 擔任駐站講師，解析「啟、承、轉、合」企業傳承四階段。<br>
-      2. <b>三大專題：</b><br>
-         - <b>Family (代際傳承)：</b>家族溝通與二代接班。<br>
-         - <b>Firm (趨勢洞察)：</b>企業轉型與創新戰略。<br>
-         - <b>Fortune (品味生活)：</b>頂級休閒與藝術收藏。`
-    },
-    {
-      keywords: ["財管2.0", "資格檢核", "高資產", "AUM", "交易經驗"],
-      question: "高資產客戶 (財管2.0) 資格數位檢核清單？",
-      answer: `
-      <span class="tag">資格認定</span><span class="tag">合規</span><br>
-      理專須確認客戶符合以下三大門檻條件：<br>
-      1. <b>資產門檻：</b>具備 AUM ≧ 1億元之財力聲明與佐證。<br>
-      2. <b>知識門檻：</b>完成專業知識問卷且成績需達 <b>8 分以上</b>。<br>
-      3. <b>交易經驗 (擇一符合)：</b><br>
-         - 近 2 年內申購/轉換達 <b>10次以上</b>且有 2種不同商品。<br>
-         - 近 2 年內持有 2筆 結構型或衍生性商品達 <b>6個月以上</b>。<br>
-         - 近 2 年內有 2筆 結構型或衍生性商品<b>持有至到期</b>。`
-    },
-    {
-      keywords: ["大額定存", "議價", "美金", "看板"],
-      question: "大額定存議價即時看板與申請說明？",
-      answer: `
-      <span class="tag">外幣定存</span><span class="tag">資金彈性</span><br>
-      針對八星等客戶的專屬大額議價流程：<br>
-      1. <b>美金定存：</b>事業群主管權限下，各天期利率皆可享 <span class="highlight">+5 bps 加碼優惠</span>。請至公用資料匣查詢「美金大額定存（議價）利率.xlsx」的最新報價。<br>
-      2. <b>非美金外幣：</b>依交易部寄送之「大額存款參考」辦理，若需超過參考利率，請先洽產品開發部資金管理組詢價後上簽辦理。`
-    },
-    {
-      keywords: ["綠色通道", "進件", "頂級卡", "信用卡", "辦卡"],
-      question: "頂級快樂卡「綠色通道」辦卡進件懶人包？",
-      answer: `
-      <span class="tag">快捷通道</span><span class="tag">信用卡</span><br>
-      八星等客戶辦卡享最速件處理，整體 <b>3~4 天</b>可送達：<br>
-      1. <b>必備標示：</b>申請書最上方及信封外，務必大大標明 <span class="highlight">「8星等專案」</span>。<br>
-      2. <b>進件寄送：</b>郵寄至 220新北市板橋區文化路二段182巷3弄33號4樓 遠銀個作 <b>陳宛萱</b> 收。<br>
-      3. <b>Notes 通知：</b>收件人為陳宛萱(12875)，副本劉平獅(12494)，主旨註明「8星等客戶進件-XX分行」。`
-    },
-    {
-      keywords: ["亞灣保險", "綠色通道", "保單融資", "保費融資"],
-      question: "保險綠色通道與亞灣專區試辦規範重點？",
-      answer: `
-      <span class="tag">亞資專區</span><span class="tag">保代部</span><br>
-      1. <b>核保綠色通道：</b>優先審核與批准，專人跟進確保高資產客戶投保體驗順暢。<br>
-      2. <b>亞灣專區試辦 3 大核心商品：</b><br>
-         - <b>不受死亡給付最低比率規範</b>之商品。<br>
-         - 外幣收付多次給付型健康保險。<br>
-         - 為<b>「保費融資」</b>量身打造：僅限躉繳、高首日解約金，並設定銀行優先受償權批註條款。`
-    },
-    {
-      keywords: ["表單總匯", "內部表單", "行李掛牌", "登記表"],
-      question: "內部作業表單與「行李掛牌登記表」連結總匯？",
-      answer: `
-      <span class="tag">作業表單</span><span class="tag">資料存取</span><br>
-      理專在運用典藏套組引導客戶提供專屬「英文名字」後，需交由各區 ASM 統籌，並至以下路徑取檔填寫：<br>
-      <br>
-      📂 <b>【行李掛牌姓名登記表】路徑：</b><br>
-      <code>\\\\10.49.138.130\\個人金融事業群\\個金公告區\\個金公告\\02.專案區(有期效性)\\20260102【八星等禮遇手冊名單】</code><br>(窗口：行銷發展部 傅秋美)`
-    },
-    {
-      keywords: ["生日控管", "生日禮", "預約", "時程"],
-      question: "生日禮二選一預約進度控管表與時程？",
-      answer: `
-      <span class="tag">生日禮遇</span><span class="tag">客情維繫</span><br>
-      理專執行生日禮（AVEDA 或 生生優動）需掌握以下控管時程：<br>
-      1. <b>前月 15 號前：</b>透過 Notes 確認次月八星等生日客戶名單。<br>
-      2. <b>前月 20 號前：</b>理專須向客戶確認選擇意願並回覆選項。<br>
-      3. <b>前月 月底前：</b>完成統籌，準備核發數位/實體憑證。<br>
-      4. <b>注意事項：</b>憑證效期長達 <b>90 天</b>，且可自由轉贈親友使用。`
-    },
-    {
-      keywords: ["機接預約", "機場接送", "3步驟", "貴賓室"],
-      question: "機場接送與貴賓室加價/預約 3 步驟？",
-      answer: `
-      <span class="tag">頂級卡權益</span><span class="tag">旅遊禮遇</span><br>
-      頂級快樂卡享<b>全年不限次</b>豪華車款機接與雙品牌貴賓室，預約 3 步驟：<br>
-      1. <b>確認條件：</b>搭車當月或前 2個月內有單筆 <b>2 萬元</b> 之旅行社或機票刷卡交易。<br>
-      2. <b>準備資訊：</b>航班時間、搭乘人數、行李數，並提供<span class="highlight">正確之頂卡卡號</span>以防系統誤判。<br>
-      3. <b>進線預約：</b>線上預約或致電肯驛國際 (04)2206-3029。<br>
-      <i>*註：追加停靠點或偏遠地區將依標準額外收費。</i>`
-    },
-    {
-      keywords: ["慈善機構", "6大機構", "江賢二", "TC", "均一", "學思達", "賽親", "世界展望會"],
-      question: "慈善信託 6 大指定合作公益機構有哪些？",
-      answer: `
-      <span class="tag">慈善信託</span><span class="tag">永續傳承</span><br>
-      客戶可於信託成立時，事前指定將孳息定期捐贈給以下機構：<br>
-      1. <b>江賢二藝術文化基金會：</b>推廣在地文化與藝術資源下鄉。<br>
-      2. <b>Taiwan Connection (TC)：</b>推廣古典音樂與偏鄉資助。<br>
-      3. <b>學思達教育基金會：</b>協助偏鄉教師專業成長。<br>
-      4. <b>均一國際實驗學校：</b>實踐全人教育與偏鄉雙語教育。<br>
-      5. <b>賽親關懷基金會：</b>擔任都會獨居長者的「最佳樂齡生活規畫師」。<br>
-      6. <b>世界展望會：</b>長期投入兒少福利與弱勢資助。`
-    },
-    {
-      keywords: ["尊榮房貸", "質借", "免開辦費", "利率優惠"],
-      question: "尊榮房貸與特定金錢信託自行質借優惠速查？",
-      answer: `
-      <span class="tag">資金彈性</span><span class="tag">授信</span><br>
-      1. <b>尊榮房貸：</b>八星等客戶享<b>開辦費全免</b>，非買賣件均攤型約 2.2%，循環型房貸 2.58%（較七星等再低 5~10bps），並享優先審核權。<br>
-      2. <b>信託自行質借：</b>非亞灣專區辦理享<b>免收 3,000元開辦費</b>，利率較一般 PI 客戶優惠 25bps。<br>
-      3. <b>外幣定存擔保借新台幣：</b>最高可貸放 9 成，由個金策盟銷售部協助辦理。`
-    },
-    {
-      keywords: ["菁選體驗", "尊榮", "活動", "邀請制"],
-      question: "尊榮菁選體驗 (VIP Event) 的特色是什麼？",
-      answer: `
-      <span class="tag">專屬體驗</span><span class="tag">客情維繫</span><br>
-      「尊榮菁選體驗」是針對八星等客戶不定期舉辦的<b>「限量、私密邀請制」</b>活動。內容涵蓋：<br>
-      - 運動娛樂與國際賽事<br>
-      - 頂級饗宴 (如王品私聚)<br>
-      - 音樂盛宴與深度旅遊<br>
-      理專可提早鎖定合適客戶，利用此稀缺資源創造強烈尊榮記憶點。`
-    },
-    {
-      keywords: ["手續費", "交易手續費", "跨提", "跨轉", "單筆基金"],
-      question: "八星等跨提/跨轉與手續費優惠清單？",
-      answer: `
-      <span class="tag">專屬優惠</span><span class="tag">手續費</span><br>
-      透過 VIP 系統自動歸戶設定，不需人工調整，享有全行最高級優惠：<br>
-      1. <b>自動化通路：</b>每月高達 <span class="highlight">101 次</span> 跨提與跨轉免手續費。<br>
-      2. <b>外匯優惠：</b>每月 <b>9 次</b> 外幣匯出(含網銀與臨櫃)免手續費及郵電費。<br>
-      3. <b>投資優惠：</b>單筆基金申購手續費享最低 <b>3 折(起)</b>。`
-    },
-    {
-      keywords: ["分區客服", "聯絡簿", "信用卡客服", "急件", "王寶儷"],
-      question: "八星等信用卡客服分區聯絡簿 (急件專用)？",
-      answer: `
-      <span class="tag">快捷通道</span><span class="tag">緊急聯絡</span><br>
-      理專遇客戶急件(如年費處理、臨調額度、嚴重客訴)時，可直接跨區聯繫客服組長：<br>
-      - <b>北一區：</b>王寶儷 (36153)<br>
-      - <b>北二區：</b>郭威良 (36160)<br>
-      - <b>北三/四區：</b>黃冠嘉 (36175)<br>
-      - <b>北五區：</b>陳彥豪 (36201)<br>
-      - <b>桃園區：</b>陳麗霜 (36161)<br>
-      - <b>竹中一/二區：</b>張國保 (36087)<br>
-      - <b>南區：</b>李碧華 (36084)<br>
-      <i>*客戶自行撥打專線輸入ID，亦自動轉接尊榮專人。</i>`
-    },
-    {
-      keywords: ["定審覆審", "定審", "覆審", "暫停業務"],
-      question: "八星等財管2.0 定審與覆審機制追蹤？",
-      answer: `
-      <span class="tag">定審覆審</span><span class="tag">風險控管</span><br>
-      為維持合規與客戶權益：<br>
-      1. <b>定期評估：</b>本行每年將定期評估高資產客戶資格。<br>
-      2. <b>兩年覆審：</b>每兩年須向客戶徵提文件辦理一次覆審。<br>
-      3. <b>未配合處置：</b>若客戶未配合審查(如無法聯繫或拒供文件)，將<b>暫停該客戶之相關業務</b>，並須留存紀錄備查。恢復業務前需再次完成審查。`
-    },
-    {
-      keywords: ["10個重點", "落地執行", "優勢", "溝通重點", "生日禮二選一"],
-      question: "針對生日禮二選一，理專可落地執行給客戶的 10 個重點與優勢為何？",
-      answer: `
-      <span class="tag">行銷亮點</span><span class="tag">客群維繫</span><br>
-      理專在向客戶推廣時，可活用以下亮點：<br>
-      1. <b>尊榮感：</b>預留頂級 Me Time。<br>
-      2. <b>轉贈機制：</b>可自由轉贈親友使用。<br>
-      3. <b>寬裕效期：</b>長達 90 天。<br>
-      4. <b>精準服務：</b>1對1客製化評估。<br>
-      5. <b>視訊看診：</b>生生優動無畏距離。<br>
-      6. <b>長效守護：</b>4週專業優伴與12個月APP。<br>
-      7. <b>核銷專業：</b>條碼核銷流程流暢專業。`
-    },
-    {
-      keywords: ["四大面向", "家辦", "家族辦公室", "智庫"],
-      question: "家族辦公室專屬智庫的四大核心服務面向為何？",
-      answer: `
-      <span class="tag">家族智庫</span><span class="tag">專業顧問</span><br>
-      1. <b>財富策略與全球投資：</b>資產配置與全球市場脈動。<br>
-      2. <b>家族治理與永續傳承：</b>設計家族憲法與閉鎖性公司機制。<br>
-      3. <b>全球稅務與法律架構：</b>國內外稅務(含CRS/CFC)與信託設計。<br>
-      4. <b>企業經營與成長顧問：</b>企業退場策略與股權接班規劃。`
-    },
-    {
-      keywords: ["個人稅", "家醫科", "身分法", "財產法"],
-      question: "傳承家醫科：個人稅業務的核心價值與服務內容？",
-      answer: `
-      <span class="tag">傳承家醫科</span><span class="tag">稅務</span><br>
-      所有資產規劃最終皆「回歸以個人為主體」，且高度關乎身分法（親屬與繼承法）。服務涵蓋：資產市值重估、不動產移轉節稅、符合民法的傳承工具分析等，如家醫科般先做全盤了解。`
-    },
-    {
-      keywords: ["地政", "都更", "都市更新", "選屋", "產權登記", "活化"],
-      question: "都更與地政全流程服務包含哪些價值與諮詢？",
-      answer: `
-      <span class="tag">地政業務</span><span class="tag">不動產活化</span><br>
-      核心在於強化高資產客戶對 **「不動產活化與傳承」** 的動機。<br>
-      針對 **都更（都市更新）** 的專屬諮詢包含：<br>
-      1. 都更選屋諮詢。<br>
-      2. 流程及稅務諮詢。<br>
-      3. 綜合產權登記與進度諮詢。`
-    },
-    {
-      keywords: ["典藏套組", "行李掛牌", "英文名字", "開發", "輔助", "引導"],
-      question: "理專如何運用「典藏套組」介紹權益，並引導客戶提供掛牌資訊？",
-      answer: `
-      <span class="tag">開發工具</span><span class="tag">客製化互動</span><br>
-      1. <span class="highlight">輔助說明：</span>理專應先熟悉內容物設計與情境，作為預告與說明的輔助工具。<br>
-      2. <span class="highlight">預告客製化禮遇：</span>主動向客戶預告後續將再為其打造「客製化的正式金屬行李掛牌」。<br>
-      3. <span class="highlight">取得掛牌資訊：</span>順勢向客戶說明印製掛牌的需要，自然引導客戶提供專屬的「英文名字」。`
-    },
-    {
-      keywords: ["億萬大亨", "客戶特徵", "內低外高", "C客群", "D客群", "Action"],
-      question: "2026億萬大亨活動的「客戶特徵」與前線 Action 為何？",
-      answer: `
-      <span class="tag">億萬大亨</span><span class="tag">客戶特徵</span><br>
-      針對潛力客戶的特徵分析：<br>
-      1. <b>內低外高：</b>行外資產高，本行資產偏低。<br>
-      2. <b>資產分布：</b>分A(存投保)、B(存投)、C(存保)、D(存)四類客群。<br><br>
-      <span class="highlight">【前線 Action】：</span><br>
-      請理專特別關注 <span class="highlight">C、D 客群</span>，盡早為客戶累積投資經驗！`
-    },
-    {
-      keywords: ["億萬大亨", "活動禮遇", "目的", "客群", "任務", "王品"],
-      question: "億萬大亨禮遇的「目的、客群、任務」與專屬獎勵是什麼？",
-      answer: `
-      <span class="tag">億萬大亨</span><span class="tag">活動任務</span><br>
-      活動期間為 2026/4/1~6/30，以保持開發動能持續挖掘億級客戶：<br>
-      1. <b>目的：</b>提前梳理挖掘高資產客戶，協助深度 KYC。<br>
-      2. <b>客群：</b>本行有 RM Code 之自然人或法人，且「本行 AUM 未達 1億元」。<br>
-      3. <b>任務：</b>提供 AUM≧1億元財力聲明書及佐證資料，並提交經主管簽核之財力證明檢核表。<br><br>
-      🎁 <b>完成任務享：</b><span class="highlight">王品集團食尚私聚</span> (約當3人美饌，價值 3,000元，限量 50席)。`
-    },
-    {
-      keywords: ["億萬大亨", "注意事項", "規則", "限制"],
-      question: "辦理億萬大亨活動有哪些不可不知的「注意事項」？",
-      answer: `
-      <span class="tag">億萬大亨</span><span class="tag">注意事項</span><br>
-      1. AUM未達1億元資格，以 <b>2025/12/31</b> 為基準。<br>
-      2. 佐證資料須為申請日前 <b>3個月內或最近一期</b>。<br>
-      3. <b>掃描檔寄送：</b>收件人(分行通路部長官/區總監/ASM)；副本(行銷發展部長官)。<br>
-      4. <b>正本寄送：</b>財力聲明、檢核表及佐證「正本」內部傳送至 行銷發展部。<br>
-      5. 限量 50 個名額依 Notes 時間為準；已符合 2025 活動者不可重複參加。`
-    },
-    {
-      keywords: ["億萬大亨", "財力聲明", "客戶填寫", "聲明書"],
-      question: "億萬大亨「客戶財力聲明書」的客戶填寫重點為何？",
-      answer: `
-      <span class="tag">億萬大亨</span><span class="tag">財力聲明</span><br>
-      引導客戶填寫財力聲明書時，請確認以下重點：<br>
-      1. <span class="highlight">勾選資產類型：</span>勾選本人所持有之各類資產。<br>
-      2. <span class="highlight">淨值計算須知：</span>留意扣除質借金額、保險以保單價值計算等。<br>
-      3. <span class="highlight">客戶親筆簽署：</span>親筆簽名、填寫身分證字號，並押上正確日期。`
-    },
-    {
-      keywords: ["億萬大亨", "證明文件", "財力證明檢核表", "理專填寫"],
-      question: "理專填寫「財力證明檢核表」時，證明文件的應備要項說明有哪些？",
-      answer: `
-      <span class="tag">億萬大亨</span><span class="tag">證明文件檢核</span><br>
-      理專檢核佐證文件時，請依循以下重點說明：<br>
-      1. 載明客戶戶名、證明機構名稱；外國文件英文姓名須與護照相符。<br>
-      2. 文件日期須為 <b>檢核日前 3 個月內或最近一期</b>。<br>
-      3. 外幣換算新臺幣需檢附本行系統查詢畫面。<br>
-      4. 保險需為「保單現值」對帳單。<br>
-      5. 財力證明不包含配偶/未成年子女；聯名帳戶依契約約定屬其部分計入。<br>
-      6. <b>如有設質，需揭露已動用質借金額並扣除。</b>`
-    }
+  // ==========================================
+  // 10大實戰破冰情境腳本庫
+  // ==========================================
+  const ibScripts = [
+    "【亞灣專區破冰】「總裁您好，想和您分享近期金融環境的變化。政府積極推動『亞灣專區』，遠銀也將進駐為您升級私銀級的專屬服務，將國際級的規劃直接帶給您。」",
+    "【3W核心價值】「董事長，遠銀深知您在乎的不僅是投資。我們用家族辦公室的思維，為您實踐『財富(Wealth)、幸福(Well-being)、社會福祉(Welfare)』三個W的藍圖。」",
+    "【家族傳承痛點】「林董，當資產達到一定規模，很多問題不是單純投資能解決，而是稅務、法律與企業的整合。我們的『4K認證』專家團隊已經為您準備好了。」",
+    "【企業退場防護】「陳總，企業經營是一場賽局，我們為您規劃了『保險+信託』的退場防火牆，即便企業有狀況，拋棄繼承後仍能安全領取保險金。」",
+    "【閉鎖性公司防線】「張董，針對您擔心的股權外流，我們建議可透過設立『閉鎖性公司』與『黃金特別股』，讓您用少數股權就能掌握絕對的一票否決權。」",
+    "【資金調度效率】「李總，我們了解您在意資金動用的效率。遠銀為您準備了專屬的『外幣大額定存議價』與『信託自行質借』，讓您隨時精準調度，免收開辦費。」",
+    "【慈善信託公益】「王董，遠銀『慈善信託』門檻僅100萬，且能『事前指定捐贈機構』(如江賢二藝術園區)，讓您的善念發揮最大影響力。」",
+    "【創世代網頁】「趙董，面對接班挑戰，我們為您開放了私密邀請制的『創世代知識網頁』，由佘日新教授等專家分享家族溝通與企業轉型的實戰策略。」",
+    "【生日專屬時刻】「劉總，今年的生日，我們為您安排了專屬的『頂級紓壓療程或生生優動看診』，為您預留專屬的放鬆與照顧時刻。」",
+    "【頂級用卡尊榮】「黃董，搭配您常出差的行程，為您準備『遠東頂級快樂卡』，享市場最強『無限次機接與雙品牌貴賓室』，讓您出行盡顯尊榮。」"
   ];
 
-  function performSearch() {
-    const query = document.getElementById('searchInput').value.trim().toLowerCase();
-    const resultDiv = document.getElementById('searchResult');
-    const quickNav = document.getElementById('quickNav');
-    
-    if (!query) { resetHome(); return; }
+  let ibIndexes = { interest: 0, care: 3, ask: 6 };
+  function nextScript(cat) {
+    ibIndexes[cat] = (ibIndexes[cat] + 1) % 10;
+    const index = ibIndexes[cat];
+    document.getElementById(`ib-text-${cat}`).innerHTML = `<span class="tag-ib">情境 ${index + 1}</span> ${ibScripts[index]}`;
+    document.getElementById(`ib-counter-${cat}`).innerText = `切換腳本 ${index + 1} / 10`;
+  }
+  nextScript('interest'); nextScript('care'); nextScript('ask');
 
-    quickNav.style.display = 'none';
-    resultDiv.style.display = 'block';
-    
-    let foundHTML = '';
-    
-    qaDatabase.forEach(item => {
-      const matchKeyword = item.keywords.some(kw => query.includes(kw.toLowerCase()) || kw.toLowerCase().includes(query));
-      const matchText = item.question.toLowerCase().includes(query) || item.answer.toLowerCase().includes(query);
-      
-      if (matchKeyword || matchText) {
-        foundHTML += `
-          <div class="card">
-            <h3 class="card-title">${item.question}</h3>
-            <div class="card-text">${item.answer}</div>
-          </div>
-        `;
-      }
-    });
+  // ==========================================
+  // 全新史詩級 QA 資料庫
+  // ==========================================
+  const dbQA = [
+    // --- 📝 必考！10大實戰精華考題 ---
+    { cat: "exam", keywords: ["門檻", "AUM", "資格"], q: "1. 成為八星等客戶的往來資產 (AUM) 門檻為多少元？", a: "新臺幣 <span class='highlight'>1 億元</span>。" },
+    { cat: "exam", keywords: ["3W", "核心精神"], q: "2. 八星等權益的三大核心精神「3W」分別代表什麼？", a: "<span class='highlight'>Wealth 財富、Well-being 幸福、Welfare 社會福祉</span>。" },
+    { cat: "exam", keywords: ["跨提", "跨轉", "手續費"], q: "3. 八星等客戶每月享有幾次跨行提款與跨轉免手續費優惠？", a: "各 <span class='highlight'>101 次</span>。" },
+    { cat: "exam", keywords: ["外幣匯款", "手續費"], q: "4. 每月享有幾次免手續費的外幣匯出優惠？", a: "<span class='highlight'>9 次</span>。" },
+    { cat: "exam", keywords: ["基金折扣", "手續費"], q: "5. 八星等客戶承作單筆基金申購，手續費最低享有幾折優惠？", a: "<span class='highlight'>3 折起</span>。" },
+    { cat: "exam", keywords: ["2026", "生日禮"], q: "6. 2026 年度的生日禮遇是哪兩項體驗二選一？", a: "<span class='highlight'>AVEDA 頭皮訂製療程、生生優動 VIP 優伴服務</span>。" },
+    { cat: "exam", keywords: ["美金定存", "加碼"], q: "7. 美金大額定存利率，最高可由權限主管簽核加碼多少 bps？", a: "<span class='highlight'>5 bps</span>。" },
+    { cat: "exam", keywords: ["家族辦公室", "外部合作"], q: "8. 遠銀家族辦公室協同的外部法律與會計合作夥伴為何？", a: "<span class='highlight'>凱博會計師事務所、萬國法律事務所</span>。" },
+    { cat: "exam", keywords: ["機場接送", "信用卡"], q: "9. 遠東頂級快樂卡刷卡滿多少元，可享全年不限次機場接送？", a: "單筆刷機票或團費達 <span class='highlight'>2 萬元</span>。" },
+    { cat: "exam", keywords: ["創世代", "知識網頁"], q: "10. 僅限八星等客戶受邀參閱、提供傳承觀點的網頁名稱為何？", a: "<span class='highlight'>創世代知識網頁</span> (密碼：feibwm)。" },
 
-    if (foundHTML === '') {
-      resultDiv.innerHTML = `
-        <div class="card" style="text-align:center;">
-          <h3 class="card-title">🔍 查無相關資料</h3>
-          <p class="card-text" style="color:#AAA;">您的查詢：「<span style="color:var(--gold-light);">${query}</span>」沒有對應的內容。<br>請嘗試點擊上方捷徑或簡化關鍵字。</p>
-        </div>`;
-    } else {
-      resultDiv.innerHTML = foundHTML;
+    // --- 💡 提問攻防區：最有興趣 (Interest) ---
+    { cat: "interest", keywords: ["大額定存", "議價", "優惠"], q: "美元大額定存議價，如何取得最高優惠？", a: "針對八星等客戶，美元定存可享<span class='highlight'>事業群主管權限各天期利率 +5bps 優惠</span>。請直接參考公用資料匣公告之「美金大額定存（議價）利率.xlsx」取得報價。" },
+    { cat: "interest", keywords: ["自行質借", "開辦費", "槓桿", "特定金錢信託"], q: "特定金錢信託自行質借，八星等客戶有何專屬優惠？", a: "在非亞灣專區辦理，利率較一般 PI 客戶<span class='highlight'>再降 25bps，且免收 3,000 元開辦費</span>；未來若於亞灣專區辦理，貸款成數將不受現行五成限制且可再槓桿。" },
+    { cat: "interest", keywords: ["房貸", "循環型", "開辦費"], q: "尊榮房貸方案有什麼特別的放寬與優惠條件？", a: "八星等客戶享<span class='highlight'>開辦費全免</span>，且循環型房貸利率達 2.58%（比七星等更低 5~10bps），非買賣件均攤型 2.2%，並享有最優先審核與撥款權。" },
+    { cat: "interest", keywords: ["綠色通道", "頂級卡", "辦卡"], q: "頂級快樂卡「綠色通道」有什麼實質幫助？", a: "進件最速處理(註明8星等專案寄給陳宛萱)。核卡後享有市場最強的『無限次豪華車款機接及雙品牌貴賓室』，每月還可預約全台高爾夫球、飯店折扣。" },
+    
+    // --- ⚠️ 提問攻防區：最在意 (Care) ---
+    { cat: "care", keywords: ["防外人", "閉鎖性公司", "黃金特別股", "退場"], q: "家族企業如何防範外人介入，或建立退場防火牆？", a: "企業退場可運用「保險+信託」，拋棄繼承後仍可領保險金。防範外人則建議設立<span class='highlight'>閉鎖性公司</span>，透過「1股換多票」或一票否決權的<span class='highlight'>黃金特別股</span>，確保絕對經營權。" },
+    { cat: "care", keywords: ["慈善信託", "返還", "本金", "自益"], q: "設立「慈善信託」後，若急需資金，本金拿得回來嗎？", a: "完全可以。遠銀慈善信託為<span class='highlight'>「完全自益信託」</span>，客戶隨時可申請返還信託財產（約 3-5 個工作日匯回），不影響企業或個人資金調度彈性。" },
+    { cat: "care", keywords: ["外幣定存", "質借", "新台幣", "資金流向"], q: "外幣定存單質借新台幣或外幣，資金流向有何限制？", a: "外幣定存單可擔保借新台幣，但<span class='highlight'>不可轉換成外幣</span>。若拿香港分行定存單借外幣，則<span class='highlight'>該外幣不得兌換成新台幣</span>，以符合央行外匯管理規範。" },
+    { cat: "care", keywords: ["保費融資", "要保人", "限制"], q: "辦理保費融資時，保單的控制權會被銀行拿走嗎？", a: "債務未清償前銀行為第一順位受益人。請注意，包含<span class='highlight'>變更要保人、更改受益人、契約終止、保單借款</span>等 11 項操作，皆必須『事先獲得銀行的書面同意』。" },
+
+    // --- ❓ 提問攻防區：最想發問 (Ask) ---
+    { cat: "ask", keywords: ["如何成為", "資格", "八星等"], q: "如何取得資格成為八星等億萬大亨？", a: "申請對象限本行有 RM Code 之自然人或法人。客戶須提供 <span class='highlight'>AUM ≧ 1 億元之財力聲明書並檢附財力證明文件</span>（3個月內或最近一期）送交行銷發展部審核。" },
+    { cat: "ask", keywords: ["常春藤", "哈佛", "耶魯", "專業投資人", "信評"], q: "常春藤名校債券信評極高，為何一般客戶不能買？", a: "常春藤名校債券信評雖高達 3A 等級，惟發行機構極具知名度，<span class='highlight'>並未申請信用評等</span>。依規定外國債券需信評A-以上一般人才能買，故此類標的<span class='highlight'>限專業投資人(PI)</span>申購。" },
+    { cat: "ask", keywords: ["風險RR值", "客戶風險", "上限"], q: "高資產客戶能買高風險商品嗎？風險RR值計算標準？", a: "依客戶風險評估，賦予投資組合加權平均數上限：<span class='highlight'>保守型1.10、保守穩健2.20、穩健3.30、穩健積極4.50、積極型5.60分</span>。商品風險RR1至RR6分別對應1至6分。" },
+    { cat: "ask", keywords: ["尊榮菁選", "邀請制", "王品"], q: "「尊榮菁選體驗」是要付費參加還是免費？如何報名？", a: "這是不定期舉辦的<span class='highlight'>『限量、私密邀請制』</span>創意體驗（如音樂盛宴、頂級私聚）。不對外公開報名，僅由理專針對合適客戶發出尊榮邀請，且通常由銀行資源全額贊助。" },
+
+    // --- 🚀 億萬大亨 ---
+    { cat: "billionaire", keywords: ["活動期間", "名額", "限量", "申請日期"], q: "1. 2026年「億萬大亨」禮遇活動的申請期間與名額限制為何？", a: "活動期間為 <span class='highlight'>2026/4/1 ~ 6/30</span>。名額<span class='highlight'>限量 50 席</span>，依前線發送 Notes 至行銷發展部的時間為準，每週會公告剩餘名額。" },
+    { cat: "billionaire", keywords: ["目標客群", "資格", "未達", "重複"], q: "2. 哪些客戶符合參加「億萬大亨」專案的資格條件？", a: "本行有 RM Code 之自然人或法人，且<span class='highlight'>本行 AUM 未達 1 億元</span>（以 2025/12/31 為基準）。已符合 2025「億萬大亨」、「食尚大亨」者不可重複參加。" },
+    { cat: "billionaire", keywords: ["任務", "財力聲明書", "檢核表"], q: "3. 理專與客戶需要完成什麼任務才能取得禮遇資格？", a: "1. 客戶提供 <span class='highlight'>AUM ≧ 1 億元之財力聲明書</span>並檢附相關佐證資料。<br>2. 理專提交經主管簽核之<span class='highlight'>客戶財力證明檢核表</span>至行銷發展部。" },
+    { cat: "billionaire", keywords: ["迎賓獎勵", "王品", "私聚", "獎項"], q: "4. 完成任務後，客戶可獲得什麼專屬迎賓獎勵？", a: "可獲得價值約 3,000 元的<span class='highlight'>王品集團食尚私聚</span>（約當 3 人美饌）。同場更加碼福利：王品牛排（嫩煎鮪魚鮮蝦佐海鮮醬）或夏慕尼（波士頓龍蝦）專屬款待。" },
+    { cat: "billionaire", keywords: ["效期", "期限", "3個月"], q: "5. 客戶提供的財力證明佐證資料，日期有什麼限制？", a: "客戶提供之佐證資料，文件日期須為<span class='highlight'>申請日前 3 個月內或最近一期</span>。" },
+    { cat: "billionaire", keywords: ["外幣", "匯率", "聯名", "設質"], q: "6. 若財力證明包含外幣資產或聯名帳戶，該如何計算？", a: "外幣資產需檢附本行系統查詢畫面，<span class='highlight'>無須另行計算匯率</span>；若為聯名帳戶，須提供帳戶契約，以契約約定之定屬資產劃分計入，無約定者均分計算。若有設質需扣除已動用額度。" },
+    { cat: "billionaire", keywords: ["保單", "保險", "準備金"], q: "7. 保單可以算在 1 億元的財力證明內嗎？計算標準為何？", a: "可以。保險商品價值係指<span class='highlight'>投資型保險之保單帳戶價值</span>或<span class='highlight'>非投資型人身保險之保單價值準備金</span>金額。" },
+    { cat: "billionaire", keywords: ["Notes", "收件人", "副本"], q: "8. 準備好申請資料後，內部 Notes 應該發給誰？", a: "將相關文件掃描檔發送 Notes。<br>收件人：(分行通路部長官) 黃建斌、區總監及 ASM。<br>副本：(行銷發展部長官) 曾朝斌、吳仲哲、蘇鴻宇、鄭銘熏。" },
+    { cat: "billionaire", keywords: ["正本", "吳仲哲"], q: "9. 掃描檔發送 Notes 後，正本文件該如何處理？", a: "請將「客戶財力聲明書」、「財力證明檢核表」及「財力證明文件」之<span class='highlight'>正本</span>，透過內部傳送至<span class='highlight'>行銷發展部 吳仲哲</span>收。" },
+    { cat: "billionaire", keywords: ["私聚舉辦", "各區", "簽到表"], q: "10. 王品食尚私聚的舉辦方式與後續核銷作業為何？", a: "「億萬大亨」食尚私聚以<span class='highlight'>各區為單位舉辦</span>，由各區自行規劃私聚日期、時間、地點並邀請客戶參與，且必須於<span class='highlight'>私聚結束後提交簽到表</span>。" },
+
+    // ==========================================
+    // 首頁 8 大類快搜對應 (完整保留)
+    // ==========================================
+    /* 1. 八星等客戶權益 */
+    { cat: "module", keywords: ["億萬大亨迎賓"], q: "申請成為八星等億級客戶，有什麼專屬的迎賓獎勵？", a: "即享有<span class='highlight'>價值 3000 元王品集團食尚私聚</span> (限前50位)，同時享有一年期 1.8% 台幣優惠定存，當作開啟人生價值旅程的伴手禮。" },
+    { cat: "module", keywords: ["101次免手續費"], q: "日常金融交易手續費減免標準為何？需要另外設定嗎？", a: "系統會自動 ID 歸戶，享有每月<span class='highlight'>高達 101 次跨提與跨轉免手續費</span>，不需另外設定。" },
+    { cat: "module", keywords: ["頂級卡進件"], q: "頂級快樂卡「綠色通道」辦卡進件懶人包？", a: "申請書大字標明<span class='highlight'>「8星等專案」</span>，郵寄至遠銀個作 陳宛萱 收，並發送 Notes 副本給劉平獅經理以利極速處理。" },
+    { cat: "module", keywords: ["客服優先"], q: "遇到緊急事件或客服系統佔線時，如何保證找得到人？", a: "撥打專線(8073-1168)輸入 ID 即享尊榮專員優先插隊。理專亦可直接跨區聯繫各區客服組長火速處理。" },
+    { cat: "module", keywords: ["專屬權益手冊"], q: "八星等專屬權益手冊的核心重點有哪些？", a: "涵蓋五大重點：1.家族專屬智庫(4K認證) 2.客製化商品 3.慈善信託 4.尊享全方位服務 5.差異化體驗。" },
+    { cat: "module", keywords: ["定審覆審機制"], q: "八星等客戶資格的定審與覆審機制為何？", a: "銀行每年會定期評估可投資資產價值，且<span class='highlight'>每兩年辦理一次覆審</span>。若客戶未配合審查，將暫停該客戶之相關業務。" },
+    { cat: "module", keywords: ["典藏套組"], q: "典藏套組與客製化行李掛牌的製作流程？", a: "套組內含客製化金屬行李掛牌。理專引導客戶提供「三種格式擇一的英文名字」，由各區 ASM 統籌回報內部名單印製。" },
+    { cat: "module", keywords: ["尊榮菁選"], q: "「尊榮菁選體驗」是什麼活動？要付費嗎？", a: "這是不定期舉辦的<span class='highlight'>限量、私密邀請制</span>體驗(如音樂盛宴、頂級饗宴、旅遊)，通常由銀行資源全額贊助，僅對合適客戶發出邀請。" },
+    { cat: "module", keywords: ["外幣匯出"], q: "八星等客戶外幣匯款優惠與全額到付？", a: "享每月 <span class='highlight'>9次 外幣匯款免手續費與郵電費</span> (網銀與臨櫃合併計算)，但不包含全額到付的額外手續費。" },
+    { cat: "module", keywords: ["單筆基金折扣"], q: "八星等客戶投資基金的手續費折扣是多少？", a: "辦理「單筆基金申購」，手續費可享<span class='highlight'>最低 3 折起</span> 的全行最高級優惠。" },
+
+    /* 2. 家族辦公室 */
+    { cat: "module", keywords: ["4K認證專家"], q: "遠銀家族辦公室 4K 認證團隊包含哪些專家？", a: "北中南7位專家，提供：KYC(客戶)、KYP(商品)、稅制KYT、信託KYT。涵蓋資產規劃、傳承、信託、稅務分析專家。" },
+    { cat: "module", keywords: ["傳承家醫科"], q: "「傳承家醫科(個人稅)」業務的核心價值？", a: "如家醫科般全盤了解，將財產法與身分法(親屬/繼承)結合，處理家族資產傳承、稅務風險、社會保險諮詢。" },
+    { cat: "module", keywords: ["企業稅務"], q: "家族辦公室在「企業稅」能提供什麼協助？", a: "處理境內外投資公司稅負差異、境外投資公司稅務風險，以及企業股權接班與控制權安排。" },
+    { cat: "module", keywords: ["地政與都更"], q: "家族辦公室在「地政與都更」能提供什麼協助？", a: "協助處理不動產產權登記、<span class='highlight'>都市更新(都更)流程及稅務諮詢</span>，幫助客戶順利活化不動產價值。" },
+    { cat: "module", keywords: ["閉鎖性公司"], q: "為何建議家族企業設立「閉鎖性公司」？", a: "為防外人介入，可透過<span class='highlight'>「1股換多票」或「一票否決權的黃金特別股」</span>，讓創辦人以少數股權確保絕對經營權。" },
+    { cat: "module", keywords: ["企業退場防線"], q: "家族企業如何建立安全的「企業退場防火牆」？", a: "運用<span class='highlight'>「保險+信託」</span>。依法拋棄繼承後仍可領取保險金給付，無需償還企業負債，確保二代生活無虞。" },
+    { cat: "module", keywords: ["家族憲法"], q: "什麼是「家族憲法」？具有法律效力嗎？", a: "家族憲法並非具強制力的法律文件，而是一套<span class='highlight'>家族間的『共識』</span>。把資產、傳承、價值整理清楚，作為未來依循方向。" },
+    { cat: "module", keywords: ["信託守門人"], q: "「信託守門人」在家族辦公室扮演什麼角色？", a: "專注於家族信託設計、財富傳承分配，為客戶<span class='highlight'>建立堅固的資產防火牆</span>，並處理公司股權安排。" },
+    { cat: "module", keywords: ["資產全景盤點"], q: "全景式財富管理與傳承的第一步是什麼？", a: "由家辦團隊陪同客戶<span class='highlight'>全面梳理境內外金融、股權、不動產及保單等全資產</span>，進行即時價值重估，奠定專屬藍圖基礎。" },
+    { cat: "module", keywords: ["跨國稅務諮詢"], q: "高資產客戶面臨雙重國籍或跨境資產時如何處理？", a: "結合外部凱博聯合會計師與萬國法律事務所資源，提供精準的跨境租稅跨境諮詢與台商海外所得申報規劃。" },
+
+    /* 3. 信用卡權益 */
+    { cat: "module", keywords: ["無限次機接"], q: "頂級信用卡的機場接送「不限次數」隱藏條件？", a: "搭車當月或前2個月內，需有<span class='highlight'>單筆刷滿 2 萬元之旅行社或機票交易</span>，即可享全年無限次豪華車接送。" },
+    { cat: "module", keywords: ["雙品牌貴賓室"], q: "頂級快樂卡的機場貴賓室有何優勢？", a: "市場極少數提供<span class='highlight'>雙品牌機場貴賓室 (PP / U.FIRST原龍騰)</span> 且全年不限次數使用的高端禮遇。" },
+    { cat: "module", keywords: ["高爾夫飯店折扣"], q: "頂級快樂卡在休閒娛樂上有什麼專屬折扣？", a: "每月可預約全台<span class='highlight'>高爾夫球擊球、熱門飯店住宿、人氣自助餐廳優惠價</span>各 1 次，讓日常消費盡顯尊榮。" },
+    { cat: "module", keywords: ["百貨免費停車"], q: "頂級卡在遠東集團百貨內的禮遇？", a: "享有集團百貨內最強的<span class='highlight'>全天免費停車</span>及專屬 VIP Lounge 禮遇。" },
+    { cat: "module", keywords: ["海外回饋"], q: "頂級快樂卡的海外消費回饋率？", a: "專為出國行程設計，海外刷卡消費享有<span class='highlight'>最高 4.5% 高額回饋</span>，出國必刷。" },
+    { cat: "module", keywords: ["急件補卡"], q: "信用卡遺失時的急速處理機制？", a: "國內補卡一律以<span class='highlight'>急件優先處理</span>，排除萬難確保卡片能最快時間送達貴賓手中。" },
+    { cat: "module", keywords: ["快速臨調額度"], q: "遇到大筆刷卡需求，額度調整的流程？", a: "八星等貴賓享<span class='highlight'>快速臨調額度通道</span>，大筆需求優先處理。若需徵提AUM資訊理專可直接協助。" },
+    { cat: "module", keywords: ["尊榮客服專線"], q: "如何確保電話客服不再佔線？", a: "撥打專線並輸入 ID，系統將直接轉接<span class='highlight'>「尊榮貴賓服務專員」</span>，若遇緊急客訴亦可由理專跨區找客服組長火速處理。" },
+    { cat: "module", keywords: ["辦卡優先審查"], q: "頂級卡辦理進件的審核時效？", a: "享有最優先審查權限，若以8星等專案進件，<span class='highlight'>最快 T+1 審核、T+2 製卡、T+3 限掛寄達</span>。" },
+    { cat: "module", keywords: ["保費回饋"], q: "刷頂級卡繳保費有何優惠？", a: "刷卡繳納保費享有 <span class='highlight'>0.5% 回饋且無上限</span>，為高額保單繳費的最佳選擇。" },
+
+    /* 4. 慈善信託 */
+    { cat: "module", keywords: ["慈善公益差異"], q: "遠銀「慈善信託」與一般「公益信託」最大差異？", a: "遠銀為<span class='highlight'>完全自益信託 (可隨時返還本金)</span>；且遠銀慈善信託可事前指定特定機構，公益信託則無法指定。" },
+    { cat: "module", keywords: ["100萬門檻"], q: "慈善信託的成立門檻需要多少資金？", a: "本行慈善信託門檻<span class='highlight'>極低，僅需新臺幣 100 萬</span> (一般公益信託需 300~3000萬)。" },
+    { cat: "module", keywords: ["指定慈善機構"], q: "可以指定捐贈給哪些機構？", a: "包含江賢二藝術園區、Taiwan Connection(TC)、學思達、均一實驗學校、賽親關懷基金會、世界展望會等 6 大精選機構。" },
+    { cat: "module", keywords: ["本金隨時返還"], q: "設立後若急需資金，本金拿得回來嗎？", a: "完全可以。因屬<span class='highlight'>「完全自益信託」</span>，客戶隨時可申請返還信託財產，約 3-5 個工作日即可匯回。" },
+    { cat: "module", keywords: ["投資獲利付管理費"], q: "捐款會被信託管理費吃掉嗎？", a: "建議配置優質國外債券等穩健商品，運用<span class='highlight'>「投資產生的孳息」</span>來支付定期捐款與信託管理費，保留本金。" },
+    { cat: "module", keywords: ["安養結合慈善"], q: "遠銀慈善信託的創新架構是什麼？", a: "遠銀首創將<span class='highlight'>「安養信託」結合「慈善信託」</span>，讓高資產戶能同時兼顧自身晚年照護金與對社會公益的長遠回饋。" },
+    { cat: "module", keywords: ["捐款收據節稅"], q: "如何取得捐款收據以利節稅？", a: "完成捐款後，由遠銀代為向受贈機構索取<span class='highlight'>正式捐款收據正本</span>，於次年一月轉交客戶作為節稅申報使用。" },
+    { cat: "module", keywords: ["江賢二藝術"], q: "指定捐贈「江賢二藝術文化基金會」的目的是？", a: "支持台灣當代藝術大師，推動台東走向國際藝術聚落，啟發社會美感與藝術札根。" },
+    { cat: "module", keywords: ["均一學思達"], q: "均一與學思達教育基金會的願景？", a: "均一致力於實踐全人教育與數位平權；學思達則專注於強化教師教學法與學生自主學習技能。" },
+    { cat: "module", keywords: ["賽親世界展望"], q: "賽親與世界展望會的社會服務重點？", a: "賽親專注於長者最佳生活陪跑教練與孤寂關懷；世界展望會則致力於弱勢兒少的照護與向上流動。" },
+
+    /* 5. 存款及投資 */
+    { cat: "module", keywords: ["美元大額議價"], q: "美元大額定存議價，如何取得最高優惠？", a: "八星等客戶享<span class='highlight'>事業群主管權限各天期利率 +5bps</span>。理專可直接參考公用匣「美金大額定存（議價）利率.xlsx」報價上簽。" },
+    { cat: "module", keywords: ["非美金詢價"], q: "非美元的外幣大額定存，如何取得八星等優惠價？", a: "請分行洽產品開發部<span class='highlight'>『資金管理組』</span>詢價，獲取資金成本後，於成本內由分行上簽取得極致報價。" },
+    { cat: "module", keywords: ["常春藤名校債"], q: "常春藤名校債券為何一般客戶不能買？", a: "如哈佛、耶魯債券信評雖達 3A，惟發行機構<span class='highlight'>未申請信用評等</span>。依規需信評A-以上一般人才能買，故限專業投資人(PI)申購。" },
+    { cat: "module", keywords: ["FCN自由選"], q: "投資 FCN (股權結構型商品) 有什麼權益？", a: "享有<span class='highlight'>「標的自由選」特權</span>，可自由挑選信託架上美、日、港股標的，並提供專屬一頁式商品介紹。" },
+    { cat: "module", keywords: ["限量私募基金"], q: "八星等在投資商品上的「限量」特權？", a: "為貴賓保留限量嚴選商品，包含<span class='highlight'>全球頂尖私募基金、特選債券</span>，有別於一般市場，優化專屬資產配置。" },
+    { cat: "module", keywords: ["市場前瞻季刊"], q: "《Market Forward 市場前瞻》季刊派發時間？", a: "每年 <span class='highlight'>1、4、7、10 月</span>派發實體刊物至分行，為理專陪同客戶檢視投資組合的最佳專業論述利器。" },
+    { cat: "module", keywords: ["投資組合檢視"], q: "專屬投資組合服務的核心理念？", a: "不只是一次性配置，而是由專家團隊量身訂做攻守平衡組合，並<span class='highlight'>定期提供市場前瞻指引與投組檢視</span>陪伴成長。" },
+    { cat: "module", keywords: ["風險RR值上限"], q: "八星等客戶的「風險加權RR值」上限？", a: "依客戶屬性賦予組合加權上限：保守型1.10分、保守穩健2.20分、穩健3.30分、穩健積極4.50分、<span class='highlight'>積極型5.60分</span>。" },
+    { cat: "module", keywords: ["結構型設計"], q: "股權或匯率結構型商品的客製化？", a: "遠銀提供超越牌告的客製化空間，可依貴賓的大額資金部位，量身設計專屬天期、幣別與收益條件的結構型商品。" },
+    { cat: "module", keywords: ["基金最低折扣"], q: "辦理單筆基金申購的手續費優惠？", a: "八星等貴賓辦理「單筆基金申購」，手續費可享<span class='highlight'>最低 3 折起</span> 的全行極致優惠折扣。" },
+
+    /* 6. 授信產品 */
+    { cat: "module", keywords: ["質借免開辦費"], q: "特定金錢信託自行質借的專屬優惠？", a: "非亞灣區辦理利率較一般 PI 客戶再降 25bps，且<span class='highlight'>免收 3,000 元開辦費</span>，為富豪提供精準低成本的調度工具。" },
+    { cat: "module", keywords: ["房貸免開辦費"], q: "尊榮房貸方案有什麼特別的放寬與優惠條件？", a: "八星等客戶享<span class='highlight'>開辦費全免</span> (買賣件省1萬/非買賣省5千)，並享有最優先審核與撥款特權。" },
+    { cat: "module", keywords: ["優先審核撥款"], q: "除了利率，八星等房貸的無形特權？", a: "最重要的是享有案件的<span class='highlight'>「最優先審核與優先撥款權」</span>，確保大額資金購屋或投資時的絕對時效性。" },
+    { cat: "module", keywords: ["循環型房貸"], q: "理財型房貸(循環型房貸)的優勢與利率？", a: "利率低至 <span class='highlight'>2.58%</span>(比七星低5-10bps)，核貸後隨借隨還、不動用不計息，提供龐大備用資金池。" },
+    { cat: "module", keywords: ["定存借台幣"], q: "外幣定存擔保借新台幣的額度規定？", a: "可拿外幣定存單擔保借出新台幣，最高可貸放額度達<span class='highlight'> 9成 </span>，利率依 3個月定存固定加碼1%機動調整。" },
+    { cat: "module", keywords: ["亞灣槓桿放寬"], q: "亞灣專區在「授信槓桿」上有什麼放寬？", a: "未來隨專區試辦放寬，高資產客戶於亞灣辦理特定金錢信託自行質借時，其貸款成數將<span class='highlight'>「不受現行五成限制」</span>。" },
+    { cat: "module", keywords: ["均攤型優惠"], q: "非買賣件的均攤型房貸利率多低？", a: "專屬優惠利率約 <span class='highlight'>2.20%</span> 起，讓客戶活化不動產價值時享有極低的資金取得成本。" },
+    { cat: "module", keywords: ["香港定存質借"], q: "香港分行定存單在台灣質借的資金限制？", a: "可擔保借出外幣，但依央行規範，該借出之外幣<span class='highlight'>絕對「不得兌換成新台幣」</span>，法金將嚴格追蹤流向。" },
+    { cat: "module", keywords: ["專業鑑價豪宅"], q: "高價豪宅擔保品怕估不到價格怎麼辦？", a: "針對非一般宅(豪宅、店面)，可申請增加<span class='highlight'>外部專業鑑價公司預估單或正式報告</span>，以降低內部鑑價落差。" },
+    { cat: "module", keywords: ["靈活資金調度"], q: "授信產品對億萬大亨的最大意義？", a: "富豪在意的是『靈活效率的動用彈性』。免開辦費與低利能讓他們在運籌財富增長時，隨時具備應付突發機會的籌碼。" },
+
+    /* 7. 生日禮遇 */
+    { cat: "module", keywords: ["生日禮二選一"], q: "2026年度專屬生日禮是什麼？", a: "提供「時尚禮-AVEDA 蘊活欣生訂製療程」及「健康禮-生生優動 VIP優伴服務」二選一，預留專屬 Me Time。" },
+    { cat: "module", keywords: ["AVEDA療程"], q: "AVEDA 頭皮養護療程的特色？", a: "90-120 分鐘療程，包含頭皮微循環啟動、沙龍舒敏配方與節奏式按摩，讓高壓企業主獲得深度放鬆。" },
+    { cat: "module", keywords: ["VIP優伴服務"], q: "生生優動「VIP優伴服務」包含什麼？", a: "四週的 VIP 優伴服務(實體/視訊看診二擇一+文字陪伴)，加贈長達 12個月的 Youdon APP 智慧系統訂閱權限。" },
+    { cat: "module", keywords: ["90天轉贈效期"], q: "生日禮票券有使用期限或轉讓限制嗎？", a: "具備長達 <span class='highlight'>90 天寬裕效期</span>，且不限本人，可自由轉贈給配偶或親友體驗。" },
+    { cat: "module", keywords: ["數位憑證核銷"], q: "客戶要如何兌換並核銷生日體驗？", a: "理專發送數位兌換券。客戶自行向門市預約日期，體驗當日憑『數位兌換券上的條碼』由人員核銷。" },
+    { cat: "module", keywords: ["視訊諮詢陪伴"], q: "生生優動的「視訊看診」如何進行？", a: "不需赴診所，透過手機視訊由醫師或治療師一對一評估，後續結合 LINE 提供專屬文字追蹤陪伴。" },
+    { cat: "module", keywords: ["Youdon APP"], q: "「Youdon 智慧物理治療 APP」有何功能？", a: "內建 1500+ 真人標準動作影片，結合 AI 科技產出個人化運動處方，實現安全精準的居家復健。" },
+    { cat: "module", keywords: ["客製化運動處方"], q: "物理治療的客製化重點為何？", a: "結合醫師、治療師與運動指導員協作，針對個人骨骼肌肉痛點，開立專屬的健康管理與運動處方。" },
+    { cat: "module", keywords: ["頭皮微循環按摩"], q: "AVEDA 療程的核心技術？", a: "以專業手技進行頭皮微循環啟動，結合植萃芳香，達到不僅是美髮，更是身心靈的平衡紓壓。" },
+    { cat: "module", keywords: ["居家復能照顧"], q: "生生優動的醫療場域涵蓋？", a: "不僅在診所提供徒手與儀器治療，更透過 APP 系統將專業延伸至家中，實現零死角的『居家復能照顧計畫』。" },
+
+    /* 8. 保代 */
+    { cat: "module", keywords: ["保費融資限制"], q: "「保費融資」對保單權限的限制？", a: "債務未清償前銀行為第一受益人。變更要保人、受益人、終止或借款等 11 項操作，皆須<span class='highlight'>『事先獲銀行書面同意』</span>。" },
+    { cat: "module", keywords: ["亞灣高解約金"], q: "亞灣保險專區的融資專屬保單特色？", a: "將引進<span class='highlight'>『僅限躉繳、且具備高首日解約金』</span>之特製商品，並設定銀行優先受償權批註，專為高槓桿量身打造。" },
+    { cat: "module", keywords: ["保險退場防火牆"], q: "為何保險是企業退場的最佳防火牆？", a: "依民法第1175條，繼承拋棄不影響請領保險金的權利。企業若負債，二代<span class='highlight'>拋棄繼承後仍可安全領取保險金</span>。" },
+    { cat: "module", keywords: ["核保綠色通道"], q: "高資產投保的綠色通道服務？", a: "享有『核保綠色通道』，保單獲優先審核批准並由專人跟進，確保億級大亨投保體驗極致順暢。" },
+    { cat: "module", keywords: ["不受死亡給付規範"], q: "亞灣試辦專區保險的最大亮點？", a: "將推出<span class='highlight'>『不受死亡給付最低比率規範』</span>的專屬保單，讓資金運用與傳承規劃獲得極大化自由度。" },
+    { cat: "module", keywords: ["外幣健康險"], q: "亞灣保險在健康險的創新？", a: "將推出專屬<span class='highlight'>『外幣收付多次給付型健康險』</span>，滿足頂級客群國際高階醫療與外幣配置的雙重需求。" },
+    { cat: "module", keywords: ["產壽險適合度"], q: "家族辦公室如何協助評估保單？", a: "由家辦『傳承領航員』專職為客戶進行<span class='highlight'>產壽險適合度評量</span>，確保保障額度精準契合家族傳承目標。" },
+    { cat: "module", keywords: ["保單跨世代傳承"], q: "如何利用保險無痛傳承？", a: "結合傳承家醫專業，善用『要保人、被保險人、受益人』三方架構變更，實現免經冗長繼承的財富移轉。" },
+    { cat: "module", keywords: ["拋棄繼承保險金"], q: "債務大於資產時，保險的保全功能？", a: "保險金可指定受益人，這筆資金不被視為被繼承人遺產，故繼承人即使拋棄繼承，依法仍有權領取該筆保險金。" },
+    { cat: "module", keywords: ["財富身分法整合"], q: "保單規劃為何需要整合身分法？", a: "單純買保單無法解決特留分或親屬爭議，需透過家辦專家從民法親屬/繼承篇角度，確保保單設計符合法律效力。" },
+
+    /* 9. 獨立專區 */
+    { cat: "module", keywords: ["創世代知識網頁"], q: "什麼是「創世代知識網頁」？要如何登入？", a: "專屬私密邀請制知識庫。<br>👉 <a href='https://www.feib.com.tw/upload/family_vip/main.html' target='_blank' style='color:#90CAF9; text-decoration:underline; font-weight:bold;'>點此前往創世代網頁</a><br>（<span class='highlight'>密碼：feibwm</span>）。涵蓋 Family, Firm, Fortune 三大領域。" },
+    { cat: "module", keywords: ["佘日新"], q: "創世代觀點的駐站講師是誰？主講什麼？", a: "由「中華家族傳承發展協會」理事長 <span class='highlight'>佘日新 教授</span> 駐站，以「啟、承、轉、合」推動企業轉型與二代接班。" }
+  ];
+
+  // ==========================================
+  // 畫面渲染邏輯
+  // ==========================================
+  function renderCards(dataArray, containerId) {
+    const container = document.getElementById(containerId);
+    if (!dataArray || dataArray.length === 0) {
+      container.innerHTML = `<div style="padding:20px; text-align:center; color:#887A5C; font-weight:bold;">無相符結果，請嘗試其他關鍵字。</div>`; return;
     }
+    let html = "";
+    dataArray.forEach(item => {
+      html += `
+        <div class="qa-item">
+          <div class="qa-row" onclick="toggleAnswer(this.querySelector('.qa-action-btn'))">
+            <div class="qa-text">${item.q}</div>
+            <button class="qa-action-btn" onclick="event.stopPropagation(); toggleAnswer(this)">🔑 解答</button>
+          </div>
+          <div class="qa-answer-box">
+            <span class="ans-label">標準實戰解答</span><br>${item.a}
+          </div>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
   }
 
-  // 強制初始化資料庫
-  window.onload = function() { getDB(); };
+  window.toggleAnswer = function(btn) {
+    const answerBox = btn.parentElement.nextElementSibling;
+    if (answerBox.classList.contains('open')) {
+      answerBox.classList.remove('open'); btn.innerHTML = "🔑 解答";
+    } else {
+      answerBox.classList.add('open'); btn.innerHTML = "🔼 收起";
+    }
+  };
+
+  // ==========================================
+  // 分頁切換邏輯
+  // ==========================================
+  function switchTab(tabId, btnEl) {
+    document.getElementById('globalSearch').value = '';
+    document.getElementById('view-search-results').classList.remove('active');
+    document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.nav-bar button').forEach(el => el.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    btnEl.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function quickSearch(keyword) {
+    document.getElementById('globalSearch').value = keyword; 
+    realtimeFilter(keyword);
+    window.scrollTo(0, 0);
+  }
+
+  window.onload = function() {
+    renderCards(dbQA.filter(item => item.cat === "exam"), "list-exam");
+    renderCards(dbQA.filter(item => item.cat === "interest"), "list-interest");
+    renderCards(dbQA.filter(item => item.cat === "care"), "list-care");
+    renderCards(dbQA.filter(item => item.cat === "ask"), "list-ask");
+    renderCards(dbQA.filter(item => item.cat === "billionaire"), "list-billionaire");
+  };
 </script>
 
 </body>
