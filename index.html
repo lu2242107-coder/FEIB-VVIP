@@ -670,13 +670,13 @@
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('main-app').style.display = 'block';
 
-    // 若為管理者，解鎖後台按鈕
     if (isAdmin) {
       document.getElementById('admin-btn').style.display = 'inline-block';
     }
 
-   recordTraffic(user, 'Login_登入系統'); // 紀錄流量
+    recordTraffic(user, 'Login_登入系統'); 
   }
+這一步完成後，
 
   function openBackend() {
     if(GOOGLE_SHEET_URL.includes("請將此處替換")) {
