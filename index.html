@@ -12,7 +12,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>八星等尊榮智庫 - 極致流沙金完整版 (含後台統計)</title>
+<title>八星等尊榮智庫 - 極致流沙金完整版 (含熱門排行與統計)</title>
 <style>
   /* =========================================
      全局重置與微軟正黑體
@@ -312,6 +312,12 @@
 
   <!-- 首頁 -->
   <div id="view-home" class="view-section active">
+    <!-- 🔥 5大熱門話題排行 -->
+    <div class="category-badge quicksand-gold-text" style="border-left-color: #D4AF37; margin-bottom: 15px;">🔥 智庫 5 大熱門排行</div>
+    <div class="quick-grid" id="top5-container" style="margin-bottom: 25px;">
+      <!-- 這裡會由程式自動產生排行榜 -->
+    </div>
+
     <!-- 八星等客戶權益 -->
     <div class="category-card">
       <div class="category-header" onclick="toggleCard(this)">
@@ -615,7 +621,7 @@
 
 <script>
   // ==========================================
-  // 【設定區】後台追蹤與觀看網址 (已為您完整填寫)
+  // 【設定區】後台追蹤與觀看網址
   // ==========================================
   // 1. Google Apps Script 流量統計網址 (寫入資料用)
   const GOOGLE_APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4kcEdsL3VgTyXk4irbrTQh4IwgeuOonGa6EgJbFVJqVj7rSbJMWElsnKoxTqGlg0kPQ/exec";
@@ -663,7 +669,6 @@
     }
   }
 
-  // ★ 這裡已經是完美無錯的登入與紀錄功能 ★
   function loginSuccess(user, isAdmin) {
     currentUser = user;
     document.getElementById('login-screen').style.display = 'none';
@@ -676,7 +681,7 @@
     recordTraffic(user, 'Login_登入系統'); 
   }
 
-  // ★ 這裡已經是增強版流量紀錄 (支援自訂動作與關閉網頁送出) ★
+  // 增強版流量紀錄 (支援自訂動作與關閉網頁送出)
   function recordTraffic(user, actionType) {
     if (GOOGLE_APP_SCRIPT_URL.includes("請將此處替換")) {
       return;
@@ -685,7 +690,7 @@
     fetch(url, { mode: 'no-cors', keepalive: true }).catch(err => console.error("流量紀錄失敗", err));
   }
 
-  // ★ 這裡已經自動幫您加入：當使用者離開網頁時，送出離開紀錄 ★
+  // 自動偵測：當使用者關閉網頁、重整或離開時，送出離開紀錄
   window.addEventListener('beforeunload', function () {
     if (currentUser) {
       recordTraffic(currentUser, 'Logout_離開網頁');
@@ -780,6 +785,14 @@
     const siblings = card.parentElement.querySelectorAll('.category-card');
     siblings.forEach(c => c.classList.remove('expanded'));
     if (!isExpanded) { card.classList.add('expanded'); }
+  }
+
+  function quickSearch(keyword) {
+    document.getElementById('globalSearch').value = keyword; 
+    realtimeFilter(keyword);
+    window.scrollTo(0, 0);
+    // 自動回傳客戶點擊了哪個熱門按鈕
+    if (currentUser) recordTraffic(currentUser, '點擊瀏覽_' + keyword);
   }
 
   // ==========================================
@@ -960,6 +973,18 @@
   // ==========================================
   // 畫面渲染邏輯
   // ==========================================
+  window.toggleAnswer = function(btn) {
+    const answerBox = btn.parentElement.nextElementSibling;
+    const questionText = btn.previousElementSibling.innerText; // 抓取他看了什麼題目
+    if (answerBox.classList.contains('open')) {
+      answerBox.classList.remove('open'); btn.innerHTML = "🔑 解答";
+    } else {
+      answerBox.classList.add('open'); btn.innerHTML = "🔼 收起";
+      // 自動回傳客戶點開了哪個QA解答 (取前15個字避免字數過長)
+      if (currentUser) recordTraffic(currentUser, '查看解答_' + questionText.substring(0, 15) + '...');
+    }
+  };
+
   function renderCards(dataArray, containerId) {
     const container = document.getElementById(containerId);
     if (!dataArray || dataArray.length === 0) {
@@ -982,15 +1007,6 @@
     container.innerHTML = html;
   }
 
-  window.toggleAnswer = function(btn) {
-    const answerBox = btn.parentElement.nextElementSibling;
-    if (answerBox.classList.contains('open')) {
-      answerBox.classList.remove('open'); btn.innerHTML = "🔑 解答";
-    } else {
-      answerBox.classList.add('open'); btn.innerHTML = "🔼 收起";
-    }
-  };
-
   // ==========================================
   // 分頁切換邏輯
   // ==========================================
@@ -1004,13 +1020,36 @@
     window.scrollTo(0, 0);
   }
 
-  function quickSearch(keyword) {
-    document.getElementById('globalSearch').value = keyword; 
-    realtimeFilter(keyword);
-    window.scrollTo(0, 0);
+  // ==========================================
+  // 🔥 5 大熱門話題設定區 (您可以隨時來這裡更改排行榜)
+  // ==========================================
+  const top5Topics = [
+    { icon: '👑', title: '億萬大亨迎賓', keyword: '億萬大亨迎賓' },
+    { icon: '✈️', title: '無限次機接', keyword: '無限次機接' },
+    { icon: '🔐', title: '閉鎖性公司防外人', keyword: '閉鎖性公司' },
+    { icon: '📉', title: '單筆基金3折起', keyword: '單筆基金折扣' },
+    { icon: '💵', title: '美大額定存議價', keyword: '美元大額議價' }
+  ];
+
+  function renderTop5() {
+    const container = document.getElementById('top5-container');
+    if (!container) return;
+    let html = '';
+    top5Topics.forEach((item, index) => {
+      // 加上 TOP 名次的尊榮視覺效果
+      html += `<div class="grid-btn" style="border: 1px solid rgba(212,175,55,0.6); box-shadow: 0 0 12px rgba(212,175,55,0.2);" onclick="quickSearch('${item.keyword}')">
+                 <span style="color:#D4AF37; font-size:12px; margin-bottom:2px;">TOP ${index + 1}</span><br>
+                 <span style="font-size:18px;">${item.icon}</span> ${item.title}
+               </div>`;
+    });
+    container.innerHTML = html;
   }
 
+  // ==========================================
+  // 網頁載入時啟動
+  // ==========================================
   window.onload = function() {
+    renderTop5(); // 繪製排行榜
     renderCards(dbQA.filter(item => item.cat === "exam"), "list-exam");
     renderCards(dbQA.filter(item => item.cat === "interest"), "list-interest");
     renderCards(dbQA.filter(item => item.cat === "care"), "list-care");
