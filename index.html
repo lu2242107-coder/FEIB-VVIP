@@ -7,9 +7,9 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-3EC9GSZCM5');
-</script>  
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>八星等尊榮智庫 - 極致流沙金完整版 (含後台統計)</title>
@@ -615,13 +615,13 @@
 
 <script>
   // ==========================================
-  // 【設定區】後台追蹤與觀看網址
+  // 【設定區】後台追蹤與觀看網址 (已為您完整填寫)
   // ==========================================
   // 1. Google Apps Script 流量統計網址 (寫入資料用)
   const GOOGLE_APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4kcEdsL3VgTyXk4irbrTQh4IwgeuOonGa6EgJbFVJqVj7rSbJMWElsnKoxTqGlg0kPQ/exec";
   
   // 2. Google 試算表 後台觀看網址 (管理者Tony專用)
- const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1J1ioCLUqJSm_czTjIzN2UA7mzVocDlc9DAI53JHYbvU/edit?gid=0#gid=0";
+  const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1J1ioCLUqJSm_czTjIzN2UA7mzVocDlc9DAI53JHYbvU/edit?gid=0#gid=0";
 
   // ==========================================
   // 登入驗證與密碼修改邏輯
@@ -647,7 +647,6 @@
     const storedPass = localStorage.getItem(storageKey);
 
     if (!storedPass) {
-      // 首次登入檢核：帳密須相同
       if (user === pass) {
         localStorage.setItem(storageKey, pass);
         alert("歡迎首次登入！為了確保您的智庫安全，請於進入系統後點擊右上角「密碼」進行修改。");
@@ -656,7 +655,6 @@
         alert("首次登入，您的密碼必須與使用者名稱相同！");
       }
     } else {
-      // 舊用戶檢核
       if (storedPass === pass) {
         loginSuccess(user, false);
       } else {
@@ -665,6 +663,7 @@
     }
   }
 
+  // ★ 這裡已經是完美無錯的登入與紀錄功能 ★
   function loginSuccess(user, isAdmin) {
     currentUser = user;
     document.getElementById('login-screen').style.display = 'none';
@@ -676,7 +675,22 @@
 
     recordTraffic(user, 'Login_登入系統'); 
   }
-這一步完成後，
+
+  // ★ 這裡已經是增強版流量紀錄 (支援自訂動作與關閉網頁送出) ★
+  function recordTraffic(user, actionType) {
+    if (GOOGLE_APP_SCRIPT_URL.includes("請將此處替換")) {
+      return;
+    }
+    const url = `${GOOGLE_APP_SCRIPT_URL}?user=${encodeURIComponent(user)}&action=${encodeURIComponent(actionType)}`;
+    fetch(url, { mode: 'no-cors', keepalive: true }).catch(err => console.error("流量紀錄失敗", err));
+  }
+
+  // ★ 這裡已經自動幫您加入：當使用者離開網頁時，送出離開紀錄 ★
+  window.addEventListener('beforeunload', function () {
+    if (currentUser) {
+      recordTraffic(currentUser, 'Logout_離開網頁');
+    }
+  });
 
   function openBackend() {
     if(GOOGLE_SHEET_URL.includes("請將此處替換")) {
@@ -726,27 +740,6 @@
   }
   function closeAddToHome() {
     document.getElementById('addtohome-screen').style.display = 'none';
-  }
-
-// 增強版流量紀錄 (支援自訂動作與關閉網頁送出)
-  function recordTraffic(user, actionType) {
-    if (GOOGLE_APP_SCRIPT_URL.includes("請將此處替換")) {
-      return;
-    }
-    const url = `${GOOGLE_APP_SCRIPT_URL}?user=${encodeURIComponent(user)}&action=${encodeURIComponent(actionType)}`;
-    // 加入 keepalive: true 確保關閉網頁時訊號仍能成功送出
-    fetch(url, { mode: 'no-cors', keepalive: true }).catch(err => console.error("流量紀錄失敗", err));
-  }
-
-  // 自動偵測：當使用者關閉網頁、重整或離開時，送出離開紀錄
-  window.addEventListener('beforeunload', function () {
-    if (currentUser) {
-      recordTraffic(currentUser, 'Logout_離開網頁');
-    }
-  });
-    const url = `${GOOGLE_APP_SCRIPT_URL}?user=${encodeURIComponent(user)}&action=Login`;
-    // 使用 no-cors 模式背景發送請求，不須理會跨網域限制
-    fetch(url, { mode: 'no-cors' }).catch(err => console.error("流量紀錄失敗", err));
   }
 
   // ==========================================
@@ -861,7 +854,7 @@
     { cat: "billionaire", keywords: ["私聚舉辦", "各區", "簽到表"], q: "10. 王品食尚私聚的舉辦方式與後續核銷作業為何？", a: "「億萬大亨」食尚私聚以<span class='highlight'>各區為單位舉辦</span>，由各區自行規劃私聚日期、時間、地點並邀請客戶參與，且必須於<span class='highlight'>私聚結束後提交簽到表</span>。" },
 
     // ==========================================
-    // 首頁 8 大類快搜對應 (完整保留)
+    // 首頁 8 大類快搜對應
     // ==========================================
     /* 1. 八星等客戶權益 */
     { cat: "module", keywords: ["億萬大亨迎賓"], q: "申請成為八星等億級客戶，有什麼專屬的迎賓獎勵？", a: "即享有<span class='highlight'>價值 3000 元王品集團食尚私聚</span> (限前50位)，同時享有一年期 1.8% 台幣優惠定存，當作開啟人生價值旅程的伴手禮。" },
