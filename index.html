@@ -675,7 +675,7 @@
       document.getElementById('admin-btn').style.display = 'inline-block';
     }
 
-    recordTraffic(user); // 紀錄流量
+   recordTraffic(user, 'Login_登入系統'); // 紀錄流量
   }
 
   function openBackend() {
@@ -728,11 +728,22 @@
     document.getElementById('addtohome-screen').style.display = 'none';
   }
 
-  function recordTraffic(user) {
+// 增強版流量紀錄 (支援自訂動作與關閉網頁送出)
+  function recordTraffic(user, actionType) {
     if (GOOGLE_APP_SCRIPT_URL.includes("請將此處替換")) {
-      console.log("系統提示：尚未設定 Google 雲端統計網址，跳過流量回傳。");
       return;
     }
+    const url = `${GOOGLE_APP_SCRIPT_URL}?user=${encodeURIComponent(user)}&action=${encodeURIComponent(actionType)}`;
+    // 加入 keepalive: true 確保關閉網頁時訊號仍能成功送出
+    fetch(url, { mode: 'no-cors', keepalive: true }).catch(err => console.error("流量紀錄失敗", err));
+  }
+
+  // 自動偵測：當使用者關閉網頁、重整或離開時，送出離開紀錄
+  window.addEventListener('beforeunload', function () {
+    if (currentUser) {
+      recordTraffic(currentUser, 'Logout_離開網頁');
+    }
+  });
     const url = `${GOOGLE_APP_SCRIPT_URL}?user=${encodeURIComponent(user)}&action=Login`;
     // 使用 no-cors 模式背景發送請求，不須理會跨網域限制
     fetch(url, { mode: 'no-cors' }).catch(err => console.error("流量紀錄失敗", err));
