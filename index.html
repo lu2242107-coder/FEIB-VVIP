@@ -228,6 +228,9 @@
     color: var(--gold-main); background: rgba(212, 175, 55, 0.08); 
     border-top: 3px solid var(--gold-main); text-shadow: 0 0 15px var(--gold-glow);
   }
+  
+  /* 長條圖動畫 */
+  @keyframes fillBar { from { width: 0; } }
 </style>
 </head>
 <body>
@@ -312,10 +315,10 @@
 
   <!-- 首頁 -->
   <div id="view-home" class="view-section active">
-    <!-- 🔥 5大熱門話題排行 -->
+    <!-- 🔥 5大熱門話題排行 (微調為長條圖儀表板) -->
     <div class="category-badge quicksand-gold-text" style="border-left-color: #D4AF37; margin-bottom: 15px;">🔥 智庫 5 大熱門排行</div>
-    <div class="quick-grid" id="top5-container" style="margin-bottom: 25px;">
-      <!-- 這裡會由程式自動產生排行榜 -->
+    <div id="top5-container" style="margin-bottom: 25px;">
+      <!-- 這裡會由程式自動產生長條圖排行榜 -->
     </div>
 
     <!-- 八星等客戶權益 -->
@@ -1021,27 +1024,35 @@
   }
 
   // ==========================================
-  // 🔥 5 大熱門話題設定區 (您可以隨時來這裡更改排行榜)
+  // 🔥 5 大熱門話題設定區 (儀表板微調)
   // ==========================================
   const top5Topics = [
-    { icon: '👑', title: '億萬大亨迎賓', keyword: '億萬大亨迎賓' },
-    { icon: '✈️', title: '無限次機接', keyword: '無限次機接' },
-    { icon: '🔐', title: '閉鎖性公司防外人', keyword: '閉鎖性公司' },
-    { icon: '📉', title: '單筆基金3折起', keyword: '單筆基金折扣' },
-    { icon: '💵', title: '美大額定存議價', keyword: '美元大額議價' }
+    { icon: '👑', title: '億萬大亨迎賓', keyword: '億萬大亨迎賓', percent: 95 },
+    { icon: '✈️', title: '無限次機接', keyword: '無限次機接', percent: 82 },
+    { icon: '🔐', title: '閉鎖性公司防外人', keyword: '閉鎖性公司', percent: 70 },
+    { icon: '💵', title: '美大額定存議價', keyword: '美元大額議價', percent: 55 },
+    { icon: '📉', title: '單筆基金3折起', keyword: '單筆基金折扣', percent: 45 }
   ];
 
   function renderTop5() {
     const container = document.getElementById('top5-container');
     if (!container) return;
-    let html = '';
+    let html = '<div style="background: var(--card-bg); border: var(--border-gold); border-radius: 8px; padding: 18px 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.6);">';
+    
     top5Topics.forEach((item, index) => {
-      // 加上 TOP 名次的尊榮視覺效果
-      html += `<div class="grid-btn" style="border: 1px solid rgba(212,175,55,0.6); box-shadow: 0 0 12px rgba(212,175,55,0.2);" onclick="quickSearch('${item.keyword}')">
-                 <span style="color:#D4AF37; font-size:12px; margin-bottom:2px;">TOP ${index + 1}</span><br>
-                 <span style="font-size:18px;">${item.icon}</span> ${item.title}
-               </div>`;
+      html += `
+        <div style="margin-bottom: 16px; cursor: pointer;" onclick="quickSearch('${item.keyword}')">
+          <div style="display: flex; justify-content: space-between; font-size: 14.5px; font-weight: bold; margin-bottom: 6px;">
+            <span style="color: var(--gold-light);"><span style="color: var(--gold-main); font-weight: 900;">TOP ${index + 1}</span> ｜ ${item.icon} ${item.title}</span>
+            <span style="color: #A89B85; font-size: 13px;">熱度指標</span>
+          </div>
+          <div style="width: 100%; background: #1C1914; border-radius: 6px; height: 12px; border: 1px solid #33280F; overflow: hidden;">
+            <div style="width: ${item.percent}%; height: 100%; background: linear-gradient(90deg, #AA771C, #D4AF37, #FFF8D6); border-radius: 6px; box-shadow: 0 0 10px rgba(212,175,55,0.5); animation: fillBar 1s ease-out;"></div>
+          </div>
+        </div>
+      `;
     });
+    html += '</div>';
     container.innerHTML = html;
   }
 
@@ -1049,7 +1060,7 @@
   // 網頁載入時啟動
   // ==========================================
   window.onload = function() {
-    renderTop5(); // 繪製排行榜
+    renderTop5(); // 繪製長條圖排行榜
     renderCards(dbQA.filter(item => item.cat === "exam"), "list-exam");
     renderCards(dbQA.filter(item => item.cat === "interest"), "list-interest");
     renderCards(dbQA.filter(item => item.cat === "care"), "list-care");
